@@ -1,29 +1,35 @@
 import {useState, useEffect, FormEvent} from 'react';
-import {hc} from 'hono/client'
 import {withLoginRequired} from "./utils/withLoginRequired";
-import {Todo} from "../types.d";
+import {Todo} from "../types";
 
-const client = hc(`${window.location.origin}/api`) as any
+const handleTodoResponse = async (res: Response) => {
+    if (!res.ok) {
+        throw new Error(`Failed to fetch: ${res.status}`);
+    }
+    const body: {todos: Todo[]} = await res.json();
+    return body.todos
+}
 
 const createTodo = (todoText: string) =>
-    client.todos.$post({json: {todoText}})
-        .then((res: any) => res.json())
-        .then((res: any) => res.todos)
+    fetch(`${window.location.origin}/api/todos`, {
+        method: 'POST',
+        body: JSON.stringify({todoText})
+    }).then(handleTodoResponse)
 
 const getTodos = () =>
-    client.todos.$get({})
-        .then((res: any) => res.json())
-        .then((res: any) => res.todos)
+    fetch(`${window.location.origin}/api/todos`, {
+        method: 'GET',
+    }).then(handleTodoResponse)
 
 const deleteTodo = (id: string) =>
-    client.todos[':id'].$delete({param: {id}})
-        .then((res: any) => res.json())
-        .then((res: any) => res.todos)
+    fetch(`${window.location.origin}/api/todos/${id}`, {
+        method: 'DELETE',
+    }).then(handleTodoResponse)
 
 const markComplete = (id: string) =>
-    client.todos[':id']['complete'].$post({param: {id}})
-        .then((res: any) => res.json())
-        .then((res: any) => res.todos)
+    fetch(`${window.location.origin}/api/todos/${id}/complete`, {
+        method: 'POST',
+    }).then(handleTodoResponse)
 
 const TodoEditor = withLoginRequired(() => {
     const [todos, setTodos] = useState<Todo[]>([]);
@@ -31,21 +37,21 @@ const TodoEditor = withLoginRequired(() => {
 
     // Fetch todos on component mount
     useEffect(() => {
-        getTodos().then((todos: any) => setTodos(todos));
+        getTodos().then((todos) => setTodos(todos));
     }, []);
 
     const onAddTodo = (evt: FormEvent) => {
         evt.preventDefault();
-        createTodo(newTodoText).then((todos: any) => setTodos(todos));
+        createTodo(newTodoText).then((todos) => setTodos(todos));
         setNewTodoText('');
     };
 
     const onCompleteTodo = (id: string) => {
-        markComplete(id).then((todos: any) => setTodos(todos));
+        markComplete(id).then((todos) => setTodos(todos));
     };
 
     const onDeleteTodo = (id: string) => {
-        deleteTodo(id).then((todos: any) => setTodos(todos));
+        deleteTodo(id).then((todos) => setTodos(todos));
     };
 
     return (

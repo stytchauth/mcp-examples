@@ -8,10 +8,8 @@
   ],
   "packageManager": "yarn@4.0.2",
   "scripts": {
-    "dev": "yarn workspace @mcp-examples/frontend dev",
     "build": "yarn workspaces foreach -A run build",
-    "lint": "yarn workspaces foreach -A run lint",
-    "deploy:backend": "yarn workspace @mcp-examples/backend deploy"
+    "lint": "yarn workspaces foreach -A run lint"
   },
   "repository": {
     "type": "git",
@@ -27,6 +25,7 @@
   "description": "",
   "dependencies": {
     "@hono/mcp": "^0.1.2",
-    "@hono/stytch-auth": "^0.1.1"
+    "@hono/stytch-auth": "^0.1.1",
+    "stytch": "^12.32.0"
   }
 }

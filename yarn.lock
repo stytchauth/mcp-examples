@@ -1398,9 +1398,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mcp-examples/backend@workspace:packages/backend":
+"@mcp-examples/tasklist-cfworders-mcpsdk-backend@workspace:consumer-integrated/tasklist-cfworkers-mcpsdk-backend":
   version: 0.0.0-use.local
-  resolution: "@mcp-examples/backend@workspace:packages/backend"
+  resolution: "@mcp-examples/tasklist-cfworders-mcpsdk-backend@workspace:consumer-integrated/tasklist-cfworkers-mcpsdk-backend"
   dependencies:
     "@cloudflare/vite-plugin": "npm:^0.1.13"
     "@cloudflare/workers-types": "npm:^4.20241230.0"
@@ -1415,9 +1415,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mcp-examples/frontend@workspace:packages/frontend":
+"@mcp-examples/tasklist-frontend@workspace:consumer-integrated/tasklist-frontend":
   version: 0.0.0-use.local
-  resolution: "@mcp-examples/frontend@workspace:packages/frontend"
+  resolution: "@mcp-examples/tasklist-frontend@workspace:consumer-integrated/tasklist-frontend"
   dependencies:
     "@eslint/js": "npm:^9.17.0"
     "@stytch/react": "npm:^19.4.1"
@@ -3664,6 +3664,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^5.6.3":
+  version: 5.10.0
+  resolution: "jose@npm:5.10.0"
+  checksum: 03881d1dfb390dcf50926402edcfe233bf557b5a77321fcb1bdb53453bc1cdd26d2d0a9ab28c7445cbb826881f84fdf5074179700f10c2711ccb9880f51065d7
+  languageName: node
+  linkType: hard
+
 "jose@npm:^6.0.10":
   version: 6.1.0
   resolution: "jose@npm:6.1.0"
@@ -3849,6 +3856,7 @@ __metadata:
   dependencies:
     "@hono/mcp": "npm:^0.1.2"
     "@hono/stytch-auth": "npm:^0.1.1"
+    stytch: "npm:^12.32.0"
   languageName: unknown
   linkType: soft
 
@@ -5006,6 +5014,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stytch@npm:^12.32.0":
+  version: 12.32.0
+  resolution: "stytch@npm:12.32.0"
+  dependencies:
+    jose: "npm:^5.6.3"
+    undici: "npm:^6.19.5"
+  checksum: b3443819ad10f6c03e8cd71a3467e76d6bb25aa242f9f15a628cdc7807234fa82079a595c12c31ae7255b00d246df49ffc9f507784dc0ed7b7deb327eb5a37ca
+  languageName: node
+  linkType: hard
+
 "supports-color@npm:^10.0.0":
   version: 10.2.0
   resolution: "supports-color@npm:10.2.0"
@@ -5172,6 +5190,13 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 0ceca8924a32acdcc0cfb8dd2d368c217840970aa3f5e314fc169608474be6341c5b8e50cad7bd257dbe3b4e432bc5d0a0d000f83644b54fa11a48735ec52b93
+  languageName: node
+  linkType: hard
+
+"undici@npm:^6.19.5":
+  version: 6.21.3
+  resolution: "undici@npm:6.21.3"
+  checksum: b6b8f4a90e294c11fabbb174b471a310840695ed0154a44b81e9bb4a08867ed738c8a7eac4eb46c7902d502fbccf03fa2cf2e5f18d9a2218d82e4294e3f74a2b
   languageName: node
   linkType: hard
 

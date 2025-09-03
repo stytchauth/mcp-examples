@@ -72,7 +72,7 @@ export default new Hono<{ Bindings: Env }>()
 
     // This adds HTTP Streaming support (the new preferred transport)
     .use('/mcp', authenticateTokenAuthMiddleware)
-    .use('/sse', async (c) => {
+    .use('/mcp', async (c) => {
         const {claims} = Consumer.getOAuthData(c);
         const mcpServer = createMcpServer(c.env, claims.subject);
         const transport = new StreamableHTTPTransport()

@@ -4,7 +4,11 @@
       "Bash(mkdir:*)",
       "Bash(cp:*)",
       "Bash(yarn lint)",
-      "Bash(yarn build)"
+      "Bash(yarn build)",
+      "mcp__todos__markTodoComplete",
+      "mcp__todos__createTodo",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-examples/backend",
+  "name": "@mcp-examples/tasklist-cfworders-mcpsdk-backend",
   "private": true,
   "version": "0.0.0",
   "type": "module",

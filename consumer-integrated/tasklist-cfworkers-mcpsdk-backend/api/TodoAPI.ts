@@ -6,6 +6,9 @@ import {Consumer} from "@hono/stytch-auth";
  * The Hono app exposes the TODO Service via REST endpoints for consumption by the frontend
  */
 export const TodoAPI = new Hono<{ Bindings: Env }>()
+
+    // authenticateSessionLocal() verifies the Stytch Session Token stored in the cookies
+    // and makes the session information available to later endpoints via getStytchSession()
     .use('/*', Consumer.authenticateSessionLocal())
 
     .get('/todos', async (c) => {

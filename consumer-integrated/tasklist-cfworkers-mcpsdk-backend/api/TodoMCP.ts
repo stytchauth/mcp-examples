@@ -14,13 +14,12 @@ function formatResponse(description: string, newState: Todo[]): {
     };
 }
 
+// Creates a stateless MCP Server instance to process the request
+// The MCP Server will be bound to the provided userID and will only access that user's information
 export function createMcpServer(env: Env, userID: string): McpServer {
-
     const todoSvc = todoService(env, userID);
-    const server = new McpServer({
-        name: 'TODO Service',
-        version: '1.0.0',
-    })
+
+    const server = new McpServer({name: 'TaskList Service', version: '1.0.0'})
 
     server.resource("Todos", new ResourceTemplate("todoapp://todos/{id}", {
             list: async () => {
@@ -45,7 +44,7 @@ export function createMcpServer(env: Env, userID: string): McpServer {
                     },
                 ],
             }
-        },
+        }
     )
 
     server.tool('createTodo', 'Add a new TODO task', {todoText: z.string()}, async ({todoText}) => {

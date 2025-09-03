@@ -1,4 +1,4 @@
-import {Todo} from "../types.d";
+import {Todo} from "../types";
 
 /**
  * The `TodoService` class provides methods for managing a to-do list backed by Cloudflare KV storage.

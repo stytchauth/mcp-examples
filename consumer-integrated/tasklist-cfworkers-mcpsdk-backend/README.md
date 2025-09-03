@@ -1,15 +1,14 @@
 # Workers + Stytch TODO App MCP Server
 
-This is a Workers server that composes three functions:
-* A static website built using React and Vite on top of [Worker Assets](https://developers.cloudflare.com/workers/static-assets/)
+This is a Workers server that composes two functions:
 * A REST API built using Hono on top of [Workers KV](https://developers.cloudflare.com/kv/) 
 * A [Model Context Protocol](https://modelcontextprotocol.io/introduction) Server built using on top of [Workers Durable Objects](https://developers.cloudflare.com/durable-objects/)
 
-User and client identity is managed using [Stytch](https://stytch.com/). Put together, these three features show how to extend a traditional full-stack application for use by an AI agent.
+User and client identity is managed using [Stytch](https://stytch.com/). Put together, these features show how to extend a traditional full-stack application for use by an AI agent.
 
 This demo uses the [Stytch Consumer](https://stytch.com/b2c) product, which is purpose-built for Consumer SaaS authentication requirements.
-If you are more interested in Stytch's [B2B](https://stytch.com/b2b) product, see [this demo](https://github.com/stytchauth/mcp-stytch-b2b-okr-manager/) instead.
 
+[//]: # (If you are more interested in Stytch's [B2B]&#40;https://stytch.com/b2b&#41; product, see [this demo]&#40;https://github.com/stytchauth/mcp-stytch-b2b-okr-manager/&#41; instead.)
 
 ## Set up
 
@@ -19,34 +18,11 @@ Follow the steps below to get this application fully functional and running usin
 
 1. Create a [Stytch](https://stytch.com/) account. Within the sign up flow select **Consumer Authentication** as the authentication type you are interested in. Once your account is set up a Project called "My first project" will be automatically created for you.
 
-2. Navigate to [Frontend SDKs](https://stytch.com/dashboard/sdk-configuration?env=test) to enable the Frontend SDK in Test
+2. Navigate to [Connected Apps](https://stytch.com/dashboard/connected-apps?env=test) to enable Dynamic Client Registration
 
-3. Navigate to [Connected Apps](https://stytch.com/dashboard/connected-apps?env=test) to enable Dynamic Client Registration
-
-4. Navigate to [Project Settings](https://stytch.com/dashboard/project-settings?env=test) to view your Project ID and API keys. You will need these values later.
+3. Navigate to [Project Settings](https://stytch.com/dashboard/project-settings?env=test) to view your Project ID and API keys. You will need these values later.
 
 ### On your machine
-
-In your terminal clone the project and install dependencies:
-
-```bash
-git clone https://github.com/stytchauth/mcp-stytch-consumer-todo-list.git
-cd mcp-stytch-consumer-todo-list
-npm i
-```
-
-Next, create an `.env.local` file by running the command below which copies the contents of `.env.template`.
-
-```bash
-cp .env.template .env.local
-```
-
-Open `.env.local` in the text editor of your choice, and set the environment variables using the `public_token` found on [Project Settings](https://stytch.com/dashboard/project-settings?env=test).
-
-```
-# This is what a completed .env.local file will look like
-VITE_STYTCH_PUBLIC_TOKEN=public-token-test-abc123-abcde-1234-0987-0000-abcd1234
-```
 
 Create a `.dev.vars` file by running the command below which copies the contents of `.dev.vars.template`
 
@@ -68,7 +44,7 @@ STYTCH_DOMAIN=https://cname-word-1234.customers.stytch.dev
 After completing all the setup steps above the application can be run with the command:
 
 ```bash
-npm run dev
+yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend dev
 ```
 
 The application will be available at [`http://localhost:3000`](http://localhost:3000) and the MCP server will be available at `http://localhost:3000/mcp`.
@@ -111,18 +87,14 @@ wrangler kv namespace create TODOS
 3. Upload your Stytch Env Vars for use by the worker
 
 ```bash
-npx wrangler secret bulk .dev.vars
+yarn dlx wrangler secret bulk .dev.vars
 ```
 
 4. Deploy the worker
 
 ```
-npm run deploy
+yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend deploy
 ```
-
-5. Grant your deployment access to your Stytch project. Assuming your Stytch project was deployed at `https://mcp-stytch-consumer-todo-list.$YOUR_ACCOUNT_NAME.workers.dev`:
-   1. Add `https://mcp-stytch-consumer-todo-list.$YOUR_ACCOUNT_NAME.workers.dev/authenticate` as an allowed [Redirect URL](https://stytch.com/dashboard/redirect-urls?env=test)
-   2. Add `https://mcp-stytch-consumer-todo-list.$YOUR_ACCOUNT_NAME.workers.dev` as an allowed Authorized Application in the [Frontend SDKs](https://stytch.com/dashboard/sdk-configuration?env=test) configuration
 
 ## Get help and join the community
 
