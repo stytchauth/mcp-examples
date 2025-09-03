@@ -1,11 +1,25 @@
-import {TodoMCP} from "./TodoMCP";
-import {stytchBearerTokenAuthMiddleware} from "./lib/auth";
+import {createMcpServer} from "./TodoMCP";
 import {TodoAPI} from "./TodoAPI";
 import {cors} from "hono/cors";
 import {Hono} from "hono";
+import {Consumer} from "@hono/stytch-auth";
+import { StreamableHTTPTransport} from "@hono/mcp";
+import {HTTPException} from "hono/http-exception";
 
-// Export the TodoMCP class so the Worker runtime can find it
-export {TodoMCP};
+const authenticateTokenAuthMiddleware = Consumer.authenticateOAuthToken({
+    onError: (c, err) => {
+        console.error(err);
+        // Construct the proper WWW-Authenticate header for protected resource discovery
+        const url = new URL(c.req.url);
+        const wwwAuthValue = `Bearer error="Unauthorized", error_description="Unauthorized", resource_metadata="${url.origin}/.well-known/oauth-protected-resource"`;
+
+        const errorResponse = new Response('Unauthorized', {
+            status: 401,
+            headers: {'WWW-Authenticate': wwwAuthValue}
+        })
+        throw new HTTPException(401, {res: errorResponse})
+    }
+})
 
 export default new Hono<{ Bindings: Env }>()
     .use(cors())
@@ -47,9 +61,21 @@ export default new Hono<{ Bindings: Env }>()
 
     // Let the MCP Server have a go at handling the request
     // This adds SSE Transport support, for backwards compatibility
-    .use('/sse/*', stytchBearerTokenAuthMiddleware)
-    .route('/sse', new Hono().mount('/', TodoMCP.serveSSE('/sse').fetch))
+    .use('/sse/*', authenticateTokenAuthMiddleware)
+    .use('/sse', async (c) => {
+        const {claims} = Consumer.getOAuthData(c);
+        const mcpServer = createMcpServer(c.env, claims.subject);
+        const transport = new StreamableHTTPTransport()
+        await mcpServer.connect(transport)
+        return transport.handleRequest(c)
+    })
 
     // This adds HTTP Streaming support (the new preferred transport)
-    .use('/mcp', stytchBearerTokenAuthMiddleware)
-    .route('/mcp', new Hono().mount('/', TodoMCP.serve('/mcp').fetch))
+    .use('/mcp', authenticateTokenAuthMiddleware)
+    .use('/sse', async (c) => {
+        const {claims} = Consumer.getOAuthData(c);
+        const mcpServer = createMcpServer(c.env, claims.subject);
+        const transport = new StreamableHTTPTransport()
+        await mcpServer.connect(transport)
+        return transport.handleRequest(c)
+    })

@@ -1098,6 +1098,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hono/mcp@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@hono/mcp@npm:0.1.2"
+  peerDependencies:
+    "@modelcontextprotocol/sdk": ^1.12.0
+    hono: ">=4.0.0"
+  checksum: 6a68fad9d823b16a9b8a170109910d74dbb1ec887c560b8ea3f10d5b3da161da667bd826015ee445102190a161b82b3ff4a57fcd9b81f95a0e7792054e1c8c58
+  languageName: node
+  linkType: hard
+
+"@hono/stytch-auth@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@hono/stytch-auth@npm:0.1.1"
+  peerDependencies:
+    hono: ">=3.*"
+    stytch: ^12.19.0
+  checksum: 02b53c4500306bbcb6d94e3259c4459a4346c31fd773cc99fcec7c5d5f50abfae57f38a3a34a0453346412c03e885c3a6fe1025360f8dc48603d6b21312e28c4
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -3826,6 +3846,9 @@ __metadata:
 "mcp-examples@workspace:.":
   version: 0.0.0-use.local
   resolution: "mcp-examples@workspace:."
+  dependencies:
+    "@hono/mcp": "npm:^0.1.2"
+    "@hono/stytch-auth": "npm:^0.1.1"
   languageName: unknown
   linkType: soft
 

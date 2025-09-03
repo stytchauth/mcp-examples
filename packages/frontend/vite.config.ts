@@ -6,8 +6,22 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': 'http://localhost:3001',
-      '/.well-known': 'http://localhost:3001',
+      '/api': {
+        changeOrigin: false,
+        target: 'http://localhost:3001',
+      },
+      '/.well-known': {
+        changeOrigin: false,
+        target: 'http://localhost:3001',
+      },
+      '/mcp': {
+        changeOrigin: false,
+        target: 'http://localhost:3001',
+      },
+      '/sse': {
+        changeOrigin: false,
+        target: 'http://localhost:3001',
+      },
     }
   },
   plugins: [react()],
