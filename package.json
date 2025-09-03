@@ -4,7 +4,7 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "consumer-integrated/*"
   ],
   "packageManager": "yarn@4.0.2",
   "scripts": {
