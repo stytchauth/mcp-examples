@@ -1,0 +1,25 @@
+{
+  "name": "mcp-examples",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "yarn@4.0.2",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stytchauth/mcp-examples.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stytchauth/mcp-examples/issues"
+  },
+  "homepage": "https://github.com/stytchauth/mcp-examples#readme",
+  "description": ""
+}
