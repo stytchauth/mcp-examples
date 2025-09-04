@@ -13,6 +13,7 @@ const handleTodoResponse = async (res: Response) => {
 const createTodo = (todoText: string) =>
     fetch(`${window.location.origin}/api/todos`, {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({todoText})
     }).then(handleTodoResponse)
 

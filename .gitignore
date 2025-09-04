@@ -34,3 +34,9 @@ dist-ssr
 .wrangler
 .dev.vars*
 !.dev.vars.template
+
+# Express backend data storage
+data/
+*.db
+*.sqlite
+*.sqlite3

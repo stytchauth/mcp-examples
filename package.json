@@ -22,10 +22,5 @@
     "url": "https://github.com/stytchauth/mcp-examples/issues"
   },
   "homepage": "https://github.com/stytchauth/mcp-examples#readme",
-  "description": "",
-  "dependencies": {
-    "@hono/mcp": "^0.1.2",
-    "@hono/stytch-auth": "^0.1.1",
-    "stytch": "^12.32.0"
-  }
+  "description": ""
 }
