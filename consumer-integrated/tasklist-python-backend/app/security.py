@@ -41,17 +41,13 @@ async def authorize_token(request: Request) -> Dict[str, Any]:
             raise HTTPException(status_code=401, detail='Unauthorized', headers={'WWW-Authenticate': www_auth})
         token = auth_header.split(' ', 1)[1]
         client = get_client()
-        # Python SDK may not expose a local introspect; use token introspection endpoint if available.
-        # If not available, validate via jwks or custom logic as needed.
         claims = client.idp.introspect_access_token_local(
             token
         )
         request.state.client = claims
         return {"client": claims}
     except HTTPException as e:
-        print(e)
         raise e
     except Exception as e:
-        print(e)
         www_auth = f"Bearer error=\"Unauthorized\", error_description=\"Unauthorized\", resource_metadata=\"{str(request.base_url).rstrip('/')}/.well-known/oauth-protected-resource\""
         raise HTTPException(status_code=401, detail='Unauthorized', headers={'WWW-Authenticate': www_auth})

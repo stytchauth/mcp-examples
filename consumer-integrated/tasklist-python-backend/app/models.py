@@ -2,8 +2,8 @@ from sqlalchemy import Column, String, Integer, DateTime
 from sqlalchemy.sql import func
 from .db import Base
 
-class TodoORM(Base):
-    __tablename__ = 'todos'
+class TaskORM(Base):
+    __tablename__ = 'tasks'
 
     id = Column(String, primary_key=True)
     user_id = Column(String, nullable=False, index=True)

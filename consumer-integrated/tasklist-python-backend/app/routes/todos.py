@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 from typing import List
 
-from ..services.todos import TodoService, Todo
+from ..services.todos import TodoService, Task
 
 router = APIRouter()
 
 class TodosResponse(BaseModel):
-    todos: List[Todo]
+    todos: List[Task]
 
 class CreateTodoBody(BaseModel):
     todoText: str

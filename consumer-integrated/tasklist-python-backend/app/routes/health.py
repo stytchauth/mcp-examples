@@ -17,6 +17,12 @@ def healthcheck():
             'description': 'Your Stytch secret key from Project Settings'
         })
 
+    if not os.environ.get('STYTCH_DOMAIN'):
+        errors.append({
+            'variable': 'STYTCH_DOMAIN',
+            'description': 'Your Stytch domain (e.g., https://test.stytch.com)'
+        })
+
     if errors:
         return {
             'status': 'error',
