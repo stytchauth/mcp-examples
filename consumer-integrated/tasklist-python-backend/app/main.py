@@ -8,7 +8,7 @@ from . import mcp_server
 
 from .routes.health import router as health_router
 from .routes.todos import router as todos_router
-from .security import authorize_session, authorize_token
+from .security import authorize_session
 
 load_dotenv('.env.local')
 
@@ -22,7 +22,6 @@ settings = Settings()
 
 mcp_app = mcp_server.mcp.http_app(path="/")
 app = FastAPI(title="Tasklist Python Backend", lifespan=mcp_app.lifespan)
-
 app.mount("/mcp", mcp_app)
 
 app.add_middleware(

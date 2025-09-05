@@ -32,22 +32,3 @@ async def authorize_session(request: Request) -> Dict[str, Any]:
         return {"user": auth.session}
     except Exception:
         raise HTTPException(status_code=401, detail='Unauthorized')
-
-async def authorize_token(request: Request) -> Dict[str, Any]:
-    try:
-        auth_header = request.headers.get('authorization') or request.headers.get('Authorization')
-        if not auth_header or not auth_header.lower().startswith('bearer '):
-            www_auth = f"Bearer error=\"Unauthorized\", error_description=\"Unauthorized\", resource_metadata=\"{str(request.base_url).rstrip('/')}/.well-known/oauth-protected-resource\""
-            raise HTTPException(status_code=401, detail='Unauthorized', headers={'WWW-Authenticate': www_auth})
-        token = auth_header.split(' ', 1)[1]
-        client = get_client()
-        claims = client.idp.introspect_access_token_local(
-            token
-        )
-        request.state.client = claims
-        return {"client": claims}
-    except HTTPException as e:
-        raise e
-    except Exception as e:
-        www_auth = f"Bearer error=\"Unauthorized\", error_description=\"Unauthorized\", resource_metadata=\"{str(request.base_url).rstrip('/')}/.well-known/oauth-protected-resource\""
-        raise HTTPException(status_code=401, detail='Unauthorized', headers={'WWW-Authenticate': www_auth})
