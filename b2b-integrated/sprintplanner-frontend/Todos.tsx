@@ -4,7 +4,7 @@ import type {Ticket} from "./types.js";
 import {useStytchMember, useStytchOrganization, useStytchMemberSession} from "@stytch/react/b2b";
 import { useAuthHeaders } from './authUtils.js';
 
-const TicketBoard = withLoginRequired(() => {
+const SprintPlanner = withLoginRequired(() => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [newTicketTitle, setNewTicketTitle] = useState('');
     const [newTicketAssignee, setNewTicketAssignee] = useState('');
@@ -93,9 +93,9 @@ const TicketBoard = withLoginRequired(() => {
         tickets.filter(ticket => ticket.status === status);
 
     return (
-        <div className="ticketBoard">
+        <div className="sprintPlanner">
             <div className="boardHeader">
-                <h2>Ticket Board</h2>
+                <h2>Sprint Planner</h2>
                 {organization && <p>Organization: {organization.organization_name}</p>}
             </div>
 
@@ -157,4 +157,4 @@ const TicketBoard = withLoginRequired(() => {
     );
 });
 
-export default TicketBoard;
+export default SprintPlanner;
