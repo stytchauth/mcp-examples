@@ -24,18 +24,20 @@ A clean, minimal React frontend for the Access Request Manager API built with Vi
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - Backend API running on port 3000
 
 ### Installation
 
 1. **Install dependencies**:
+
    ```bash
    cd frontend
    npm install
    ```
 
 2. **Start development server**:
+
    ```bash
    npm run dev
    ```
@@ -77,17 +79,20 @@ src/
 ## Key Components
 
 ### Authentication
+
 - **Login/Signup**: Clean forms with validation
 - **Protected Routes**: Automatic redirect for unauthenticated users
 - **Token Management**: Automatic token handling and refresh
 
 ### Organization Management
+
 - **Organization List**: View all user's organizations
 - **Create Organization**: Simple form to create new organizations
 - **Organization Details**: View members and requests
 - **Join/Leave**: Easy organization membership management
 
 ### Access Requests
+
 - **Create Requests**: Form to request access to resources
 - **View Requests**: List all user's requests with status
 - **Admin Actions**: Approve/deny requests with reasoning
@@ -128,6 +133,7 @@ The frontend is configured to proxy API requests to `http://localhost:3000` duri
 ## Deployment
 
 1. Build the application:
+
    ```bash
    npm run build
    ```

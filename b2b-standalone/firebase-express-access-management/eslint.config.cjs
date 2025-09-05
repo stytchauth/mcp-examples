@@ -47,6 +47,8 @@ module.exports = defineConfig([{
         "react-refresh/only-export-components": ["warn", {
             allowConstantExport: true,
         }],
+        "react-refresh/only-export-components": "off",
+        "react-hooks/exhaustive-deps": "off",
     },
 }, globalIgnores(
     ["**/dist", "**/.eslintrc.cjs", "**/node_modules", "frontend/node_modules"],

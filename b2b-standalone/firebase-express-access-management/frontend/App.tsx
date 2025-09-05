@@ -1,16 +1,23 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import Layout from './components/Layout';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './components/Dashboard';
-import OrganizationDetail from './components/OrganizationDetail';
-import MyRequests from './components/MyRequests';
-import StytchOAuthAuthorize from './components/StytchOAuthAuthorize';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import Layout from "./components/Layout";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Dashboard from "./components/Dashboard";
+import OrganizationDetail from "./components/OrganizationDetail";
+import MyRequests from "./components/MyRequests";
+import StytchOAuthAuthorize from "./components/StytchOAuthAuthorize";
 
 // Protected Route Component
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -102,16 +109,23 @@ const AppRoutes: React.FC = () => {
 
       {/* Default redirect */}
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      
+
       {/* 404 fallback */}
       <Route
         path="*"
         element={
           <div className="min-h-screen flex items-center justify-center">
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-              <p className="text-gray-600 mb-4">The page you're looking for doesn't exist.</p>
-              <a href="/dashboard" className="text-indigo-600 hover:text-indigo-800">
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                Page Not Found
+              </h1>
+              <p className="text-gray-600 mb-4">
+                The page you're looking for doesn't exist.
+              </p>
+              <a
+                href="/dashboard"
+                className="text-indigo-600 hover:text-indigo-800"
+              >
                 Go to Dashboard
               </a>
             </div>

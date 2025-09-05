@@ -17,7 +17,7 @@ export interface Organization {
   memberCount?: number;
   createdAt: any; // Firebase Timestamp
   updatedAt: any; // Firebase Timestamp
-  role?: 'admin' | 'member';
+  role?: "admin" | "member";
 }
 
 export interface AccessRequest {
@@ -28,7 +28,7 @@ export interface AccessRequest {
   userName: string;
   resourceName: string;
   reason: string;
-  status: 'pending' | 'approved' | 'denied';
+  status: "pending" | "approved" | "denied";
   adminResponse?: string;
   adminId?: string;
   adminName?: string;
@@ -40,7 +40,7 @@ export interface Member {
   uid: string;
   email: string;
   name: string;
-  role: 'admin' | 'member';
+  role: "admin" | "member";
 }
 
 export interface AuthResponse {

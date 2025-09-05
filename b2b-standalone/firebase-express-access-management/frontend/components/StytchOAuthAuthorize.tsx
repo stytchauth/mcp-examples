@@ -6,7 +6,9 @@ import { IdentityProvider } from "@/frontend/components/StytchIdentityProvider";
 import { Navigate } from "react-router-dom";
 
 const stytch = createStytchB2BUIClient(
-  import.meta.env.VITE_STYTCH_PUBLIC_TOKEN || (window as any).APP_CONFIG?.VITE_STYTCH_PUBLIC_TOKEN || "",
+  import.meta.env.VITE_STYTCH_PUBLIC_TOKEN ||
+    (window as any).APP_CONFIG?.VITE_STYTCH_PUBLIC_TOKEN ||
+    "",
 );
 
 export default function StytchOAuthAuthorize() {
@@ -22,9 +24,12 @@ export default function StytchOAuthAuthorize() {
         const hasStytchSession = stytch.session.getInfo().session;
         if (!hasStytchSession) {
           await stytch.session.attest({
-             profile_id: import.meta.env.VITE_STYTCH_TOKEN_PROFILE || (window as any).APP_CONFIG?.VITE_STYTCH_TOKEN_PROFILE || "",
-             token,
-             session_duration_minutes: 60,
+            profile_id:
+              import.meta.env.VITE_STYTCH_TOKEN_PROFILE ||
+              (window as any).APP_CONFIG?.VITE_STYTCH_TOKEN_PROFILE ||
+              "",
+            token,
+            session_duration_minutes: 60,
           });
         }
         setIsReady(true);
@@ -41,7 +46,9 @@ export default function StytchOAuthAuthorize() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="text-gray-500 mb-4">Preparing OAuth authorization...</div>
+          <div className="text-gray-500 mb-4">
+            Preparing OAuth authorization...
+          </div>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
         </div>
       </div>

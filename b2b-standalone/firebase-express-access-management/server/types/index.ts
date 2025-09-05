@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request } from "express";
 
 export interface AuthenticatedRequest extends Request {
   user: {
@@ -38,7 +38,7 @@ export interface AccessRequest {
   userName: string;
   resourceName: string;
   reason: string;
-  status: 'pending' | 'approved' | 'denied';
+  status: "pending" | "approved" | "denied";
   adminResponse?: string;
   adminId?: string;
   adminName?: string;
@@ -68,6 +68,6 @@ export interface CreateAccessRequestData {
 }
 
 export interface ApproveDenyRequest {
-  action: 'approve' | 'deny';
+  action: "approve" | "deny";
   reason: string;
 }

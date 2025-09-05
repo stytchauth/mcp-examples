@@ -23,10 +23,10 @@ router.get("/.well-known/oauth-authorization-server", (req, res) => {
 });
 
 router.get("/.well-known/oauth-protected-resource", (req, res) => {
-  const host = req.get('host') || 'localhost:3000';
-  const protocol = req.protocol || 'http';
+  const host = req.get("host") || "localhost:3000";
+  const protocol = req.protocol || "http";
   const resource = `${protocol}://${host}`;
-  
+
   res.json({
     resource: resource,
     authorization_servers: [process.env.STYTCH_IDP_DOMAIN],
@@ -41,8 +41,8 @@ router.post("/mcp", validateMcpToken, async (req, res) => {
       sessionIdGenerator: undefined,
     });
 
-    res.on('close', () => {
-      console.log('MCP request closed');
+    res.on("close", () => {
+      console.log("MCP request closed");
       transport.close();
       server.close();
     });
@@ -50,13 +50,13 @@ router.post("/mcp", validateMcpToken, async (req, res) => {
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
   } catch (error) {
-    console.error('Error handling MCP request:', error);
+    console.error("Error handling MCP request:", error);
     if (!res.headersSent) {
       res.status(500).json({
-        jsonrpc: '2.0',
+        jsonrpc: "2.0",
         error: {
           code: -32603,
-          message: 'Internal server error',
+          message: "Internal server error",
         },
         id: null,
       });

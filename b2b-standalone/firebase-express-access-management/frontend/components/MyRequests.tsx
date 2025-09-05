@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { AccessRequest } from '@/frontend/types';
-import { requestsApi, organizationsApi } from '@/frontend/lib/api';
-import { formatDate } from '@/frontend/lib/utils';
+import React, { useState, useEffect } from "react";
+import { AccessRequest } from "@/frontend/types";
+import { requestsApi, organizationsApi } from "@/frontend/lib/api";
+import { formatDate } from "@/frontend/lib/utils";
 
 const MyRequests: React.FC = () => {
   const [requests, setRequests] = useState<AccessRequest[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
-  const [organizationNames, setOrganizationNames] = useState<Record<string, string>>({});
+  const [error, setError] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [organizationNames, setOrganizationNames] = useState<
+    Record<string, string>
+  >({});
 
   const fetchRequests = async () => {
     try {
       setLoading(true);
       const reqs = await requestsApi.getMyRequests(statusFilter || undefined);
       setRequests(reqs);
-      
+
       // Fetch organization names for all unique orgIds
-      const uniqueOrgIds = [...new Set(reqs.map(req => req.orgId))];
+      const uniqueOrgIds = [...new Set(reqs.map((req) => req.orgId))];
       const orgNames: Record<string, string> = {};
-      
+
       // Fetch organization details for each unique orgId
       await Promise.all(
         uniqueOrgIds.map(async (orgId) => {
@@ -30,12 +32,12 @@ const MyRequests: React.FC = () => {
             console.warn(`Failed to fetch organization ${orgId}:`, err);
             orgNames[orgId] = `Organization ${orgId}`; // Fallback
           }
-        })
+        }),
       );
-      
+
       setOrganizationNames(orgNames);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to fetch requests');
+      setError(err.response?.data?.error || "Failed to fetch requests");
     } finally {
       setLoading(false);
     }
@@ -46,7 +48,7 @@ const MyRequests: React.FC = () => {
   }, [statusFilter]);
 
   const handleCancelRequest = async (orgId: string, requestId: string) => {
-    if (!window.confirm('Are you sure you want to cancel this request?')) {
+    if (!window.confirm("Are you sure you want to cancel this request?")) {
       return;
     }
 
@@ -54,7 +56,7 @@ const MyRequests: React.FC = () => {
       await requestsApi.cancel(orgId, requestId);
       fetchRequests();
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to cancel request');
+      setError(err.response?.data?.error || "Failed to cancel request");
     }
   };
 
@@ -101,24 +103,31 @@ const MyRequests: React.FC = () => {
             <div key={request.id} className="bg-white rounded-lg shadow p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{request.resourceName}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {request.resourceName}
+                  </h3>
                   <p className="text-sm text-gray-600">
-                    Organization: {organizationNames[request.orgId] || request.orgId}
+                    Organization:{" "}
+                    {organizationNames[request.orgId] || request.orgId}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    request.status === 'pending' 
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : request.status === 'approved'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full ${
+                      request.status === "pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : request.status === "approved"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                    }`}
+                  >
                     {request.status}
                   </span>
-                  {request.status === 'pending' && (
+                  {request.status === "pending" && (
                     <button
-                      onClick={() => handleCancelRequest(request.orgId, request.id)}
+                      onClick={() =>
+                        handleCancelRequest(request.orgId, request.id)
+                      }
                       className="text-red-600 hover:text-red-800 text-sm"
                     >
                       Cancel
@@ -126,9 +135,9 @@ const MyRequests: React.FC = () => {
                   )}
                 </div>
               </div>
-              
+
               <p className="text-gray-700 mb-4">{request.reason}</p>
-              
+
               <div className="text-sm text-gray-500 mb-4">
                 <div>Created: {formatDate(request.createdAt)}</div>
                 {request.updatedAt !== request.createdAt && (
@@ -138,7 +147,9 @@ const MyRequests: React.FC = () => {
 
               {request.adminResponse && (
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-2">Admin Response</h4>
+                  <h4 className="font-medium text-gray-900 mb-2">
+                    Admin Response
+                  </h4>
                   <p className="text-gray-700 mb-2">{request.adminResponse}</p>
                   <div className="text-sm text-gray-500">
                     by {request.adminName} on {formatDate(request.updatedAt)}

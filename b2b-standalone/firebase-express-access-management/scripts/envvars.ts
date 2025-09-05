@@ -45,7 +45,8 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
         {
           type: "input",
           name: "privateKeyId",
-          message: "Enter your Firebase private key ID (FIREBASE_PRIVATE_KEY_ID)",
+          message:
+            "Enter your Firebase private key ID (FIREBASE_PRIVATE_KEY_ID)",
           validate: (privateKeyId) =>
             privateKeyId.match(/^[a-z0-9-]+$/)
               ? true
@@ -61,10 +62,12 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
       .prompt<{ privateKey: string }>([
         {
           type: "input",
-          name: "privateKey", 
+          name: "privateKey",
           message: "Enter your Firebase private key (FIREBASE_PRIVATE_KEY)",
           validate: (privateKey) =>
-            privateKey.match(/^-----BEGIN PRIVATE KEY-----\n[a-z0-9+/]+={0,2}\n-----END PRIVATE KEY-----\n$/)
+            privateKey.match(
+              /^-----BEGIN PRIVATE KEY-----\n[a-z0-9+/]+={0,2}\n-----END PRIVATE KEY-----\n$/,
+            )
               ? true
               : "Invalid private key. Must be in PEM format",
         },
@@ -176,8 +179,7 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
         {
           type: "input",
           name: "token",
-          message:
-            "Enter your Stytch public token (VITE_STYTCH_PUBLIC_TOKEN)",
+          message: "Enter your Stytch public token (VITE_STYTCH_PUBLIC_TOKEN)",
           validate: (token) =>
             token.match(/^public-token-/)
               ? true

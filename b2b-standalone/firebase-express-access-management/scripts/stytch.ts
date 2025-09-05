@@ -43,7 +43,7 @@ async function updateStytchProject(
     name: project.name,
     test_idp_authorization_url: idpAuthorizationUrl,
     test_idp_dynamic_client_registration_enabled: true,
-    test_idp_dynamic_client_registration_default_access_token_template_content: `{ "fb_user_id": {{member.external_id}} }`
+    test_idp_dynamic_client_registration_default_access_token_template_content: `{ "fb_user_id": {{member.external_id}} }`,
   });
 }
 
@@ -86,10 +86,12 @@ async function enableStytchFrontendSDKs(projectId: string) {
     config: {
       basic: {
         enabled: true,
-        domains: [{
-          domain: "http://localhost:3000",
-          slug_pattern: "",
-        }],
+        domains: [
+          {
+            domain: "http://localhost:3000",
+            slug_pattern: "",
+          },
+        ],
       },
     },
   });
@@ -238,7 +240,9 @@ async function performStytchSetup(
   console.log(`\nStytch setup complete! Configuration summary:`);
   console.log(`Project ID: ${projectId}`);
   console.log(`Project Secret Key: ${projectSecretKey}`);
-  console.log(`Project Domain: ${selectedProject.test_unique_project_name}.customers.stytch.dev`);
+  console.log(
+    `Project Domain: ${selectedProject.test_unique_project_name}.customers.stytch.dev`,
+  );
   console.log(`Project Public Token: ${projectPublicToken}`);
   console.log(`Trusted Token Profile ID: ${trustedTokenProfileId}`);
 
