@@ -192,15 +192,13 @@ async def search_tickets(
     """Search tickets with filters"""
     db = SessionLocal()
     try:
-        tickets = crud.get_tickets(db, organization_id)
-        
-        # Apply filters
-        if status:
-            tickets = [t for t in tickets if t.status == status]
-        if assignee:
-            tickets = [t for t in tickets if t.assignee.lower() == assignee.lower()]
-        if title_contains:
-            tickets = [t for t in tickets if title_contains.lower() in t.title.lower()]
+        tickets = crud.search_tickets(
+            db,
+            organization_id,
+            status=status,
+            assignee=assignee,
+            title_contains=title_contains,
+        )
         
         return [
             {

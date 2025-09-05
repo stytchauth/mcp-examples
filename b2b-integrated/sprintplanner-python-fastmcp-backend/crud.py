@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 from typing import List, Optional
 import models
 import schemas
@@ -25,6 +25,25 @@ def get_or_create_organization(db: Session, org_id: str, name: str = "Default Or
 # Ticket CRUD operations
 def get_tickets(db: Session, org_id: str) -> List[models.Ticket]:
     return db.query(models.Ticket).filter(models.Ticket.organization_id == org_id).all()
+
+def search_tickets(
+    db: Session,
+    org_id: str,
+    status: Optional[str] = None,
+    assignee: Optional[str] = None,
+    title_contains: Optional[str] = None,
+) -> List[models.Ticket]:
+    """Search tickets for an organization using DB-side filtering."""
+    query = db.query(models.Ticket).filter(models.Ticket.organization_id == org_id)
+
+    if status:
+        query = query.filter(models.Ticket.status == status)
+    if assignee:
+        query = query.filter(func.lower(models.Ticket.assignee) == assignee.lower())
+    if title_contains:
+        query = query.filter(func.lower(models.Ticket.title).contains(title_contains.lower()))
+
+    return query.all()
 
 def get_ticket(db: Session, ticket_id: str, org_id: str) -> Optional[models.Ticket]:
     return db.query(models.Ticket).filter(
