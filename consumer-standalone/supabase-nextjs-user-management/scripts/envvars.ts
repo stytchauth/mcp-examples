@@ -165,7 +165,8 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
 function writeEnvFile(
   supabaseResult: SupabaseSetupResult = {
     supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-    supabasePublishableKey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "",
+    supabasePublishableKey:
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "",
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY ?? "",
   },
   stytchResult: StytchSetupResult = {

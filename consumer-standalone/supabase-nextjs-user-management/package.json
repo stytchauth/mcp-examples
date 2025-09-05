@@ -12,7 +12,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier:check": "prettier --check app components scripts utils",
+    "prettier:fix": "prettier --write app components scripts utils"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.3",
@@ -35,6 +37,7 @@
     "eslint": "^9.32.0",
     "eslint-config-next": "15.4.5",
     "inquirer": "^12.9.3",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.20.4",
     "typescript": "^5"

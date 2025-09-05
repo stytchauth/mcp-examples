@@ -43,7 +43,7 @@ async function updateStytchProject(
     name: project.name,
     test_idp_authorization_url: idpAuthorizationUrl,
     test_idp_dynamic_client_registration_enabled: true,
-    test_idp_dynamic_client_registration_default_access_token_template_content: `{ "sb_user_id": {{user.external_id}} }`
+    test_idp_dynamic_client_registration_default_access_token_template_content: `{ "sb_user_id": {{user.external_id}} }`,
   });
 }
 
