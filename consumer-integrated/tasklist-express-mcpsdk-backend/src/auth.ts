@@ -1,17 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import {Client, Session} from 'stytch';
-
-type IntrospectTokenClaims = {
-    subject: string
-    scope: string
-    custom_claims: Record<string, any>
-    audience: string | string[]
-    expires_at: number
-    issued_at: number
-    issuer: string
-    not_before: number
-    token_type: string
-}
+import {Client, IntrospectTokenClaims, Session} from 'stytch';
 
 // Extend Express Request interface to include user
 declare global {

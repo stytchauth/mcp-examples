@@ -1,18 +1,6 @@
-import { Client, Session } from 'stytch';
+import {Client, IntrospectTokenClaims, Session} from 'stytch';
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-
-type IntrospectTokenClaims = {
-    subject: string
-    scope: string
-    custom_claims: Record<string, unknown>
-    audience: string | string[]
-    expires_at: number
-    issued_at: number
-    issuer: string
-    not_before: number
-    token_type: string
-}
 
 let client: Client | null = null;
 

@@ -8,8 +8,7 @@ mcp-examples
    |- tasklist-frontend (you are here)
    |- tasklist-python-fastmcp-backend
    |- tasklist-express-mcpsdk-backend
-   |- tasklist-cfworkers-mcpsdk-backend
-   `- tasklist-nextjs-vercelsdk-fullstack
+   `- tasklist-cfworkers-mcpsdk-backend
 ```
 
 This demo uses the [Stytch Consumer](https://stytch.com/b2c) product, which is purpose-built for Consumer SaaS authentication requirements.
@@ -27,7 +26,10 @@ Follow the steps below to get this application fully functional and running usin
 Navigate to one of the backend folders and follow the instructions to configure the backend with your Stytch credentials.
 Start the backend:
 ```bash
-yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend dev 
+# to use Cloudflare Workers
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend dev
+# to use Express
+yarn workspace @mcp-examples/tasklist-express-mcpsdk-backend dev
 ```
 
 ### In the Stytch Dashboard
