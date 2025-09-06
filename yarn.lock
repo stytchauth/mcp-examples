@@ -1334,7 +1334,7 @@ __metadata:
     dotenv: "npm:^16.5.0"
     express: "npm:^5.1.0"
     morgan: "npm:^1.10.1"
-    stytch: "npm:^12.32.0"
+    stytch: "npm:^12.32.1"
     tsx: "npm:^4.19.2"
     typescript: "npm:~5.6.2"
     zod: "npm:^3.24.2"
@@ -1380,7 +1380,7 @@ __metadata:
     next: "npm:^15.3.2"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    stytch: "npm:^12.32.0"
+    stytch: "npm:^12.32.1"
     typescript: "npm:^5.2.0"
     zod: "npm:^3.24.4"
   languageName: unknown
@@ -7117,6 +7117,16 @@ __metadata:
     jose: "npm:^5.6.3"
     undici: "npm:^6.19.5"
   checksum: b3443819ad10f6c03e8cd71a3467e76d6bb25aa242f9f15a628cdc7807234fa82079a595c12c31ae7255b00d246df49ffc9f507784dc0ed7b7deb327eb5a37ca
+  languageName: node
+  linkType: hard
+
+"stytch@npm:^12.32.1":
+  version: 12.32.1
+  resolution: "stytch@npm:12.32.1"
+  dependencies:
+    jose: "npm:^5.6.3"
+    undici: "npm:^6.19.5"
+  checksum: 3176744eb093146600888eec7cf92d5bd248eec251f3b5e518ac5085bed5681ed5cce55d876897dad2fa12a7e3b2a17b6084d34d6f7bea6c1afcd08ab50a650e
   languageName: node
   linkType: hard
 
