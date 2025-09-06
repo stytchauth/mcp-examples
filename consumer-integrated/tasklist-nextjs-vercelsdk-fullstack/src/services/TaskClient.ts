@@ -1,4 +1,4 @@
-import { Task } from "./TaskService";
+import { Task } from './TaskService';
 
 export class TaskClient {
   private static createHeaders(): HeadersInit {

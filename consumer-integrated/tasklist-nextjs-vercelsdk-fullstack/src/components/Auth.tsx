@@ -1,17 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import { StytchLogin, IdentityProvider as BaseIdentityProvider, useStytch, useStytchUser } from "@stytch/nextjs";
-import { useEffect, useMemo } from "react";
-import {
-  OAuthProviders,
-  OTPMethods,
-  Products,
-  StytchEvent,
-  StytchLoginConfig,
-} from "@stytch/vanilla-js";
-import { useRouter } from "next/navigation";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import React from 'react';
+import { StytchLogin, IdentityProvider as BaseIdentityProvider, useStytch, useStytchUser } from '@stytch/nextjs';
+import { useEffect, useMemo } from 'react';
+import { OAuthProviders, OTPMethods, Products, StytchEvent, StytchLoginConfig } from '@stytch/vanilla-js';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 /**
  * A higher-order component that enforces a login requirement for the wrapped component.
@@ -20,23 +14,23 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
  */
 export const withLoginRequired = (Component: React.FC) => {
   const WithLoginRequired = () => {
-  const router = useRouter();
-  const { user, fromCache, isInitialized } = useStytchUser();
+    const router = useRouter();
+    const { user, fromCache, isInitialized } = useStytchUser();
 
-  useEffect(() => {
-    if(!isInitialized) return
-    if (!user && !fromCache) {
-      localStorage.setItem("returnTo", window.location.href);
-      router.push("/");
+    useEffect(() => {
+      if (!isInitialized) return;
+      if (!user && !fromCache) {
+        localStorage.setItem('returnTo', window.location.href);
+        router.push('/');
+      }
+    }, [user, fromCache, isInitialized, router]);
+
+    if (!user) {
+      return null;
     }
-  }, [user, fromCache, isInitialized, router]);
-
-  if (!user) {
-    return null;
-  }
-  return <Component />;
+    return <Component />;
   };
-  
+
   WithLoginRequired.displayName = `withLoginRequired(${Component.displayName || Component.name})`;
   return WithLoginRequired;
 };
@@ -50,11 +44,11 @@ export const withLoginRequired = (Component: React.FC) => {
  * - If `returnTo` does not exist, redirects the user to the default '/apikey' location.
  */
 const onLoginComplete = (router: AppRouterInstance) => {
-  const returnTo = localStorage.getItem("returnTo");
+  const returnTo = localStorage.getItem('returnTo');
   if (returnTo) {
     router.push(returnTo);
   } else {
-    router.push("/todos");
+    router.push('/todos');
   }
 };
 
@@ -65,7 +59,7 @@ const onLoginComplete = (router: AppRouterInstance) => {
  * https://stytch.com/docs/sdks/javascript-sdk#ui-configs.
  */
 export const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
   const loginConfig = useMemo<StytchLoginConfig>(
     () => ({
       products: [Products.otp, Products.oauth],
@@ -75,24 +69,19 @@ export const Login = () => {
       },
       oauthOptions: {
         providers: [{ type: OAuthProviders.Google }],
-        loginRedirectURL: window.location.origin + "/authenticate",
-        signupRedirectURL: window.location.origin + "/authenticate",
+        loginRedirectURL: window.location.origin + '/authenticate',
+        signupRedirectURL: window.location.origin + '/authenticate',
       },
     }),
     [],
   );
 
   const handleOnLoginComplete = (evt: StytchEvent) => {
-    if (evt.type !== "AUTHENTICATE_FLOW_COMPLETE") return;
+    if (evt.type !== 'AUTHENTICATE_FLOW_COMPLETE') return;
     onLoginComplete(router);
   };
 
-  return (
-    <StytchLogin
-      config={loginConfig}
-      callbacks={{ onEvent: handleOnLoginComplete }}
-    />
-  );
+  return <StytchLogin config={loginConfig} callbacks={{ onEvent: handleOnLoginComplete }} />;
 };
 
 /**
@@ -100,22 +89,20 @@ export const Login = () => {
  */
 export function Authenticate() {
   const client = useStytch();
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const token = params.get('token');
     if (!token) return;
 
-    client.oauth
-      .authenticate(token, { session_duration_minutes: 60 })
-      .then(() => onLoginComplete(router));
+    client.oauth.authenticate(token, { session_duration_minutes: 60 }).then(() => onLoginComplete(router));
   }, [client, router]);
 
   return <>Loading...</>;
 }
 
-export const IdentityProvider = withLoginRequired(BaseIdentityProvider)
+export const IdentityProvider = withLoginRequired(BaseIdentityProvider);
 
 export const Logout = function Logout() {
   const stytch = useStytch();
@@ -123,5 +110,10 @@ export const Logout = function Logout() {
 
   if (!user) return null;
 
-  return <button type="submit" className="primary" onClick={() => stytch.session.revoke()}> Log Out </button>;
+  return (
+    <button type="submit" className="primary" onClick={() => stytch.session.revoke()}>
+      {' '}
+      Log Out{' '}
+    </button>
+  );
 };

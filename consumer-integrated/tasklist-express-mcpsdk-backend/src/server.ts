@@ -3,7 +3,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { authorizeTokenMiddleware } from './auth.js';
 import { createMcpServer } from './mcpServer.js';
 import { initializeDatabase, closeDatabase } from './database.js';
@@ -19,14 +19,15 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  maxAge: 86400
-}));
-
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 86400,
+  }),
+);
 
 // Mount route modules
 app.use('/api', healthRoutes);
@@ -60,7 +61,7 @@ app.get('/.well-known/oauth-authorization-server', (req, res) => {
     response_modes_supported: ['query'],
     grant_types_supported: ['authorization_code', 'refresh_token'],
     token_endpoint_auth_methods_supported: ['none'],
-    code_challenge_methods_supported: ['S256']
+    code_challenge_methods_supported: ['S256'],
   });
 });
 
@@ -98,11 +99,11 @@ app.post('/mcp', authorizeTokenMiddleware(), async (req, res) => {
 // Global error handler
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled error:', error);
-  
+
   if (!res.headersSent) {
     res.status(500).json({
       error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong',
     });
   }
 });
@@ -111,7 +112,7 @@ app.use((error: Error, req: express.Request, res: express.Response, next: expres
 app.use((req, res) => {
   res.status(404).json({
     error: 'Not found',
-    message: `Route ${req.method} ${req.originalUrl} not found`
+    message: `Route ${req.method} ${req.originalUrl} not found`,
   });
 });
 

@@ -50,6 +50,7 @@ yarn workspace @mcp-examples/tasklist-express-mcpsdk-backend dev
 ```
 
 The server will be available at:
+
 - **API**: `http://localhost:3001/api`
 - **MCP**: `http://localhost:3001/mcp`
 - **Health Check**: `http://localhost:3001/api/healthcheck`
@@ -63,12 +64,14 @@ yarn dlx @modelcontextprotocol/inspector@latest
 ```
 
 Navigate to the URL where the Inspector is running, and input the following values:
+
 - Transport Type: `Streamable HTTP`
 - URL: `http://localhost:3001/mcp`
 
 ## API Endpoints
 
 ### REST API
+
 - `GET /api/tasks` - Get all tasks for authenticated user
 - `POST /api/tasks` - Create a new task
 - `POST /api/tasks/:id/complete` - Mark task as complete
@@ -76,11 +79,13 @@ Navigate to the URL where the Inspector is running, and input the following valu
 - `GET /api/healthcheck` - Check server configuration
 
 ### MCP Tools
+
 - `createTask(taskText: string)` - Add a new task
 - `markTaskComplete(taskID: string)` - Mark a task as complete
 - `deleteTask(taskID: string)` - Delete a task
 
 ### MCP Resources
+
 - `taskapp://tasks/{id}` - Individual task resources
 
 ## Storage
@@ -90,6 +95,7 @@ This implementation uses SQLite database storage in a `tasks.db` file. The datab
 ## Authentication
 
 The server implements OAuth Protected Resource discovery according to the MCP specification:
+
 - `/.well-known/oauth-protected-resource` - Resource metadata
 - `/.well-known/oauth-authorization-server` - Authorization server metadata
 

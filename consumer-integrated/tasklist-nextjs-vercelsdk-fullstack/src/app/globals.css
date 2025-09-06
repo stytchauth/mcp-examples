@@ -24,7 +24,7 @@ h1 {
 h2 {
   font-size: 20px;
   font-weight: 500;
-  line-height: "30px";
+  line-height: '30px';
   margin-bottom: 4px;
 }
 
@@ -123,7 +123,6 @@ header > .link-container {
   gap: 16px;
 }
 
-
 button {
   border: none;
   margin-left: 10px;
@@ -133,14 +132,13 @@ button {
 }
 
 button.primary {
-  background-color: #1D1D1D;
-  color: #FFF;
+  background-color: #1d1d1d;
+  color: #fff;
 }
 
 button.primary:hover {
   background-color: rgb(163, 163, 163);
 }
-
 
 .taskEditor {
   input[type='text'] {
