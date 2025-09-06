@@ -1,5 +1,5 @@
 import {createMcpHandler, withMcpAuth} from "mcp-handler";
-import { stytchClient } from "@/lib/stytch";
+import { getStytchClient } from "@/lib/stytch";
 import { initializeMCPServer } from "@/lib/TaskMCP";
 import { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 
@@ -8,7 +8,7 @@ const authenticatedHandler = withMcpAuth(
   async (_, token): Promise<AuthInfo| undefined> => {
     if (!token) return;
     const { audience, scope, expires_at, ...rest } =
-      await stytchClient.idp.introspectTokenLocal(token);
+      await getStytchClient().idp.introspectTokenLocal(token);
     return {
       token,
       clientId: audience as string,

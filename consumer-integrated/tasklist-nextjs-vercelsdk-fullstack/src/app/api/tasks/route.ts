@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { TaskListService } from '@/services/TaskService';
-import { stytchClient } from '@/lib/stytch';
+import { getStytchClient } from '@/lib/stytch';
 import { withAuth } from '@/lib/withAuth';
 
 const getTasks = withAuth(async (req, session) => {
-  const taskListService = new TaskListService(stytchClient, session.user_id);
+  const taskListService = new TaskListService(getStytchClient(), session.user_id);
   const tasks = await taskListService.get();
   
   return NextResponse.json({ tasks });
@@ -19,7 +19,7 @@ const createTask = withAuth(async (req, session) => {
     );
   }
 
-  const taskListService = new TaskListService(stytchClient, session.user_id);
+  const taskListService = new TaskListService(getStytchClient(), session.user_id);
   const tasks = await taskListService.add(text);
   
   return NextResponse.json({ tasks });

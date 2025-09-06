@@ -5,14 +5,14 @@ import {
 import { AuthInfo } from '@modelcontextprotocol/sdk/server/auth/types.js';
 import { Task, TaskListService } from "@/services/TaskService";
 import { z } from "zod";
-import {stytchClient} from "@/lib/stytch";
+import {getStytchClient} from "@/lib/stytch";
 
 export const initializeMCPServer = (server: McpServer) => {
     const taskListService = (authInfo: AuthInfo | undefined) =>  {
       if(!authInfo) throw new Error("No authInfo provided")
       const { subject } = authInfo.extra as { subject: string };
 
-      return new TaskListService(stytchClient, subject);
+      return new TaskListService(getStytchClient(), subject);
     }
 
     const formatResponse = (
