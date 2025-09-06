@@ -1,6 +1,6 @@
 import {createMcpHandler, withMcpAuth} from "mcp-handler";
 import { stytchClient } from "@/lib/stytch";
-import { initializeMCPServer } from "@/lib/TodoMCP";
+import { initializeMCPServer } from "@/lib/TaskMCP";
 import { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 
 const authenticatedHandler = withMcpAuth(

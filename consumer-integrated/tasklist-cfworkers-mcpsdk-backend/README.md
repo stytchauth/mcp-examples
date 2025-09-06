@@ -1,4 +1,4 @@
-# Workers + Stytch TODO App MCP Server
+# Workers + Stytch Task App MCP Server
 
 This is a Workers server that composes two functions:
 * A REST API built using Hono on top of [Workers KV](https://developers.cloudflare.com/kv/) 
@@ -44,7 +44,7 @@ STYTCH_DOMAIN=https://cname-word-1234.customers.stytch.dev
 After completing all the setup steps above the application can be run with the command:
 
 ```bash
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend dev
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend dev
 ```
 
 The application will be available at [`http://localhost:3000`](http://localhost:3000) and the MCP server will be available at `http://localhost:3000/mcp`.
@@ -66,10 +66,10 @@ Click the button - **you'll need to configure environment variables after the in
 
 Or, if you want to follow the steps by hand: 
 
-1. Create a KV namespace for the TODO app to use
+1. Create a KV namespace for the Task app to use
 
 ```
-wrangler kv namespace create TODOS
+wrangler kv namespace create TASKS
 ```
 
 2. Update the KV namespace ID in `wrangler.jsonc` with the ID you received:
@@ -77,7 +77,7 @@ wrangler kv namespace create TODOS
 ```
 "kv_namespaces": [
    {
-      "binding": "TODOS",
+      "binding": "TASKS",
       "id": "your-kv-namespace-id"
    }
 ]
@@ -93,7 +93,7 @@ yarn dlx wrangler secret bulk .dev.vars
 4. Deploy the worker
 
 ```
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend deploy
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend deploy
 ```
 
 ## Get help and join the community

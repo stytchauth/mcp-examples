@@ -16,7 +16,7 @@ export default function LoginPage() {
   // If the Stytch SDK detects a User then redirect to profile; for example if a logged in User navigated directly to this URL.
   useEffect(() => {
     if (isInitialized && user) {
-      router.replace("/todos");
+      router.replace("/tasks");
     }
   }, [user, isInitialized, router]);
 

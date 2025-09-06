@@ -1,11 +1,11 @@
 import {Hono} from "hono";
-import {todoService} from "./TodoService";
+import {taskListService} from "./TaskService";
 import {Consumer} from "@hono/stytch-auth";
 
 /**
- * The Hono app exposes the TODO Service via REST endpoints for consumption by the frontend
+ * The Hono app exposes the Task List Service via REST endpoints for consumption by the frontend
  */
-export const TodoAPI = new Hono<{ Bindings: Env }>()
+export const TaskAPI = new Hono<{ Bindings: Env }>()
 
     .get('/healthcheck', async (c) => {
         const errors: Array<{variable: string, description: string}> = [];
@@ -48,27 +48,27 @@ export const TodoAPI = new Hono<{ Bindings: Env }>()
     // and makes the session information available to later endpoints via getStytchSession()
     .use('/*', Consumer.authenticateSessionLocal())
 
-    .get('/todos', async (c) => {
+    .get('/tasks', async (c) => {
         const {user_id} = Consumer.getStytchSession(c)
-        const todos = await todoService(c.env, user_id).get()
-        return c.json({todos})
+        const tasks = await taskListService(c.env, user_id).get()
+        return c.json({tasks})
     })
 
-    .post('/todos', async (c) => {
+    .post('/tasks', async (c) => {
         const {user_id} = Consumer.getStytchSession(c)
-        const newTodo = await c.req.json<{ todoText: string }>();
-        const todos = await todoService(c.env, user_id).add(newTodo.todoText)
-        return c.json({todos})
+        const newTask = await c.req.json<{ taskText: string }>();
+        const tasks = await taskListService(c.env, user_id).add(newTask.taskText)
+        return c.json({tasks})
     })
 
-    .post('/todos/:id/complete', async (c) => {
+    .post('/tasks/:id/complete', async (c) => {
         const {user_id} = Consumer.getStytchSession(c)
-        const todos = await todoService(c.env, user_id).markCompleted(c.req.param().id)
-        return c.json({todos})
+        const tasks = await taskListService(c.env, user_id).markCompleted(c.req.param().id)
+        return c.json({tasks})
     })
 
-    .delete('/todos/:id', async (c) => {
+    .delete('/tasks/:id', async (c) => {
         const {user_id} = Consumer.getStytchSession(c)
-        const todos = await todoService(c.env, user_id).delete(c.req.param().id)
-        return c.json({todos})
+        const tasks = await taskListService(c.env, user_id).delete(c.req.param().id)
+        return c.json({tasks})
     })

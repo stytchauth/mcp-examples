@@ -1,3 +1,3 @@
 # TaskList Next.js Vercel SDK Fullstack
 
-TODO
+A Next.js fullstack application demonstrating MCP integration with Stytch authentication for task management.

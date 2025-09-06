@@ -1,12 +1,12 @@
 "use client";
 
-import Todos from "@/components/Todos";
+import Tasks from "@/components/Tasks";
 import { Logout } from "@/components/Auth";
 
-export default function TodoPage() {
+export default function TaskPage() {
   return (
     <>
-      <Todos />
+      <Tasks />
       <Logout />
     </>
   );

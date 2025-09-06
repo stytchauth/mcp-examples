@@ -1,8 +1,8 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { TodoService, Todo } from "./TodoService";
+import { TaskListService, Task } from "./TaskService";
 
-function formatResponse(description: string, newState: Todo[]) {
+function formatResponse(description: string, newState: Task[]) {
   return {
     content: [{
       type: "text" as const,
@@ -12,46 +12,46 @@ function formatResponse(description: string, newState: Todo[]) {
 }
 
 export function createMcpServer(userID: string): McpServer {
-  const todoService = new TodoService(userID);
+  const taskListService = new TaskListService(userID);
   const server = new McpServer({ name: 'TaskList Service', version: '1.0.0' });
 
-  server.resource("Todos", new ResourceTemplate("todoapp://todos/{id}", {
+  server.resource("Tasks", new ResourceTemplate("taskapp://tasks/{id}", {
     list: async () => {
-      const todos = await todoService.get();
+      const tasks = await taskListService.get();
       return {
-        resources: todos.map(todo => ({
-          name: todo.text,
-          uri: `todoapp://todos/${todo.id}`
+        resources: tasks.map(task => ({
+          name: task.text,
+          uri: `taskapp://tasks/${task.id}`
         }))
       };
     }
   }),
   async (uri, { id }) => {
-    const todos = await todoService.get();
-    const todo = todos.find(todo => todo.id === id);
+    const tasks = await taskListService.get();
+    const task = tasks.find(task => task.id === id);
     return {
       contents: [
         {
           uri: uri.href,
-          text: todo ? `text: ${todo.text} completed: ${todo.completed}` : 'NOT FOUND',
+          text: task ? `text: ${task.text} completed: ${task.completed}` : 'NOT FOUND',
         },
       ],
     };
   });
 
-  server.tool('createTodo', 'Add a new TODO task', { todoText: z.string() }, async ({ todoText }) => {
-    const todos = await todoService.add(todoText);
-    return formatResponse('TODO added successfully', todos);
+  server.tool('createTask', 'Add a new task', { taskText: z.string() }, async ({ taskText }) => {
+    const tasks = await taskListService.add(taskText);
+    return formatResponse('Task added successfully', tasks);
   });
 
-  server.tool('markTodoComplete', 'Mark a TODO as complete', { todoID: z.string() }, async ({ todoID }) => {
-    const todos = await todoService.markCompleted(todoID);
-    return formatResponse('TODO completed successfully', todos);
+  server.tool('markTaskComplete', 'Mark a task as complete', { taskID: z.string() }, async ({ taskID }) => {
+    const tasks = await taskListService.markCompleted(taskID);
+    return formatResponse('Task completed successfully', tasks);
   });
 
-  server.tool('deleteTodo', 'Mark a TODO as deleted', { todoID: z.string() }, async ({ todoID }) => {
-    const todos = await todoService.delete(todoID);
-    return formatResponse('TODO deleted successfully', todos);
+  server.tool('deleteTask', 'Mark a task as deleted', { taskID: z.string() }, async ({ taskID }) => {
+    const tasks = await taskListService.delete(taskID);
+    return formatResponse('Task deleted successfully', tasks);
   });
 
   return server;

@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <html lang="en">
       <body>
       <main>
-        <h1>TODO App MCP Demo</h1>
+        <h1>Task App MCP Demo</h1>
         <div className="container">{children}</div>
       </main>
       </body>

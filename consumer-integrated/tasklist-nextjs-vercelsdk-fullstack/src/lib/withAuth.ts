@@ -33,7 +33,7 @@ export function withAuth<TParams>(
         context?: { params: Promise<TParams> }
     ): Promise<NextResponse> => {
         try {
-            const session = await authenticateSession(req);
+            const session = await authenticateSession();
             if (!session) {
                 return NextResponse.json(
                     { error: 'Unauthorized' }, 

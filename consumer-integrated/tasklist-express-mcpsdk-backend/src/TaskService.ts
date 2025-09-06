@@ -1,13 +1,13 @@
 import Database from 'better-sqlite3';
 import { getDatabase } from './database';
 
-export interface Todo {
+export interface Task {
   id: string;
   text: string;
   completed: boolean;
 }
 
-export class TodoService {
+export class TaskListService {
   private readonly userID: string;
 
   constructor(userID: string) {
@@ -19,11 +19,11 @@ export class TodoService {
     return operation(db);
   }
 
-  async get(): Promise<Todo[]> {
+  async get(): Promise<Task[]> {
     return this.withDatabase(db => {
       const stmt = db.prepare(`
         SELECT id, text, completed 
-        FROM todos 
+        FROM tasks 
         WHERE user_id = ? 
         ORDER BY completed ASC, id ASC
       `);
@@ -42,25 +42,25 @@ export class TodoService {
     });
   }
 
-  async add(todoText: string): Promise<Todo[]> {
+  async add(taskText: string): Promise<Task[]> {
     return this.withDatabase(db => {
-      const newTodo: Todo = {
+      const newTask: Task = {
         id: Date.now().toString(),
-        text: todoText,
+        text: taskText,
         completed: false
       };
 
       const stmt = db.prepare(`
-        INSERT INTO todos (id, user_id, text, completed)
+        INSERT INTO tasks (id, user_id, text, completed)
         VALUES (?, ?, ?, ?)
       `);
 
-      stmt.run(newTodo.id, this.userID, newTodo.text, newTodo.completed ? 1 : 0);
+      stmt.run(newTask.id, this.userID, newTask.text, newTask.completed ? 1 : 0);
       
-      // Get updated todos in the same connection
+      // Get updated tasks in the same connection
       const selectStmt = db.prepare(`
         SELECT id, text, completed 
-        FROM todos 
+        FROM tasks 
         WHERE user_id = ? 
         ORDER BY completed ASC, id ASC
       `);
@@ -79,19 +79,19 @@ export class TodoService {
     });
   }
 
-  async delete(todoID: string): Promise<Todo[]> {
+  async delete(taskID: string): Promise<Task[]> {
     return this.withDatabase(db => {
       const stmt = db.prepare(`
-        DELETE FROM todos 
+        DELETE FROM tasks 
         WHERE id = ? AND user_id = ?
       `);
 
-      stmt.run(todoID, this.userID);
+      stmt.run(taskID, this.userID);
       
-      // Get updated todos in the same connection
+      // Get updated tasks in the same connection
       const selectStmt = db.prepare(`
         SELECT id, text, completed 
-        FROM todos 
+        FROM tasks 
         WHERE user_id = ? 
         ORDER BY completed ASC, id ASC
       `);
@@ -110,20 +110,20 @@ export class TodoService {
     });
   }
 
-  async markCompleted(todoID: string): Promise<Todo[]> {
+  async markCompleted(taskID: string): Promise<Task[]> {
     return this.withDatabase(db => {
       const stmt = db.prepare(`
-        UPDATE todos 
+        UPDATE tasks 
         SET completed = 1 
         WHERE id = ? AND user_id = ?
       `);
 
-      stmt.run(todoID, this.userID);
+      stmt.run(taskID, this.userID);
       
-      // Get updated todos in the same connection
+      // Get updated tasks in the same connection
       const selectStmt = db.prepare(`
         SELECT id, text, completed 
-        FROM todos 
+        FROM tasks 
         WHERE user_id = ? 
         ORDER BY completed ASC, id ASC
       `);
