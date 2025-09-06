@@ -13,12 +13,12 @@ connected-apps-examples
 ├── consumer-integrated          # Consumer auth with MCP integration
 │   ├── tasklist-frontend       # React frontend (works with all backends)
 │   ├── tasklist-python-fastmcp-backend
-│   ├── tasklist-express-mcpsdk-backend  
+│   ├── tasklist-express-mcpsdk-backend
 │   ├── tasklist-cfworkers-mcpsdk-backend
 │   └── tasklist-nextjs-vercelsdk-fullstack
 ├── consumer-standalone          # Consumer auth without MCP
 │   └── supabase-nextjs-user-management
-├── b2b-integrated              # B2B auth with MCP integration  
+├── b2b-integrated              # B2B auth with MCP integration
 │   ├── okrmanager-frontend     # React frontend (works with all backends)
 │   ├── okrmanager-python-fastmcp-backend
 │   ├── okrmanager-express-mcpsdk-backend
@@ -31,16 +31,19 @@ connected-apps-examples
 ## What's Included
 
 ### Consumer Authentication Examples
+
 - **Task List Application** - A todo list application demonstrating Consumer auth
 - **Frameworks**: React frontend with Python (FastMCP), Express.js, Cloudflare Workers, and Next.js backends
 - **Features**: User registration, OAuth flows, task management, MCP integration
 
-### B2B Authentication Examples  
+### B2B Authentication Examples
+
 - **OKR Manager Application** - An objectives and key results management application
 - **Frameworks**: React frontend with Python (FastMCP), Express.js, Cloudflare Workers, and Next.js backends
 - **Features**: Organization management, team collaboration, goal tracking, MCP integration
 
 ### Standalone Examples
+
 - Simple user management applications without MCP integration
 - Demonstrates pure Stytch authentication flows
 
@@ -63,26 +66,30 @@ connected-apps-examples
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/stytchauth/connected-apps-examples.git
    cd connected-apps-examples
    ```
 
 2. **Install dependencies**
+
    ```bash
    yarn install
    ```
 
 3. **Choose an example to run**
-   
+
    For the Consumer Task List with Cloudflare Workers:
+
    ```bash
    cd consumer-integrated/tasklist-cfworkers-mcpsdk-backend
    ```
-   
+
    For B2B OKR Manager with Next.js:
+
    ```bash
-   cd b2b-integrated/okrmanager-nextjs-vercelsdk-fullstack  
+   cd b2b-integrated/okrmanager-nextjs-vercelsdk-fullstack
    ```
 
 4. **Follow the setup instructions** in each example's README
@@ -103,6 +110,7 @@ yarn workspace @examples/[example-name] dev
 ## MCP Integration
 
 The integrated examples demonstrate how to:
+
 - Expose application functionality through MCP tools
 - Implement OAuth Protected Resource discovery
 - Support multiple MCP transports (SSE, HTTP Streaming)
@@ -121,18 +129,21 @@ yarn dlx @modelcontextprotocol/inspector@latest
 ## Authentication Flows
 
 ### Consumer Authentication
+
 - **Use case**: Consumer-facing applications, personal productivity tools
 - **Features**: Email/SMS auth, OAuth providers, guest users
 - **Example**: Personal task management application
 
 ### B2B Authentication
-- **Use case**: Business applications, team collaboration tools  
+
+- **Use case**: Business applications, team collaboration tools
 - **Features**: Organization management, SSO, member invitations, RBAC
 - **Example**: Team OKR management application
 
 ## Architecture Patterns
 
 Each integrated example follows a consistent pattern:
+
 - **Frontend**: React application with Stytch SDK integration
 - **Backend**: REST API + MCP server with user-scoped data access
 - **Authentication**: OAuth 2.0 with PKCE and JWT tokens

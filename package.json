@@ -9,7 +9,12 @@
   "packageManager": "yarn@4.0.2",
   "scripts": {
     "build": "yarn workspaces foreach -A run build",
-    "lint": "yarn workspaces foreach -A run lint"
+    "lint": "yarn workspaces foreach -A run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
   },
   "repository": {
     "type": "git",

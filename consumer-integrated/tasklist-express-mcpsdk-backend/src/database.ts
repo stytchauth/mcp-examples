@@ -9,7 +9,7 @@ export function initializeDatabase(): Database.Database {
   }
 
   console.log('🗄️  Initializing SQLite database...');
-  
+
   const dbPath = path.join(process.cwd(), 'tasks.db');
   db = new Database(dbPath);
 

@@ -6,7 +6,7 @@ import { withAuth } from '@/lib/withAuth';
 const completeTask = withAuth<{ id: string }>(async (req, session, params) => {
   const taskListService = new TaskListService(getStytchClient(), session.user_id);
   const tasks = await taskListService.markCompleted(params.id);
-  
+
   return NextResponse.json({ tasks });
 }, 'Failed to complete task');
 

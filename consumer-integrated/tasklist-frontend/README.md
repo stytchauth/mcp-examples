@@ -13,9 +13,8 @@ mcp-examples
 
 This demo uses the [Stytch Consumer](https://stytch.com/b2c) product, which is purpose-built for Consumer SaaS authentication requirements.
 
-[//]: # (TODO: add better links)
-[//]: # (If you are more interested in Stytch's [B2B]&#40;https://stytch.com/b2b&#41; product, see [this demo]&#40;https://github.com/stytchauth/mcp-stytch-b2b-okr-manager/&#41; instead.)
-
+[//]: # 'TODO: add better links'
+[//]: # "If you are more interested in Stytch's [B2B](https://stytch.com/b2b) product, see [this demo](https://github.com/stytchauth/mcp-stytch-b2b-okr-manager/) instead."
 
 ## Set up
 
@@ -25,6 +24,7 @@ Follow the steps below to get this application fully functional and running usin
 
 Navigate to one of the backend folders and follow the instructions to configure the backend with your Stytch credentials.
 Start the backend:
+
 ```bash
 # to use Cloudflare Workers
 yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend dev
@@ -64,11 +64,13 @@ yarn workspace @mcp-examples/tasklist-frontend dev
 The application will be available at [`http://localhost:3000`](http://localhost:3000) and the MCP server will be available at `http://localhost:3000/mcp`.
 
 Test your MCP server using the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)
+
 ```bash
 yarn dlx @modelcontextprotocol/inspector@latest
 ```
 
 Navigate to the URL where the Inspector is running, and input the following values:
+
 - Transport Type: `Streamable HTTP`
 - URL: `http://localhost:3000/mcp`
 
@@ -77,4 +79,3 @@ Navigate to the URL where the Inspector is running, and input the following valu
 #### :speech_balloon: Stytch community Slack
 
 Join the discussion, ask questions, and suggest new features in our [Slack community](https://stytch.com/docs/resources/support/overview)!
-

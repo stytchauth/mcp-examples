@@ -1,9 +1,8 @@
-import "./globals.css";
+import './globals.css';
 
-import { ReactNode } from "react";
-import StytchProvider from "@/components/StytchProvider";
-import { Metadata } from "next";
-
+import { ReactNode } from 'react';
+import StytchProvider from '@/components/StytchProvider';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Stytch Vercel MCP Server',
@@ -17,12 +16,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <StytchProvider>
       <html lang="en">
-      <body>
-      <main>
-        <h1>Task App MCP Demo</h1>
-        <div className="container">{children}</div>
-      </main>
-      </body>
+        <body>
+          <main>
+            <h1>Task App MCP Demo</h1>
+            <div className="container">{children}</div>
+          </main>
+        </body>
       </html>
     </StytchProvider>
   );
