@@ -10,12 +10,12 @@ export function initializeDatabase(): Database.Database {
 
   console.log('🗄️  Initializing SQLite database...');
   
-  const dbPath = path.join(process.cwd(), 'todos.db');
+  const dbPath = path.join(process.cwd(), 'tasks.db');
   db = new Database(dbPath);
 
-  // Create todos table if it doesn't exist
+  // Create tasks table if it doesn't exist
   db.exec(`
-    CREATE TABLE IF NOT EXISTS todos (
+    CREATE TABLE IF NOT EXISTS tasks (
       id TEXT PRIMARY KEY,
       user_id TEXT NOT NULL,
       text TEXT NOT NULL,
@@ -26,7 +26,7 @@ export function initializeDatabase(): Database.Database {
 
   // Create index on user_id for faster queries
   db.exec(`
-    CREATE INDEX IF NOT EXISTS idx_todos_user_id ON todos(user_id)
+    CREATE INDEX IF NOT EXISTS idx_tasks_user_id ON tasks(user_id)
   `);
 
   console.log('✅ Database initialized successfully');

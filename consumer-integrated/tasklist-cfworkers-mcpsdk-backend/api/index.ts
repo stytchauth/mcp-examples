@@ -1,5 +1,5 @@
-import {createMcpServer} from "./TodoMCP";
-import {TodoAPI} from "./TodoAPI";
+import {createMcpServer} from "./TaskMCP";
+import {TaskAPI} from "./TaskAPI";
 import {cors} from "hono/cors";
 import {Hono} from "hono";
 import {Consumer} from "@hono/stytch-auth";
@@ -24,8 +24,8 @@ const authenticateTokenAuthMiddleware = Consumer.authenticateOAuthToken({
 export default new Hono<{ Bindings: Env }>()
     .use(cors())
 
-    // Mount the TODO API underneath us
-    .route('/api', TodoAPI)
+    // Mount the Task API underneath us
+    .route('/api', TaskAPI)
 
     // Serve the OAuth Protected Resource metadata per the 6-18 Auth specification
     // Note: Certain clients will infer the OPR metadata endpoint instead of taking it from the WWW-Auth header

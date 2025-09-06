@@ -1,10 +1,10 @@
-# Express.js + Stytch TODO App MCP Server
+# Express.js + Stytch Task App MCP Server
 
-This is an Express.js server that provides both REST API and MCP (Model Context Protocol) functionality for a todo list application. It demonstrates how to integrate Stytch authentication with an Express.js backend to create AI-accessible applications.
+This is an Express.js server that provides both REST API and MCP (Model Context Protocol) functionality for a task list application. It demonstrates how to integrate Stytch authentication with an Express.js backend to create AI-accessible applications.
 
 ## Features
 
-- **REST API**: Full CRUD operations for todo management
+- **REST API**: Full CRUD operations for task management
 - **MCP Server**: Model Context Protocol server for AI agent integration
 - **SQLite Database**: Reliable SQL database storage with user isolation
 - **Stytch Authentication**: OAuth token validation and user management
@@ -69,23 +69,23 @@ Navigate to the URL where the Inspector is running, and input the following valu
 ## API Endpoints
 
 ### REST API
-- `GET /api/todos` - Get all todos for authenticated user
-- `POST /api/todos` - Create a new todo
-- `POST /api/todos/:id/complete` - Mark todo as complete
-- `DELETE /api/todos/:id` - Delete a todo
+- `GET /api/tasks` - Get all tasks for authenticated user
+- `POST /api/tasks` - Create a new task
+- `POST /api/tasks/:id/complete` - Mark task as complete
+- `DELETE /api/tasks/:id` - Delete a task
 - `GET /api/healthcheck` - Check server configuration
 
 ### MCP Tools
-- `createTodo(todoText: string)` - Add a new todo task
-- `markTodoComplete(todoID: string)` - Mark a todo as complete
-- `deleteTodo(todoID: string)` - Delete a todo
+- `createTask(taskText: string)` - Add a new task
+- `markTaskComplete(taskID: string)` - Mark a task as complete
+- `deleteTask(taskID: string)` - Delete a task
 
 ### MCP Resources
-- `todoapp://todos/{id}` - Individual todo resources
+- `taskapp://tasks/{id}` - Individual task resources
 
 ## Storage
 
-This implementation uses SQLite database storage in a `todos.db` file. The database automatically creates the necessary tables and indexes on startup. Each user's todos are isolated by `user_id` in the database, providing secure multi-user support with proper data separation.
+This implementation uses SQLite database storage in a `tasks.db` file. The database automatically creates the necessary tables and indexes on startup. Each user's tasks are isolated by `user_id` in the database, providing secure multi-user support with proper data separation.
 
 ## Authentication
 

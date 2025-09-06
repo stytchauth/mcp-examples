@@ -142,7 +142,7 @@ button.primary:hover {
 }
 
 
-.todoEditor {
+.taskEditor {
   input[type='text'] {
     padding: 10px;
     width: 200px;

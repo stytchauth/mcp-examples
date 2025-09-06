@@ -23,16 +23,16 @@ yarn lint
 ### Backend (Cloudflare Workers)
 ```bash
 # Run backend locally
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend dev
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend dev
 
 # Deploy to Cloudflare
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend deploy
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend deploy
 
 # Build TypeScript
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend build
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend build
 
 # Generate Cloudflare types
-yarn workspace @mcp-examples/tasklist-cfworders-mcpsdk-backend cf-typegen
+yarn workspace @mcp-examples/tasklist-cfworkers-mcpsdk-backend cf-typegen
 ```
 
 ### Frontend (React/Vite)
@@ -61,8 +61,8 @@ yarn dlx @modelcontextprotocol/inspector@latest
 ### Backend Architecture
 - **Framework**: Hono on Cloudflare Workers
 - **Authentication**: Stytch Consumer OAuth with JWT tokens
-- **Storage**: Cloudflare KV for todo persistence
-- **MCP Server**: Implements Model Context Protocol with tools (createTodo, markTodoComplete, deleteTodo) and resources
+- **Storage**: Cloudflare KV for task persistence
+- **MCP Server**: Implements Model Context Protocol with tools (createTask, markTaskComplete, deleteTask) and resources
 - **Transport**: Supports both SSE (`/sse`) and HTTP Streaming (`/mcp`) transports
 - **OAuth**: Implements OAuth Protected Resource discovery with `.well-known` endpoints
 
@@ -77,7 +77,7 @@ yarn dlx @modelcontextprotocol/inspector@latest
 - Backend serves MCP at `http://localhost:3001/mcp` (authenticated)
 - Frontend handles OAuth authorization flow at `/oauth/authorize`
 - Both components use Stytch for user authentication and session management
-- MCP server is user-scoped - each authenticated user gets their own todo context
+- MCP server is user-scoped - each authenticated user gets their own task context
 
 ### Configuration Files
 - Backend uses `.dev.vars` for local environment variables (Stytch credentials)

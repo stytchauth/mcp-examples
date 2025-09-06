@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "mcp-stytch-consumer-todo-list",
+	"name": "mcp-stytch-consumer-task-list",
 	"main": "api/index.ts",
 	"compatibility_flags": ["nodejs_compat"],
 	"compatibility_date": "2025-03-19",
@@ -43,7 +43,7 @@
 //	},
 	"kv_namespaces": [
 		{
-			"binding": "TODOS",
+			"binding": "TASKS",
 			"id": "8579799313be4e2aa06445981011b13e"
 		}
 	]

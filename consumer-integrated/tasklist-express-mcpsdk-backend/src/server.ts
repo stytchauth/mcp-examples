@@ -8,7 +8,7 @@ import { authorizeTokenMiddleware } from './auth.js';
 import { createMcpServer } from './mcpServer.js';
 import { initializeDatabase, closeDatabase } from './database.js';
 import healthRoutes from './healthRoutes.js';
-import todoRoutes from './todoRoutes.js';
+import taskRoutes from './taskRoutes.js';
 
 dotenv.config({ path: '.env.local' });
 
@@ -30,7 +30,7 @@ app.use(cors({
 
 // Mount route modules
 app.use('/api', healthRoutes);
-app.use('/api', todoRoutes);
+app.use('/api', taskRoutes);
 
 // Serve the OAuth Protected Resource metadata per the 6-18 Auth specification
 // Note: Certain clients will infer the OPR metadata endpoint instead of taking it from the WWW-Auth header
