@@ -13,7 +13,6 @@ from fastmcp.server.dependencies import get_access_token, AccessToken
 from jose import jwt
 from fastapi.responses import JSONResponse
 from typing import List, Dict, Any, Optional
-from database import SessionLocal
 import crud
 import models
 import schemas
@@ -32,6 +31,24 @@ auth = BearerAuthProvider(
 # Create FastMCP instance
 mcp = FastMCP("ticket-board-mcp", auth=auth)
 
+def get_organization_id_from_context() -> str:
+    """Extract organization ID from the current session context"""
+    # This will be populated by the auth system when a request comes in
+    # For now, we'll get it from the access token
+    token = get_access_token()
+    if not token:
+        raise ValueError("No access token found in context")
+    
+    # Decode the JWT to get the organization ID
+    try:
+        payload = jwt.decode(
+            token,
+            options={"verify_signature": False}  # Signature already verified by auth
+        )
+        return payload.get("https://stytch.com/organization", {}).get("organization_id")
+    except Exception as e:
+        raise ValueError(f"Could not extract organization ID from token: {e}")
+
 @mcp.custom_route("/.well-known/oauth-protected-resource", methods=["GET", "OPTIONS"])
 async def oauth_metadata(request) -> JSONResponse:
     base_url = str(request.base_url).rstrip("/")
@@ -45,69 +62,29 @@ async def oauth_metadata(request) -> JSONResponse:
     )
 
 @mcp.tool()
-async def list_tickets(organization_id: str) -> List[Dict[str, Any]]:
-    """List all tickets for a specific organization"""
-    db = SessionLocal()
-    try:
-        tickets = crud.get_tickets(db, organization_id)
-        return [
-            {
-                "id": ticket.id,
-                "title": ticket.title,
-                "assignee": ticket.assignee,
-                "status": ticket.status,
-                "description": ticket.description,
-                "created_at": ticket.created_at.isoformat(),
-                "updated_at": ticket.updated_at.isoformat()
-            }
-            for ticket in tickets
-        ]
-    finally:
-        db.close()
+async def list_tickets() -> List[Dict[str, Any]]:
+    """List all tickets for the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    tickets = crud.get_tickets(organization_id)
+    return [
+        {
+            "id": ticket.id,
+            "title": ticket.title,
+            "assignee": ticket.assignee,
+            "status": ticket.status,
+            "description": ticket.description,
+            "created_at": ticket.created_at.isoformat(),
+            "updated_at": ticket.updated_at.isoformat()
+        }
+        for ticket in tickets
+    ]
 
 @mcp.tool()
-async def get_ticket(ticket_id: str, organization_id: str) -> Optional[Dict[str, Any]]:
-    """Get a specific ticket by ID for a specific organization"""
-    db = SessionLocal()
-    try:
-        ticket = crud.get_ticket(db, ticket_id, organization_id)
-        if ticket:
-            return {
-                "id": ticket.id,
-                "title": ticket.title,
-                "assignee": ticket.assignee,
-                "status": ticket.status,
-                "description": ticket.description,
-                "created_at": ticket.created_at.isoformat(),
-                "updated_at": ticket.updated_at.isoformat()
-            }
-        return None
-    finally:
-        db.close()
-
-@mcp.tool()
-async def create_ticket(
-    title: str, 
-    assignee: str, 
-    organization_id: str, 
-    description: Optional[str] = None
-) -> Dict[str, Any]:
-    """Create a new ticket for a specific organization"""
-    db = SessionLocal()
-    try:
-        # Ensure organization exists
-        crud.get_or_create_organization(db, organization_id)
-        
-        # Create ticket data
-        ticket_data = schemas.TicketCreate(
-            title=title,
-            assignee=assignee,
-            description=description
-        )
-        
-        # Create the ticket
-        ticket = crud.create_ticket(db, ticket_data, organization_id)
-        
+async def get_ticket(ticket_id: str) -> Optional[Dict[str, Any]]:
+    """Get a specific ticket by ID for the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    ticket = crud.get_ticket(ticket_id, organization_id)
+    if ticket:
         return {
             "id": ticket.id,
             "title": ticket.title,
@@ -117,168 +94,144 @@ async def create_ticket(
             "created_at": ticket.created_at.isoformat(),
             "updated_at": ticket.updated_at.isoformat()
         }
-    finally:
-        db.close()
+    return None
+
+@mcp.tool()
+async def create_ticket(
+    title: str, 
+    assignee: str, 
+    description: Optional[str] = None
+) -> Dict[str, Any]:
+    """Create a new ticket for the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    
+    # Ensure organization exists
+    crud.get_or_create_organization(organization_id)
+    
+    # Create ticket data
+    ticket_data = schemas.TicketCreate(
+        title=title,
+        assignee=assignee,
+        description=description
+    )
+    
+    # Create the ticket
+    ticket = crud.create_ticket(ticket_data, organization_id)
+    
+    return {
+        "id": ticket.id,
+        "title": ticket.title,
+        "assignee": ticket.assignee,
+        "status": ticket.status,
+        "description": ticket.description,
+        "created_at": ticket.created_at.isoformat(),
+        "updated_at": ticket.updated_at.isoformat()
+    }
 
 @mcp.tool()
 async def update_ticket_status(
     ticket_id: str, 
-    status: str, 
-    organization_id: str
+    status: str
 ) -> Optional[Dict[str, Any]]:
     """Update the status of a ticket"""
-    db = SessionLocal()
-    try:
-        ticket = crud.update_ticket_status(db, ticket_id, status, organization_id)
-        if ticket:
-            return {
-                "id": ticket.id,
-                "title": ticket.title,
-                "assignee": ticket.assignee,
-                "status": ticket.status,
-                "description": ticket.description,
-                "created_at": ticket.created_at.isoformat(),
-                "updated_at": ticket.updated_at.isoformat()
-            }
-        return None
-    finally:
-        db.close()
+    organization_id = get_organization_id_from_context()
+    ticket = crud.update_ticket_status(ticket_id, status, organization_id)
+    if ticket:
+        return {
+            "id": ticket.id,
+            "title": ticket.title,
+            "assignee": ticket.assignee,
+            "status": ticket.status,
+            "description": ticket.description,
+            "created_at": ticket.created_at.isoformat(),
+            "updated_at": ticket.updated_at.isoformat()
+        }
+    return None
 
 @mcp.tool()
-async def delete_ticket(ticket_id: str, organization_id: str) -> bool:
-    """Delete a ticket from a specific organization"""
-    db = SessionLocal()
-    try:
-        return crud.delete_ticket(db, ticket_id, organization_id)
-    finally:
-        db.close()
+async def delete_ticket(ticket_id: str) -> bool:
+    """Delete a ticket from the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    return crud.delete_ticket(ticket_id, organization_id)
 
-@mcp.tool()
-async def list_organizations() -> List[Dict[str, Any]]:
-    """List all organizations in the system"""
-    db = SessionLocal()
-    try:
-        organizations = db.query(models.Organization).all()
-        return [
-            {
-                "id": org.id,
-                "name": org.name,
-                "created_at": org.created_at.isoformat(),
-                "updated_at": org.updated_at.isoformat()
-            }
-            for org in organizations
-        ]
-    finally:
-        db.close()
+
 
 @mcp.tool()
 async def get_organization(organization_id: str) -> Optional[Dict[str, Any]]:
     """Get a specific organization by ID"""
-    db = SessionLocal()
-    try:
-        org = crud.get_organization(db, organization_id)
-        info = org.name if org else None
-        return info
-    finally:
-        db.close()
+    org = crud.get_organization(organization_id)
+    info = org.name if org else None
+    return info
 
 @mcp.tool()
 async def search_tickets(
-    organization_id: str,
     status: Optional[str] = None,
     assignee: Optional[str] = None,
     title_contains: Optional[str] = None
 ) -> List[Dict[str, Any]]:
-    """Search tickets with filters"""
-    db = SessionLocal()
-    try:
-        tickets = crud.search_tickets(
-            db,
-            organization_id,
-            status=status,
-            assignee=assignee,
-            title_contains=title_contains,
-        )
-        
-        return [
-            {
-                "id": ticket.id,
-                "title": ticket.title,
-                "assignee": ticket.assignee,
-                "status": ticket.status,
-                "description": ticket.description,
-                "created_at": ticket.created_at.isoformat(),
-                "updated_at": ticket.updated_at.isoformat()
-            }
-            for ticket in tickets
-        ]
-    finally:
-        db.close()
+    """Search tickets with filters for the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    tickets = crud.search_tickets(
+        organization_id,
+        status=status,
+        assignee=assignee,
+        title_contains=title_contains,
+    )
+    
+    return [
+        {
+            "id": ticket.id,
+            "title": ticket.title,
+            "assignee": ticket.assignee,
+            "status": ticket.status,
+            "description": ticket.description,
+            "created_at": ticket.created_at.isoformat(),
+            "updated_at": ticket.updated_at.isoformat()
+        }
+        for ticket in tickets
+    ]
 
 @mcp.tool()
-async def get_ticket_statistics(organization_id: str) -> Dict[str, Any]:
-    """Get statistics about tickets for an organization"""
-    db = SessionLocal()
-    try:
-        tickets = crud.get_tickets(db, organization_id)
+async def get_ticket_statistics() -> Dict[str, Any]:
+    """Get statistics about tickets for the authenticated organization"""
+    organization_id = get_organization_id_from_context()
+    tickets = crud.get_tickets(organization_id)
+    
+    total_tickets = len(tickets)
+    status_counts = {}
+    assignee_counts = {}
+    
+    for ticket in tickets:
+        # Count by status
+        status_counts[ticket.status] = status_counts.get(ticket.status, 0) + 1
         
-        total_tickets = len(tickets)
-        status_counts = {}
-        assignee_counts = {}
-        
-        for ticket in tickets:
-            # Count by status
-            status_counts[ticket.status] = status_counts.get(ticket.status, 0) + 1
-            
-            # Count by assignee
-            assignee_counts[ticket.assignee] = assignee_counts.get(ticket.assignee, 0) + 1
-        
-        return {
-            "total_tickets": total_tickets,
-            "status_distribution": status_counts,
-            "assignee_distribution": assignee_counts,
-            "organization_id": organization_id
+        # Count by assignee
+        assignee_counts[ticket.assignee] = assignee_counts.get(ticket.assignee, 0) + 1
+    
+    return {
+        "total_tickets": total_tickets,
+        "status_distribution": status_counts,
+        "assignee_distribution": assignee_counts,
+        "organization_id": organization_id
+    }
+
+
+@mcp.resource("tickets://authenticated", mime_type="application/json")
+async def tickets_resource() -> List[Dict[str, Any]]:
+    organization_id = get_organization_id_from_context()
+    tickets = crud.get_tickets(organization_id)
+    return [
+        {
+            "id": t.id,
+            "title": t.title,
+            "assignee": t.assignee,
+            "status": t.status,
+            "description": t.description,
+            "created_at": t.created_at.isoformat() if t.created_at else None,
+            "updated_at": t.updated_at.isoformat() if t.updated_at else None,
         }
-    finally:
-        db.close()
-
-
-@mcp.resource("organizations://all", mime_type="application/json")
-async def organizations_resource() -> List[Dict[str, Any]]:
-    db = SessionLocal()
-    try:
-        orgs = db.query(models.Organization).all()
-        return [
-            {
-                "id": org.id,
-                "name": org.name,
-                "created_at": org.created_at.isoformat() if org.created_at else None,
-                "updated_at": org.updated_at.isoformat() if org.updated_at else None,
-            }
-            for org in orgs
-        ]
-    finally:
-        db.close()
-
-@mcp.resource("tickets://{organization_id}", mime_type="application/json")
-async def tickets_resource(organization_id: str) -> List[Dict[str, Any]]:
-    db = SessionLocal()
-    try:
-        tickets = crud.get_tickets(db, organization_id)
-        return [
-            {
-                "id": t.id,
-                "title": t.title,
-                "assignee": t.assignee,
-                "status": t.status,
-                "description": t.description,
-                "created_at": t.created_at.isoformat() if t.created_at else None,
-                "updated_at": t.updated_at.isoformat() if t.updated_at else None,
-            }
-            for t in tickets
-        ]
-    finally:
-        db.close()
+        for t in tickets
+    ]
 
 if __name__ == "__main__":
     mcp.run(
