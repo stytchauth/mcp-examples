@@ -10,22 +10,11 @@ export const useAuthHeaders = (): Record<string, string> => {
         return {};
     }
     
-    return {
-        'Authorization': `Bearer ${session.session_token}`,
-        'Content-Type': 'application/json'
-    };
-};
-
-/**
- * Get auth headers from a session object
- */
-export const getAuthHeaders = (session: any): Record<string, string> => {
-    if (!session) {
-        return {};
-    }
+    // Store JWT in a cookie for backend auth; do not send Authorization header
+    // Note: cookie is accessible to JS here (not httpOnly) since it's set client-side
+    document.cookie = `stytch_session_jwt=${session.session_token}; Path=/; SameSite=Lax`;
     
     return {
-        'Authorization': `Bearer ${session.session_token}`,
         'Content-Type': 'application/json'
     };
 };

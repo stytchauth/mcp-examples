@@ -5,7 +5,7 @@ This is a Vite React frontend application that can be used with any of the compa
 ```
 mcp-examples
 `- b2b-integrated
-   |- sprintplanner-python-fastmcp-backend
+   `- sprintplanner-python-fastmcp-backend
 ```
 
 This demo uses the [Stytch B2B](https://stytch.com/b2b) product, which is purpose-built for Consumer SaaS authentication requirements.

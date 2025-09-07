@@ -2,7 +2,6 @@ import {useState, useEffect, FormEvent} from 'react';
 import {withLoginRequired} from "./Auth.js";
 import type {Ticket} from "./types.js";
 import {useStytchMember, useStytchOrganization, useStytchMemberSession} from "@stytch/react/b2b";
-import { useAuthHeaders } from './authUtils.js';
 
 const SprintPlanner = withLoginRequired(() => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -11,21 +10,19 @@ const SprintPlanner = withLoginRequired(() => {
     const {member} = useStytchMember();
     const {organization} = useStytchOrganization();
     const {session} = useStytchMemberSession();
-    const authHeaders = useAuthHeaders();
 
     // Fetch tickets on component mount
     useEffect(() => {
-        if (session && authHeaders.Authorization) {
+        if (session) {
             getTickets().then(tickets => setTickets(tickets));
         }
-    }, [session, authHeaders.Authorization]);
+    }, [session]);
 
     const createTicket = (title: string, assignee: string) => {
-        if (!session || !authHeaders.Authorization) return Promise.reject('No session');
+        if (!session) return Promise.reject('No session');
         
         return fetch('/api/tickets', {
             method: 'POST',
-            headers: authHeaders,
             body: JSON.stringify({ title, assignee })
         })
         .then(res => res.json())
@@ -33,21 +30,19 @@ const SprintPlanner = withLoginRequired(() => {
     };
 
     const getTickets = () => {
-        if (!session || !authHeaders.Authorization) return Promise.reject('No session');
+        if (!session) return Promise.reject('No session');
         
         return fetch('/api/tickets', {
-            headers: authHeaders
         })
         .then(res => res.json())
         .then(res => res.tickets);
     };
 
     const updateTicketStatus = (id: string, status: Ticket['status']) => {
-        if (!session || !authHeaders.Authorization) return Promise.reject('No session');
+        if (!session) return Promise.reject('No session');
         
         return fetch(`/api/tickets/${id}/status`, {
             method: 'POST',
-            headers: authHeaders,
             body: JSON.stringify({ status })
         })
         .then(res => res.json())
@@ -55,11 +50,10 @@ const SprintPlanner = withLoginRequired(() => {
     };
 
     const deleteTicket = (id: string) => {
-        if (!session || !authHeaders.Authorization) return Promise.reject('No session');
+        if (!session) return Promise.reject('No session');
         
         return fetch(`/api/tickets/${id}`, {
             method: 'DELETE',
-            headers: authHeaders
         })
         .then(res => res.json())
         .then(res => res.tickets);

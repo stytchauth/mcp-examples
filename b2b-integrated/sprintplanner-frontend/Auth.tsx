@@ -90,51 +90,26 @@ export const Authorize = withLoginRequired(function () {
  * The Authentication callback page implementation. Handles completing the login flow after OAuth
  */
 export function Authenticate() {
-    const client = useStytchB2BClient();
-
-    useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search);
-        const hashParams = new URLSearchParams(window.location.hash.startsWith('#') ? window.location.hash.slice(1) : window.location.hash);
-
-        const getParam = (name: string) => searchParams.get(name) || hashParams.get(name);
-
-        const tokenType = getParam('stytch_token_type');
-        const discoveryToken = getParam('discovery_oauth_token');
-        const oauthTokenParam = getParam('oauth_token');
-        const genericToken = getParam('token');
-        
-        if (discoveryToken || tokenType === 'discovery') {
-            const token = discoveryToken || genericToken;
-            if (token) {
-                client.magicLinks.discovery.authenticate({ discovery_magic_links_token: token })
-                    .then(() => {
-                        // Intermediate session is set; redirect to discovery page to pick org
-                        window.location.href = '/discovery';
-                    })
-                    .catch((err) => console.error('discovery.authenticate failed', err))
-            }
-            return;
-        }
-
-        const oauthToken = oauthTokenParam || genericToken;
-        if (oauthToken) {
-            client.oauth.authenticate({ oauth_token: oauthToken, session_duration_minutes: 60 })
-                .then(onLoginComplete)
-                .catch((err) => console.error('oauth.authenticate failed', err))
-            return;
-        }
-        console.warn('No token found in authenticate URL');
-    }, [client]);
+    const config = useMemo(() => ({
+        products: ["emailMagicLinks", "passwords"],
+        sessionOptions: {
+            sessionDurationMinutes: 60,
+        },
+    }), [])
 
     return (
-        <div>
-            <div>Loading authentication…</div>
-            <pre style={{whiteSpace: 'pre-wrap'}}>
-{`URL: ${typeof window !== 'undefined' ? window.location.href : ''}
-search: ${typeof window !== 'undefined' ? window.location.search : ''}
-hash: ${typeof window !== 'undefined' ? window.location.hash : ''}`}
-            </pre>
-        </div>
+        <StytchB2B
+            config={config}
+            callbacks={{
+                onEvent: (evt) => {
+                    console.log('Authenticate StytchB2B onEvent', evt);
+                    if (evt.type === StytchEventType.AuthenticateFlowComplete) {
+                        onLoginComplete();
+                    }
+                },
+                onError: (err) => console.error('Authenticate StytchB2B onError', err),
+            }}
+        />
     )
 }
 
@@ -167,11 +142,7 @@ export function Discovery() {
                     onEvent: (evt) => {
                         console.log('Discovery StytchB2B onEvent', evt);
                         // Handle completion events - check for member session creation
-                        if (evt.type === StytchEventType.B2BMagicLinkAuthenticate || 
-                            evt.type === StytchEventType.B2BOAuthAuthenticate ||
-                            evt.type === StytchEventType.B2BDiscoveryIntermediateSessionExchange ||
-                            evt.type === StytchEventType.AuthenticateFlowComplete
-                        ) {
+                        if (evt.type === StytchEventType.AuthenticateFlowComplete) {
                             // Member session created, redirect to app
                             window.location.href = '/tickets';
                         }
