@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, Header
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import crud
@@ -27,14 +27,15 @@ app.add_middleware(
 # Mount the MCP endpoints at /mcp
 app.mount("/mcp", mcp_app)
 
-async def verify_stytch_session(authorization: str = Header(None)):
-    """Verify Stytch B2B session (JWT or token) against Stytch API"""
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+async def verify_stytch_session(request: Request):
+    
+    session_jwt = request.cookies.get('stytch_session_jwt')
+    
+    if not session_jwt:
+        raise HTTPException(status_code=401, detail="Missing session cookie")
 
-    token = authorization[7:]
-
-    session = await stytch_client.verify_session(token)
+    session = await stytch_client.verify_session(session_jwt)
+    
     if not session or not session.get("organization_id"):
         raise HTTPException(status_code=401, detail="Invalid or expired session")
 
@@ -60,32 +61,68 @@ async def get_tickets(
 
 @app.post("/api/tickets", response_model=schemas.TicketListResponse)
 async def create_ticket(
-    ticket_data: schemas.TicketCreate,
+    request: Request,
     session: dict = Depends(verify_stytch_session),
     db: Session = Depends(get_db)
 ):
     """Create a new ticket"""
+    # Parse the JSON manually to see what's being sent
+    try:
+        import json
+        body = await request.body()
+        if body:
+            json_data = json.loads(body)
+            
+            # Validate against schema
+            ticket_data = schemas.TicketCreate(**json_data)
+        else:
+            raise HTTPException(status_code=400, detail="Empty request body")
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
     org_id = session["organization_id"]
     
     # Ensure organization exists
-    crud.get_or_create_organization(db, org_id)
+    organization = crud.get_or_create_organization(db, org_id)
     
     # Create the ticket
-    crud.create_ticket(db, ticket_data, org_id)
+    try:
+        new_ticket = crud.create_ticket(db, ticket_data, org_id)
+    except Exception as e:
+        raise
     
     # Return all tickets for the organization
     tickets = crud.get_tickets(db, org_id)
-    return schemas.TicketListResponse(tickets=tickets)
+    
+    response = schemas.TicketListResponse(tickets=tickets)
+    return response
 
 @app.post("/api/tickets/{ticket_id}/status", response_model=schemas.TicketListResponse)
 async def update_ticket_status(
     ticket_id: str,
-    status_data: schemas.TicketStatusUpdate,
+    request: Request,
     session: dict = Depends(verify_stytch_session),
     db: Session = Depends(get_db)
 ):
     """Update ticket status"""
     org_id = session["organization_id"]
+    
+    # Parse the JSON manually to see what's being sent
+    try:
+        import json
+        body = await request.body()
+        if body:
+            json_data = json.loads(body)
+            
+            # Validate against schema
+            status_data = schemas.TicketStatusUpdate(**json_data)
+        else:
+            raise HTTPException(status_code=400, detail="Empty request body")
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
     
     # Validate status
     valid_statuses = ["backlog", "in-progress", "review", "done"]

@@ -54,7 +54,7 @@ def create_ticket(db: Session, ticket: schemas.TicketCreate, org_id: str) -> mod
     db_ticket = models.Ticket(
         title=ticket.title,
         assignee=ticket.assignee,
-        description=ticket.description,
+        description=getattr(ticket, 'description', None),  # Handle optional description field
         organization_id=org_id
     )
     db.add(db_ticket)

@@ -6,7 +6,6 @@ from datetime import datetime
 class TicketBase(BaseModel):
     title: str
     assignee: str
-    description: Optional[str] = None
 
 class TicketCreate(TicketBase):
     pass
