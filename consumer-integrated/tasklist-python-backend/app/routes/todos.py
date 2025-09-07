@@ -6,32 +6,32 @@ from ..services.todos import TodoService, Task
 
 router = APIRouter()
 
-class TodosResponse(BaseModel):
-    todos: List[Task]
+class TasksResponse(BaseModel):
+    tasks: List[Task]
 
-class CreateTodoBody(BaseModel):
-    todoText: str
+class CreateTaskBody(BaseModel):
+    taskText: str
 
-@router.get('/todos', response_model=TodosResponse)
-async def get_todos(request: Request):
+@router.get('/tasks', response_model=TasksResponse)
+async def get_tasks(request: Request):
     user_id = request.state.user.user_id  # type: ignore[attr-defined]
     todos = await TodoService(user_id).get()
-    return { 'todos': todos }
+    return { 'tasks': todos }
 
-@router.post('/todos', response_model=TodosResponse)
-async def create_todo(body: CreateTodoBody, request: Request):
+@router.post('/tasks', response_model=TasksResponse)
+async def create_task(body: CreateTaskBody, request: Request):
     user_id = request.state.user.user_id  # type: ignore[attr-defined]
-    todos = await TodoService(user_id).add(body.todoText)
-    return { 'todos': todos }
+    todos = await TodoService(user_id).add(body.taskText)
+    return { 'tasks': todos }
 
-@router.post('/todos/{todo_id}/complete', response_model=TodosResponse)
-async def complete_todo(todo_id: str, request: Request):
+@router.post('/tasks/{task_id}/complete', response_model=TasksResponse)
+async def complete_task(task_id: str, request: Request):
     user_id = request.state.user.user_id  # type: ignore[attr-defined]
-    todos = await TodoService(user_id).mark_completed(todo_id)
-    return { 'todos': todos }
+    todos = await TodoService(user_id).mark_completed(task_id)
+    return { 'tasks': todos }
 
-@router.delete('/todos/{todo_id}', response_model=TodosResponse)
-async def delete_todo(todo_id: str, request: Request):
+@router.delete('/tasks/{task_id}', response_model=TasksResponse)
+async def delete_task(task_id: str, request: Request):
     user_id = request.state.user.user_id  # type: ignore[attr-defined]
-    todos = await TodoService(user_id).delete(todo_id)
-    return { 'todos': todos }
+    todos = await TodoService(user_id).delete(task_id)
+    return { 'tasks': todos }

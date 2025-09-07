@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from . import mcp_server
 
 from .routes.health import router as health_router
-from .routes.todos import router as todos_router
+from .routes.todos import router as tasks_router
 from .security import authorize_session
 
 load_dotenv('.env.local')
@@ -34,7 +34,7 @@ app.add_middleware(
 
 # Mount REST routes
 app.include_router(health_router, prefix="/api")
-app.include_router(todos_router, prefix="/api", dependencies=[Depends(authorize_session)])
+app.include_router(tasks_router, prefix="/api", dependencies=[Depends(authorize_session)])
 
 # OAuth Protected Resource metadata
 @app.get('/.well-known/oauth-protected-resource')

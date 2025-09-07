@@ -16,8 +16,7 @@ def _get_user_id_from_token() -> str:
     if not token:
         raise ValueError("Unauthorized: missing access token")
 
-    # Prefer explicit fields if the verifier added them
-    for claim_name in ("user_id", "subject", "sub"):
+    for claim_name in ("sub"):
         value = getattr(token, claim_name, None)
         if isinstance(value, str) and value:
             return value
