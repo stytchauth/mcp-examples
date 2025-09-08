@@ -7,6 +7,7 @@ This represents a backend API and MCP server implemented in [TECH STACK HERE]. T
 ## Setup
 
 1. **Create and activate a virtual environment:**
+
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -20,16 +21,19 @@ source venv/bin/activate
 ```
 
 2. **Install dependencies:**
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3. **Initialize the database:**
+
 ```bash
 python init_db.py
 ```
 
 4. **Set environment variables:**
+
 ```bash
 cp env.template .env.local
 ```
@@ -45,12 +49,14 @@ python main.py
 ## API Endpoints
 
 ### REST API (Port 8000)
+
 - `GET /api/tickets` - Get all tickets for the organization
 - `POST /api/tickets` - Create a new ticket
 - `POST /api/tickets/{id}/status` - Update ticket status
 - `DELETE /api/tickets/{id}` - Delete a ticket
 
 ### MCP Server (Port 8000)
+
 - **Protocol**: Model Context Protocol (MCP)
 - **Tools Available**: 9 ticket management tools
 - **Frontend**: Connects to API server (port 8000)
@@ -69,12 +75,15 @@ The MCP server provides the following tools for AI agents:
 - **`get_ticket_statistics`** - Get ticket statistics and analytics
 
 ## Testing with MCP Inspector
+
 Test your MCP server using the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)
+
 ```bash
 yarn dlx @modelcontextprotocol/inspector@latest
 ```
 
 Navigate to the URL where the Inspector is running, and input the following values:
+
 - Transport Type: `Streamable HTTP`
 - URL: `http://localhost:3000/mcp`
 
