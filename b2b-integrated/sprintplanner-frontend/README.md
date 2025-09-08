@@ -50,11 +50,13 @@ npm run dev
 The application will be available at [`http://localhost:5173/`](http://localhost:5173/). The MCP server and API Backends will be available according to the described backend README.
 
 Test your MCP server using the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)
+
 ```bash
 yarn dlx @modelcontextprotocol/inspector@latest
 ```
 
 Navigate to the URL where the Inspector is running, and input the following values:
+
 - Transport Type: `Streamable HTTP`
 - URL: `http://localhost:3000/mcp`
 
@@ -63,4 +65,3 @@ Navigate to the URL where the Inspector is running, and input the following valu
 #### :speech_balloon: Stytch community Slack
 
 Join the discussion, ask questions, and suggest new features in our [Slack community](https://stytch.com/docs/resources/support/overview)!
-
