@@ -1,32 +1,24 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { IdentityProvider } from '@stytch/nextjs';
 import { createStytchUIClient } from '@stytch/nextjs/dist/index.ui';
 import StytchProvider from '@/components/StytchProvider';
 import { createClient } from '@/utils/supabase/client';
 
-const IdentityProvider = dynamic(
-  () =>
-    import('@/components/Auth').then((mod) => ({
-      default: mod.IdentityProvider,
-    })),
-  {
-    ssr: false,
-    loading: () => <div>Loading...</div>,
-  },
-);
-
 const stytch = createStytchUIClient(process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN!);
 
 export default function AuthenticatePage() {
-  const supabase = createClient();
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuthentication = async () => {
+      // Only create Supabase client in the browser
+      if (typeof window === 'undefined') return;
+
+      const supabase = createClient();
       const res = await supabase.auth.getSession();
       const token = res.data.session?.access_token;
 
@@ -40,7 +32,7 @@ export default function AuthenticatePage() {
       // we must skip this step
       const hasStytchSession = stytch.session.getInfo().session;
       if (!hasStytchSession && token) {
-        stytch.session.attest({
+        await stytch.session.attest({
           profile_id: process.env.NEXT_PUBLIC_STYTCH_TOKEN_PROFILE!,
           token,
           session_duration_minutes: 60,
@@ -51,7 +43,7 @@ export default function AuthenticatePage() {
     };
 
     checkAuthentication();
-  }, [supabase, router]);
+  }, [router]);
 
   if (!isAuthenticated) {
     return null;

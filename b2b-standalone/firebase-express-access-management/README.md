@@ -29,34 +29,34 @@ Admins (the first person to sign up with a given domain) can approve/deny reques
 This repository includes a setup script that will guide you through the Firebase setup and perform much of the Stytch setup for you. To get started, run:
 
 ```
-npm install
-npm run setup
+yarn
+yarn setup
 ```
 
 If you already have some parts of the setup flow done, you can choose to run specific setup steps.
 You will be prompted to provide relevant parameters from other parts if they are not available:
 
 ```
-npm run setup:firebase # no dependencies
-npm run setup:stytch   # will ask for firebase parameters if not in .env.local
+yarn setup:firebase # no dependencies
+yarn setup:stytch   # will ask for firebase parameters if not in .env.local
 ```
 
 ## Running Locally
 
 Once you've setup a `.env.local` file, you can run the project locally to test it out. Just note that you will have to change your Authorization URL (Stytch setup step 3) to `http://localhost:3000/oauth/authorize` before you begin.
 
-1. Install dependencies: `npm install`
-2. Build the app: `npm run build`
-3. Run the app: `npm run start`
+1. Install dependencies: `yarn`
+2. Build the app: `yarn build`
+3. Run the app: `yarn start`
 4. Navigate to `http://localhost:3000` and sign up/log in
 
-Note that `npm run dev` will work as well, but you won't be able to use the MCP server.
+Note that `yarn dev` will work as well, but you won't be able to use the MCP server.
 
 ## Connecting to the MCP server
 
 You can connect to your MCP server using a variety of clients. We'll use the MCP Inspector for this example:
 
-1. Start the inspector: `npx @modelcontextprotocol/inspector@latest`
+1. Start the inspector: `yarn dlx @modelcontextprotocol/inspector@latest`
 2. In the window, set your Transport Type to `Streamable HTTP`
 3. Set your URL to `http://localhost:3000/mcp`
 4. Click `Connect`

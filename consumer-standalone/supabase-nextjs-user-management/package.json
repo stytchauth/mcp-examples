@@ -18,14 +18,15 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.3",
-    "@stytch/nextjs": "^21.8.0",
+    "@stytch/nextjs": "^21.10.0",
+    "@stytch/vanilla-js": "^5.34.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.53.0",
     "@vercel/mcp-adapter": "^1.0.0",
     "next": "15.4.5",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "stytch": "^12.31.0"
+    "stytch": "^12.32.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",

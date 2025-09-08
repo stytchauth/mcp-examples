@@ -1,15 +1,8 @@
 import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
-import * as stytch from 'stytch';
 import { z } from 'zod';
 import { getRecentPosts, createPost, getPostById } from '@/utils/supabase/posts';
 import { getProfile } from '@/utils/supabase/profile';
 import { createClient } from '@/utils/supabase/server';
-
-const client = new stytch.Client({
-  project_id: process.env.STYTCH_PROJECT_ID as string,
-  secret: process.env.STYTCH_SECRET as string,
-  custom_base_url: process.env.STYTCH_IDP_DOMAIN,
-});
 
 export const initializeMCPServer = (server: McpServer) => {
   server.tool('whoami', 'Who am i anyway', async ({ authInfo }) => {
