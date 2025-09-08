@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./frontend/index.html",
-    "./frontend/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./frontend/index.html', './frontend/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -21,11 +18,23 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Oxygen',
+          'Ubuntu',
+          'Cantarell',
+          'Fira Sans',
+          'Droid Sans',
+          'Helvetica Neue',
+          'sans-serif',
+        ],
       },
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
+        18: '4.5rem',
+        88: '22rem',
       },
       maxWidth: {
         '8xl': '88rem',
@@ -34,4 +43,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

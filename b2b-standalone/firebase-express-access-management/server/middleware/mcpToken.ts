@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import * as stytch from "stytch";
-import { IntrospectTokenClaims } from "stytch/types/lib/b2b/idp";
+import { NextFunction, Request, Response } from 'express';
+import * as stytch from 'stytch';
+import { IntrospectTokenClaims } from 'stytch/types/lib/b2b/idp';
 
 // Extend Express Request interface to include user
 declare global {
@@ -20,27 +20,23 @@ const client = new stytch.B2BClient({
 });
 
 // middleware to validate an oauth token using the stytch client
-export const validateMcpToken = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const validateMcpToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-      console.error("Authorization header is missing");
-      const wwwAuthValue = `Bearer error="Unauthorized", error_description="Unauthorized", resource_metadata="${req.protocol}://${req.get("host")}/.well-known/oauth-protected-resource"`;
-      res.set("WWW-Authenticate", wwwAuthValue);
-      res.status(401).json({ error: "Unauthorized" });
+      console.error('Authorization header is missing');
+      const wwwAuthValue = `Bearer error="Unauthorized", error_description="Unauthorized", resource_metadata="${req.protocol}://${req.get('host')}/.well-known/oauth-protected-resource"`;
+      res.set('WWW-Authenticate', wwwAuthValue);
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
 
     req.client = await client.idp.introspectTokenLocal(token);
     next();
   } catch (error) {
-    console.error("Error in auth middleware:", error);
-    const wwwAuthValue = `Bearer error="Unauthorized", error_description="Unauthorized", resource_metadata="${req.protocol}://${req.get("host")}/.well-known/oauth-protected-resource"`;
-    res.set("WWW-Authenticate", wwwAuthValue);
-    res.status(401).json({ error: "Unauthorized" });
+    console.error('Error in auth middleware:', error);
+    const wwwAuthValue = `Bearer error="Unauthorized", error_description="Unauthorized", resource_metadata="${req.protocol}://${req.get('host')}/.well-known/oauth-protected-resource"`;
+    res.set('WWW-Authenticate', wwwAuthValue);
+    res.status(401).json({ error: 'Unauthorized' });
   }
 };

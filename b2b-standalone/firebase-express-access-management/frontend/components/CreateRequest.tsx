@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { requestsApi } from "@/frontend/lib/api";
+import React, { useState } from 'react';
+import { requestsApi } from '@/frontend/lib/api';
 
 interface CreateRequestProps {
   orgId: string;
@@ -7,26 +7,22 @@ interface CreateRequestProps {
   onCancel: () => void;
 }
 
-const CreateRequest: React.FC<CreateRequestProps> = ({
-  orgId,
-  onSuccess,
-  onCancel,
-}) => {
-  const [resourceName, setResourceName] = useState("");
-  const [reason, setReason] = useState("");
+const CreateRequest: React.FC<CreateRequestProps> = ({ orgId, onSuccess, onCancel }) => {
+  const [resourceName, setResourceName] = useState('');
+  const [reason, setReason] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     try {
       await requestsApi.create(orgId, resourceName, reason);
       onSuccess();
     } catch (err: any) {
-      setError(err.response?.data?.error || "Failed to create request");
+      setError(err.response?.data?.error || 'Failed to create request');
     } finally {
       setLoading(false);
     }
@@ -34,16 +30,11 @@ const CreateRequest: React.FC<CreateRequestProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        Create Access Request
-      </h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">Create Access Request</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="resourceName"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="resourceName" className="block text-sm font-medium text-gray-700">
             Resource Name
           </label>
           <input
@@ -58,10 +49,7 @@ const CreateRequest: React.FC<CreateRequestProps> = ({
         </div>
 
         <div>
-          <label
-            htmlFor="reason"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
             Reason for Request
           </label>
           <textarea
@@ -87,7 +75,7 @@ const CreateRequest: React.FC<CreateRequestProps> = ({
             disabled={loading}
             className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Creating..." : "Create Request"}
+            {loading ? 'Creating...' : 'Create Request'}
           </button>
           <button
             type="button"

@@ -11,15 +11,7 @@
     "jsx": "react-jsx",
     "composite": true
   },
-  "include": [
-    "frontend/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "server",
-  ],
-  "references": [
-    { "path": "./tsconfig.node.json" }
-  ]
+  "include": ["frontend/**/*"],
+  "exclude": ["node_modules", "dist", "server"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

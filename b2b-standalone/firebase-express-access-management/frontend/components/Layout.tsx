@@ -1,6 +1,6 @@
-import React from "react";
-import { useAuth } from "@/frontend/contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react';
+import { useAuth } from '@/frontend/contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -26,13 +26,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">
-                Welcome, {user?.name}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
+              <span className="text-sm text-gray-700">Welcome, {user?.name}</span>
+              <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-gray-700">
                 Logout
               </button>
             </div>

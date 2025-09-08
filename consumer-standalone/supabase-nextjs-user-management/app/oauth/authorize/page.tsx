@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { createStytchUIClient } from "@stytch/nextjs/dist/index.ui";
-import StytchProvider from "@/components/StytchProvider";
-import { createClient } from "@/utils/supabase/client";
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { createStytchUIClient } from '@stytch/nextjs/dist/index.ui';
+import StytchProvider from '@/components/StytchProvider';
+import { createClient } from '@/utils/supabase/client';
 
 const IdentityProvider = dynamic(
   () =>
-    import("@/components/Auth").then((mod) => ({
+    import('@/components/Auth').then((mod) => ({
       default: mod.IdentityProvider,
     })),
   {
@@ -18,9 +18,7 @@ const IdentityProvider = dynamic(
   },
 );
 
-const stytch = createStytchUIClient(
-  process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN!,
-);
+const stytch = createStytchUIClient(process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN!);
 
 export default function AuthenticatePage() {
   const supabase = createClient();

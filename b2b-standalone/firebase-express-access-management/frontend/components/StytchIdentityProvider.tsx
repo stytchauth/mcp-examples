@@ -1,10 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
-import {
-  B2BIdentityProvider as BaseIdentityProvider,
-  useStytchB2BClient,
-  useStytchMember,
-} from "@stytch/react/b2b";
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { B2BIdentityProvider as BaseIdentityProvider, useStytchB2BClient, useStytchMember } from '@stytch/react/b2b';
 
 /**
  * A higher-order component that enforces a login requirement for the wrapped component.
@@ -19,8 +15,8 @@ export const withLoginRequired = (Component: React.FC) => {
     useEffect(() => {
       if (!isInitialized) return;
       if (!member && !fromCache) {
-        localStorage.setItem("returnTo", window.location.href);
-        router("/");
+        localStorage.setItem('returnTo', window.location.href);
+        router('/');
       }
     }, [member, fromCache, isInitialized, router]);
 
@@ -30,7 +26,7 @@ export const withLoginRequired = (Component: React.FC) => {
     return <Component />;
   };
 
-  WrappedComponent.displayName = `withLoginRequired(${Component.displayName || Component.name || "Component"})`;
+  WrappedComponent.displayName = `withLoginRequired(${Component.displayName || Component.name || 'Component'})`;
   return WrappedComponent;
 };
 
@@ -45,19 +41,17 @@ export const Authenticate = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const token = params.get('token');
     if (!token) return;
 
-    client.oauth
-      .authenticate({ oauth_token: token, session_duration_minutes: 60 })
-      .then(() => {
-        const returnTo = localStorage.getItem("returnTo");
-        if (returnTo) {
-          router(returnTo);
-        } else {
-          router("/dashboard");
-        }
-      });
+    client.oauth.authenticate({ oauth_token: token, session_duration_minutes: 60 }).then(() => {
+      const returnTo = localStorage.getItem('returnTo');
+      if (returnTo) {
+        router(returnTo);
+      } else {
+        router('/dashboard');
+      }
+    });
   }, [client, router]);
 
   return (

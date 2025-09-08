@@ -1,11 +1,11 @@
-import axios from "axios";
-import { randomBytes } from "crypto";
-import { readFileSync } from "fs";
-import inquirer from "inquirer";
-import { join } from "path";
+import axios from 'axios';
+import { randomBytes } from 'crypto';
+import { readFileSync } from 'fs';
+import inquirer from 'inquirer';
+import { join } from 'path';
 
 const supaman = axios.create({
-  baseURL: "https://api.supabase.com",
+  baseURL: 'https://api.supabase.com',
 });
 
 type SupabaseOrganization = {
@@ -34,159 +34,109 @@ type SupabaseSetupResult = {
 };
 
 async function listSupabaseOrganizations(): Promise<SupabaseOrganization[]> {
-  const organizations = await supaman.get("/v1/organizations");
+  const organizations = await supaman.get('/v1/organizations');
   return organizations.data;
 }
 
-async function createSupabaseOrganization(
-  name: string,
-): Promise<SupabaseOrganization> {
-  const organization = await supaman.post("/v1/organizations", {
+async function createSupabaseOrganization(name: string): Promise<SupabaseOrganization> {
+  const organization = await supaman.post('/v1/organizations', {
     name: name,
   });
 
   if (!organization) {
-    throw new Error("Failed to create organization");
+    throw new Error('Failed to create organization');
   }
 
   return organization.data;
 }
 
-async function listSupabaseProjects(
-  organizationId: string,
-): Promise<SupabaseProject[]> {
-  const projects = await supaman.get("/v1/projects");
-  return projects.data.filter(
-    (project: SupabaseProject) => project.organization_id === organizationId,
-  );
+async function listSupabaseProjects(organizationId: string): Promise<SupabaseProject[]> {
+  const projects = await supaman.get('/v1/projects');
+  return projects.data.filter((project: SupabaseProject) => project.organization_id === organizationId);
 }
 
-async function createSupabaseProject(
-  organizationId: string,
-  name: string,
-  region: string,
-): Promise<SupabaseProject> {
-  const project = await supaman.post("/v1/projects", {
+async function createSupabaseProject(organizationId: string, name: string, region: string): Promise<SupabaseProject> {
+  const project = await supaman.post('/v1/projects', {
     name: name,
     region: region,
-    db_pass: randomBytes(16).toString("hex"),
+    db_pass: randomBytes(16).toString('hex'),
     organization_id: organizationId,
   });
 
   if (!project) {
-    throw new Error("Failed to create project");
+    throw new Error('Failed to create project');
   }
 
   return project.data;
 }
 
-async function getSupabaseSigningKey(
-  projectId: string,
-): Promise<string | null> {
-  const signingKeys = await supaman.get(
-    `/v1/projects/${projectId}/config/auth/signing-keys`,
-  );
-  return (
-    signingKeys.data.keys.find((key: any) => key.status === "in_use")?.id ??
-    null
-  );
+async function getSupabaseSigningKey(projectId: string): Promise<string | null> {
+  const signingKeys = await supaman.get(`/v1/projects/${projectId}/config/auth/signing-keys`);
+  return signingKeys.data.keys.find((key: any) => key.status === 'in_use')?.id ?? null;
 }
 
 async function createSupabaseSigningKey(projectId: string) {
-  const signingKey = await supaman.post(
-    `/v1/projects/${projectId}/config/auth/signing-keys`,
-    {
-      algorithm: "ES256",
-    },
-  );
+  const signingKey = await supaman.post(`/v1/projects/${projectId}/config/auth/signing-keys`, {
+    algorithm: 'ES256',
+  });
 
   if (!signingKey) {
-    throw new Error("Failed to create signing key");
+    throw new Error('Failed to create signing key');
   }
 
-  await supaman.patch(
-    `/v1/projects/${projectId}/config/auth/signing-keys/${signingKey.data.id}`,
-    {
-      status: "in_use",
-    },
-  );
+  await supaman.patch(`/v1/projects/${projectId}/config/auth/signing-keys/${signingKey.data.id}`, {
+    status: 'in_use',
+  });
 
   return signingKey.data.id;
 }
 
-async function getSupabasePublishableKey(
-  projectId: string,
-): Promise<SupabaseApiKey | null> {
-  const publishableKeys = await supaman.get(
-    `/v1/projects/${projectId}/api-keys`,
-  );
-  return (
-    publishableKeys.data.find(
-      (key: SupabaseApiKey) => key.type === "publishable",
-    ) ?? null
-  );
+async function getSupabasePublishableKey(projectId: string): Promise<SupabaseApiKey | null> {
+  const publishableKeys = await supaman.get(`/v1/projects/${projectId}/api-keys`);
+  return publishableKeys.data.find((key: SupabaseApiKey) => key.type === 'publishable') ?? null;
 }
 
-async function createSupabasePublishableKey(
-  projectId: string,
-): Promise<SupabaseApiKey> {
-  const publishableKey = await supaman.post(
-    `/v1/projects/${projectId}/api-keys`,
-    {
-      name: "default",
-      type: "publishable",
-    },
-  );
+async function createSupabasePublishableKey(projectId: string): Promise<SupabaseApiKey> {
+  const publishableKey = await supaman.post(`/v1/projects/${projectId}/api-keys`, {
+    name: 'default',
+    type: 'publishable',
+  });
 
   if (!publishableKey) {
-    throw new Error("Failed to create publishable key");
+    throw new Error('Failed to create publishable key');
   }
 
   return publishableKey.data;
 }
 
-async function listSupabaseSecretKeys(
-  projectId: string,
-): Promise<SupabaseApiKey[]> {
+async function listSupabaseSecretKeys(projectId: string): Promise<SupabaseApiKey[]> {
   const secretKeys = await supaman.get(`/v1/projects/${projectId}/api-keys`);
-  return secretKeys.data.filter((key: SupabaseApiKey) => key.type === "secret");
+  return secretKeys.data.filter((key: SupabaseApiKey) => key.type === 'secret');
 }
 
-async function getRevealedSupabaseSecretKey(
-  projectId: string,
-  keyId: string,
-): Promise<SupabaseApiKey> {
-  const secretKey = await supaman.get(
-    `/v1/projects/${projectId}/api-keys/${keyId}?reveal=true`,
-  );
+async function getRevealedSupabaseSecretKey(projectId: string, keyId: string): Promise<SupabaseApiKey> {
+  const secretKey = await supaman.get(`/v1/projects/${projectId}/api-keys/${keyId}?reveal=true`);
   return secretKey.data;
 }
 
-async function createSupabaseSecretKey(
-  projectId: string,
-  name: string = "default",
-): Promise<SupabaseApiKey> {
+async function createSupabaseSecretKey(projectId: string, name: string = 'default'): Promise<SupabaseApiKey> {
   const secretKey = await supaman.post(`/v1/projects/${projectId}/api-keys`, {
     name: name,
-    type: "secret",
+    type: 'secret',
     secret_jwt_template: {
-      role: "service_role",
+      role: 'service_role',
     },
   });
 
   if (!secretKey) {
-    throw new Error("Failed to create secret key");
+    throw new Error('Failed to create secret key');
   }
 
   return secretKey.data;
 }
 
-async function checkSupabaseLegacyKeysEnabled(
-  projectId: string,
-): Promise<boolean> {
-  const legacyKeys = await supaman.get(
-    `/v1/projects/${projectId}/api-keys/legacy`,
-  );
+async function checkSupabaseLegacyKeysEnabled(projectId: string): Promise<boolean> {
+  const legacyKeys = await supaman.get(`/v1/projects/${projectId}/api-keys/legacy`);
   return legacyKeys.data.enabled;
 }
 
@@ -198,16 +148,7 @@ async function disableSupabaseLegacyKeys(projectId: string) {
 async function runSupabaseMigration(projectId: string) {
   try {
     await supaman.post(`/v1/projects/${projectId}/database/migrations`, {
-      query: readFileSync(
-        join(
-          __dirname,
-          "..",
-          "supabase",
-          "migrations",
-          "20221017024722_init.sql",
-        ),
-        "utf8",
-      ),
+      query: readFileSync(join(__dirname, '..', 'supabase', 'migrations', '20221017024722_init.sql'), 'utf8'),
     });
   } catch (error) {
     console.log(
@@ -224,17 +165,12 @@ async function disableSupabaseEmailVerification(projectId: string) {
 
 function getExistingConfig(): SupabaseSetupResult | null {
   const existingConfig: SupabaseSetupResult = {
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-    supabasePublishableKey:
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "",
-    supabaseSecretKey: process.env.SUPABASE_SECRET_KEY ?? "",
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
+    supabasePublishableKey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '',
+    supabaseSecretKey: process.env.SUPABASE_SECRET_KEY ?? '',
   };
 
-  if (
-    existingConfig.supabaseUrl &&
-    existingConfig.supabasePublishableKey &&
-    existingConfig.supabaseSecretKey
-  ) {
+  if (existingConfig.supabaseUrl && existingConfig.supabasePublishableKey && existingConfig.supabaseSecretKey) {
     return existingConfig;
   }
 
@@ -255,39 +191,32 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   );
 
   console.log(
-    "\nFirst, create a Supabase account and generate a personal access token (https://supabase.com/dashboard/account/tokens).",
+    '\nFirst, create a Supabase account and generate a personal access token (https://supabase.com/dashboard/account/tokens).',
   );
   const personalAccessToken = await inquirer.prompt<{ token: string }>([
     {
-      type: "password",
-      name: "token",
-      mask: "*",
-      message: "Enter your personal access token",
-      validate: (token) =>
-        token.match(/^sbp_/) ? true : "Invalid token. Must start with sbp_",
+      type: 'password',
+      name: 'token',
+      mask: '*',
+      message: 'Enter your personal access token',
+      validate: (token) => (token.match(/^sbp_/) ? true : 'Invalid token. Must start with sbp_'),
     },
   ]);
 
-  supaman.defaults.headers.common["Authorization"] =
-    `Bearer ${personalAccessToken.token}`;
+  supaman.defaults.headers.common['Authorization'] = `Bearer ${personalAccessToken.token}`;
 
-  console.log(
-    `\nNext, select or create an organization to contain your project.`,
-  );
+  console.log(`\nNext, select or create an organization to contain your project.`);
 
   const organizations = await listSupabaseOrganizations();
-  let selectedOrganizationName: string = "Create new organization";
+  let selectedOrganizationName: string = 'Create new organization';
   if (organizations.length > 0) {
     selectedOrganizationName = await inquirer
       .prompt<{ name: string }>([
         {
-          type: "list",
-          name: "name",
-          message: "Select an organization",
-          choices: [
-            ...organizations.map((organization) => organization.name),
-            "Create new organization",
-          ],
+          type: 'list',
+          name: 'name',
+          message: 'Select an organization',
+          choices: [...organizations.map((organization) => organization.name), 'Create new organization'],
           default: organizations[0].name,
         },
       ])
@@ -295,39 +224,32 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   }
 
   let selectedOrganization: SupabaseOrganization | null = null;
-  if (selectedOrganizationName === "Create new organization") {
+  if (selectedOrganizationName === 'Create new organization') {
     const newOrganizationName = await inquirer.prompt<{ name: string }>([
       {
-        type: "input",
-        name: "name",
-        message: "Enter a name for the new organization",
+        type: 'input',
+        name: 'name',
+        message: 'Enter a name for the new organization',
       },
     ]);
 
-    selectedOrganization = await createSupabaseOrganization(
-      newOrganizationName.name,
-    );
+    selectedOrganization = await createSupabaseOrganization(newOrganizationName.name);
   } else {
-    selectedOrganization = organizations.find(
-      (organization) => organization.name === selectedOrganizationName,
-    )!;
+    selectedOrganization = organizations.find((organization) => organization.name === selectedOrganizationName)!;
   }
 
   console.log(`\nNext, select or create a project to contain your database.`);
 
   const projects = await listSupabaseProjects(selectedOrganization.id);
-  let selectedProjectName: string = "Create new project";
+  let selectedProjectName: string = 'Create new project';
   if (projects.length > 0) {
     selectedProjectName = await inquirer
       .prompt<{ name: string }>([
         {
-          type: "list",
-          name: "name",
-          message: "Select a project",
-          choices: [
-            ...projects.map((project) => project.name),
-            "Create new project",
-          ],
+          type: 'list',
+          name: 'name',
+          message: 'Select a project',
+          choices: [...projects.map((project) => project.name), 'Create new project'],
           default: projects[0].name,
         },
       ])
@@ -335,59 +257,51 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   }
 
   let selectedProject: SupabaseProject | null = null;
-  if (selectedProjectName === "Create new project") {
+  if (selectedProjectName === 'Create new project') {
     const newProjectName = await inquirer.prompt<{ name: string }>([
       {
-        type: "input",
-        name: "name",
-        message: "Enter a name for the new project",
-        default: "stytch-mcp-blog",
+        type: 'input',
+        name: 'name',
+        message: 'Enter a name for the new project',
+        default: 'stytch-mcp-blog',
       },
     ]);
 
     const newProjectRegion = await inquirer
       .prompt<{ region: string }>([
         {
-          type: "list",
-          name: "region",
-          message: "Select a region for the new project",
+          type: 'list',
+          name: 'region',
+          message: 'Select a region for the new project',
           choices: [
-            "us-east-1",
-            "us-east-2",
-            "us-west-1",
-            "ca-central-1",
-            "sa-east-1",
-            "ap-south-1",
-            "ap-northeast-1",
-            "ap-northeast-2",
-            "ap-southeast-1",
-            "ap-southeast-2",
-            "eu-west-1",
-            "eu-west-2",
-            "eu-west-3",
-            "eu-north-1",
-            "eu-central-1",
-            "eu-central-2",
+            'us-east-1',
+            'us-east-2',
+            'us-west-1',
+            'ca-central-1',
+            'sa-east-1',
+            'ap-south-1',
+            'ap-northeast-1',
+            'ap-northeast-2',
+            'ap-southeast-1',
+            'ap-southeast-2',
+            'eu-west-1',
+            'eu-west-2',
+            'eu-west-3',
+            'eu-north-1',
+            'eu-central-1',
+            'eu-central-2',
           ],
-          default: "us-east-1",
+          default: 'us-east-1',
         },
       ])
       .then((response) => response.region);
 
-    selectedProject = await createSupabaseProject(
-      selectedOrganization.id,
-      newProjectName.name,
-      newProjectRegion,
-    );
+    selectedProject = await createSupabaseProject(selectedOrganization.id, newProjectName.name, newProjectRegion);
   } else {
-    selectedProject = projects.find(
-      (project) => project.name === selectedProjectName,
-    )!;
+    selectedProject = projects.find((project) => project.name === selectedProjectName)!;
   }
 
-  console.log(
-    `\nNext, let's set up your project's JWT signing key and publishable API key.`,
-  );
+  console.log(`\nNext, let's set up your project's JWT signing key and publishable API key.`);
 
   // a supabase project can only have one JWT signing key, so we don't need to prompt the user
   let signingKeyId = await getSupabaseSigningKey(selectedProject.id);
@@ -408,18 +322,15 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   console.log(`\nNext, select or create a secret key to use for this app.`);
 
   let secretKeys = await listSupabaseSecretKeys(selectedProject.id);
-  let selectedSecretKeyName: string = "Create new secret key";
+  let selectedSecretKeyName: string = 'Create new secret key';
   if (secretKeys.length > 0) {
     selectedSecretKeyName = await inquirer
       .prompt<{ name: string }>([
         {
-          type: "list",
-          name: "name",
-          message: "Select a secret key",
-          choices: [
-            ...secretKeys.map((key) => key.name),
-            "Create new secret key",
-          ],
+          type: 'list',
+          name: 'name',
+          message: 'Select a secret key',
+          choices: [...secretKeys.map((key) => key.name), 'Create new secret key'],
           default: secretKeys[0].name,
         },
       ])
@@ -427,7 +338,7 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   }
 
   let secretKey: SupabaseApiKey | null = null;
-  if (selectedSecretKeyName === "Create new secret key") {
+  if (selectedSecretKeyName === 'Create new secret key') {
     // for now, we're just going to use "stytchdemo" as the key name
     // const newSecretKeyName = await inquirer.prompt<{ name: string }>([
     //     {
@@ -438,24 +349,19 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
     //     },
     // ])
 
-    secretKey = await createSupabaseSecretKey(selectedProject.id, "stytchdemo");
+    secretKey = await createSupabaseSecretKey(selectedProject.id, 'stytchdemo');
   } else {
     secretKey = secretKeys.find((key) => key.name === selectedSecretKeyName)!;
   }
 
-  const revealedSecretKey = await getRevealedSupabaseSecretKey(
-    selectedProject.id,
-    secretKey.id,
-  );
+  const revealedSecretKey = await getRevealedSupabaseSecretKey(selectedProject.id, secretKey.id);
   console.log(`Using secret key: ${secretKey.api_key}`);
 
   console.log(
     `\nNext, let's disable legacy API keys for the project. Supabase is deprecating these in the near future.`,
   );
 
-  const legacyKeysEnabled = await checkSupabaseLegacyKeysEnabled(
-    selectedProject.id,
-  );
+  const legacyKeysEnabled = await checkSupabaseLegacyKeysEnabled(selectedProject.id);
   if (legacyKeysEnabled) {
     await disableSupabaseLegacyKeys(selectedProject.id);
     console.log(`Disabled legacy keys.`);
@@ -481,9 +387,7 @@ async function performSupabaseSetup(): Promise<SupabaseSetupResult> {
   );
   console.log(`NEXT_PUBLIC_SUPABASE_URL=            ${supabaseUrl}`);
   console.log(`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=${publishableKey.api_key}`);
-  console.log(
-    `SUPABASE_SECRET_KEY=                 ${revealedSecretKey.api_key}`,
-  );
+  console.log(`SUPABASE_SECRET_KEY=                 ${revealedSecretKey.api_key}`);
   console.log(`\n`);
 
   return {

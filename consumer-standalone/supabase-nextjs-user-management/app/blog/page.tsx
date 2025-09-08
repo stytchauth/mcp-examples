@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import BlogForm from "@/app/blog/blog-form";
-import BlogList from "@/app/blog/blog-list";
-import { getRecentPosts } from "@/utils/supabase/posts";
-import { createClient } from "@/utils/supabase/server";
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import BlogForm from '@/app/blog/blog-form';
+import BlogList from '@/app/blog/blog-list';
+import { getRecentPosts } from '@/utils/supabase/posts';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function BlogPage() {
   const supabase = await createClient();
@@ -13,7 +13,7 @@ export default async function BlogPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/?returnTo=/blog");
+    redirect('/?returnTo=/blog');
   }
 
   // Fetch the 5 most recent posts

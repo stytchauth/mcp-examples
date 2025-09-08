@@ -27,19 +27,9 @@
       "@/*": ["./*"],
       "@/server/*": ["./server/*"],
       "@/frontend/*": ["./frontend/*"]
-    },
+    }
   },
-  "include": [
-    "server/**/*",
-    "frontend/**/*",
-    "scripts/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-  ],
-  "references": [
-    { "path": "./tsconfig.server.json" },
-    { "path": "./tsconfig.frontend.json" }
-  ]
+  "include": ["server/**/*", "frontend/**/*", "scripts/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [{ "path": "./tsconfig.server.json" }, { "path": "./tsconfig.frontend.json" }]
 }

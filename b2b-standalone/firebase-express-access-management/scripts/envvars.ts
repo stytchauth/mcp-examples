@@ -1,7 +1,7 @@
-import { writeFileSync } from "fs";
-import inquirer from "inquirer";
-import { StytchSetupResult } from "@/scripts/stytch";
-import { FirebaseSetupResult } from "@/scripts/firebase";
+import { writeFileSync } from 'fs';
+import inquirer from 'inquirer';
+import { StytchSetupResult } from '@/scripts/stytch';
+import { FirebaseSetupResult } from '@/scripts/firebase';
 
 async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
   let firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
@@ -9,13 +9,11 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebaseProjectId = await inquirer
       .prompt<{ projectId: string }>([
         {
-          type: "input",
-          name: "projectId",
-          message: "Enter your Firebase project ID (FIREBASE_PROJECT_ID)",
+          type: 'input',
+          name: 'projectId',
+          message: 'Enter your Firebase project ID (FIREBASE_PROJECT_ID)',
           validate: (projectId) =>
-            projectId.match(/^[a-z0-9-]+$/)
-              ? true
-              : "Invalid project ID. Must be in the format <random-string>",
+            projectId.match(/^[a-z0-9-]+$/) ? true : 'Invalid project ID. Must be in the format <random-string>',
         },
       ])
       .then((answer) => answer.projectId);
@@ -26,13 +24,11 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebaseApiKey = await inquirer
       .prompt<{ apiKey: string }>([
         {
-          type: "input",
-          name: "apiKey",
-          message: "Enter your Firebase API key (FIREBASE_API_KEY)",
+          type: 'input',
+          name: 'apiKey',
+          message: 'Enter your Firebase API key (FIREBASE_API_KEY)',
           validate: (apiKey) =>
-            apiKey.match(/^[a-z0-9-]+$/)
-              ? true
-              : "Invalid API key. Must be in the format <random-string>",
+            apiKey.match(/^[a-z0-9-]+$/) ? true : 'Invalid API key. Must be in the format <random-string>',
         },
       ])
       .then((answer) => answer.apiKey);
@@ -43,14 +39,11 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebasePrivateKeyId = await inquirer
       .prompt<{ privateKeyId: string }>([
         {
-          type: "input",
-          name: "privateKeyId",
-          message:
-            "Enter your Firebase private key ID (FIREBASE_PRIVATE_KEY_ID)",
+          type: 'input',
+          name: 'privateKeyId',
+          message: 'Enter your Firebase private key ID (FIREBASE_PRIVATE_KEY_ID)',
           validate: (privateKeyId) =>
-            privateKeyId.match(/^[a-z0-9-]+$/)
-              ? true
-              : "Invalid private key ID. Must be in the format <random-string>",
+            privateKeyId.match(/^[a-z0-9-]+$/) ? true : 'Invalid private key ID. Must be in the format <random-string>',
         },
       ])
       .then((answer) => answer.privateKeyId);
@@ -61,15 +54,13 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebasePrivateKey = await inquirer
       .prompt<{ privateKey: string }>([
         {
-          type: "input",
-          name: "privateKey",
-          message: "Enter your Firebase private key (FIREBASE_PRIVATE_KEY)",
+          type: 'input',
+          name: 'privateKey',
+          message: 'Enter your Firebase private key (FIREBASE_PRIVATE_KEY)',
           validate: (privateKey) =>
-            privateKey.match(
-              /^-----BEGIN PRIVATE KEY-----\n[a-z0-9+/]+={0,2}\n-----END PRIVATE KEY-----\n$/,
-            )
+            privateKey.match(/^-----BEGIN PRIVATE KEY-----\n[a-z0-9+/]+={0,2}\n-----END PRIVATE KEY-----\n$/)
               ? true
-              : "Invalid private key. Must be in PEM format",
+              : 'Invalid private key. Must be in PEM format',
         },
       ])
       .then((answer) => answer.privateKey);
@@ -80,13 +71,11 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebaseClientEmail = await inquirer
       .prompt<{ clientEmail: string }>([
         {
-          type: "input",
-          name: "clientEmail",
-          message: "Enter your Firebase client email (FIREBASE_CLIENT_EMAIL)",
+          type: 'input',
+          name: 'clientEmail',
+          message: 'Enter your Firebase client email (FIREBASE_CLIENT_EMAIL)',
           validate: (clientEmail) =>
-            clientEmail.match(/^[a-z0-9-]+$/)
-              ? true
-              : "Invalid client email. Must be in the format <random-string>",
+            clientEmail.match(/^[a-z0-9-]+$/) ? true : 'Invalid client email. Must be in the format <random-string>',
         },
       ])
       .then((answer) => answer.clientEmail);
@@ -97,13 +86,11 @@ async function promptForFirebaseVariables(): Promise<FirebaseSetupResult> {
     firebaseClientId = await inquirer
       .prompt<{ clientId: string }>([
         {
-          type: "input",
-          name: "clientId",
-          message: "Enter your Firebase client ID (FIREBASE_CLIENT_ID)",
+          type: 'input',
+          name: 'clientId',
+          message: 'Enter your Firebase client ID (FIREBASE_CLIENT_ID)',
           validate: (clientId) =>
-            clientId.match(/^[a-z0-9-]+$/)
-              ? true
-              : "Invalid client ID. Must be in the format <random-string>",
+            clientId.match(/^[a-z0-9-]+$/) ? true : 'Invalid client ID. Must be in the format <random-string>',
         },
       ])
       .then((answer) => answer.clientId);
@@ -125,13 +112,10 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
     stytchProjectId = await inquirer
       .prompt<{ id: string }>([
         {
-          type: "input",
-          name: "id",
-          message: "Enter your Stytch project ID (STYTCH_PROJECT_ID)",
-          validate: (id) =>
-            id.match(/^project-/)
-              ? true
-              : "Invalid ID. Must start with project-",
+          type: 'input',
+          name: 'id',
+          message: 'Enter your Stytch project ID (STYTCH_PROJECT_ID)',
+          validate: (id) => (id.match(/^project-/) ? true : 'Invalid ID. Must start with project-'),
         },
       ])
       .then((answer) => answer.id);
@@ -142,13 +126,10 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
     stytchIdpDomain = await inquirer
       .prompt<{ domain: string }>([
         {
-          type: "input",
-          name: "domain",
-          message: "Enter your Stytch IDP domain (STYTCH_IDP_DOMAIN)",
-          validate: (domain) =>
-            domain.match(/^https:\/\//)
-              ? true
-              : "Invalid domain. Must start with https://",
+          type: 'input',
+          name: 'domain',
+          message: 'Enter your Stytch IDP domain (STYTCH_IDP_DOMAIN)',
+          validate: (domain) => (domain.match(/^https:\/\//) ? true : 'Invalid domain. Must start with https://'),
         },
       ])
       .then((answer) => answer.domain);
@@ -159,14 +140,11 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
     stytchSecret = await inquirer
       .prompt<{ secret: string }>([
         {
-          type: "password",
-          name: "secret",
-          mask: "*",
-          message: "Enter your Stytch secret (STYTCH_SECRET)",
-          validate: (secret) =>
-            secret.match(/^secret-/)
-              ? true
-              : "Invalid secret. Must start with secret-",
+          type: 'password',
+          name: 'secret',
+          mask: '*',
+          message: 'Enter your Stytch secret (STYTCH_SECRET)',
+          validate: (secret) => (secret.match(/^secret-/) ? true : 'Invalid secret. Must start with secret-'),
         },
       ])
       .then((answer) => answer.secret);
@@ -177,13 +155,10 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
     stytchPublicToken = await inquirer
       .prompt<{ token: string }>([
         {
-          type: "input",
-          name: "token",
-          message: "Enter your Stytch public token (VITE_STYTCH_PUBLIC_TOKEN)",
-          validate: (token) =>
-            token.match(/^public-token-/)
-              ? true
-              : "Invalid token. Must start with public-token-",
+          type: 'input',
+          name: 'token',
+          message: 'Enter your Stytch public token (VITE_STYTCH_PUBLIC_TOKEN)',
+          validate: (token) => (token.match(/^public-token-/) ? true : 'Invalid token. Must start with public-token-'),
         },
       ])
       .then((answer) => answer.token);
@@ -194,14 +169,11 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
     stytchTokenProfile = await inquirer
       .prompt<{ profile: string }>([
         {
-          type: "input",
-          name: "profile",
-          message:
-            "Enter your Stytch trusted token profile ID (VITE_STYTCH_TOKEN_PROFILE)",
+          type: 'input',
+          name: 'profile',
+          message: 'Enter your Stytch trusted token profile ID (VITE_STYTCH_TOKEN_PROFILE)',
           validate: (profile) =>
-            profile.match(/^trusted-token-profile-/)
-              ? true
-              : "Invalid profile. Must start with trusted-token-profile-",
+            profile.match(/^trusted-token-profile-/) ? true : 'Invalid profile. Must start with trusted-token-profile-',
         },
       ])
       .then((answer) => answer.profile);
@@ -218,19 +190,19 @@ async function promptForStytchVariables(): Promise<StytchSetupResult> {
 
 function writeEnvFile(
   firebaseResult: FirebaseSetupResult = {
-    projectId: process.env.FIREBASE_PROJECT_ID ?? "",
-    apiKey: process.env.FIREBASE_API_KEY ?? "",
-    privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID ?? "",
-    privateKey: process.env.FIREBASE_PRIVATE_KEY ?? "",
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL ?? "",
-    clientId: process.env.FIREBASE_CLIENT_ID ?? "",
+    projectId: process.env.FIREBASE_PROJECT_ID ?? '',
+    apiKey: process.env.FIREBASE_API_KEY ?? '',
+    privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID ?? '',
+    privateKey: process.env.FIREBASE_PRIVATE_KEY ?? '',
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL ?? '',
+    clientId: process.env.FIREBASE_CLIENT_ID ?? '',
   },
   stytchResult: StytchSetupResult = {
-    projectId: process.env.STYTCH_PROJECT_ID ?? "",
-    projectSecretKey: process.env.STYTCH_SECRET ?? "",
-    projectDomain: process.env.STYTCH_IDP_DOMAIN ?? "",
-    projectPublicToken: process.env.VITE_STYTCH_PUBLIC_TOKEN ?? "",
-    trustedTokenProfileId: process.env.VITE_STYTCH_TOKEN_PROFILE ?? "",
+    projectId: process.env.STYTCH_PROJECT_ID ?? '',
+    projectSecretKey: process.env.STYTCH_SECRET ?? '',
+    projectDomain: process.env.STYTCH_IDP_DOMAIN ?? '',
+    projectPublicToken: process.env.VITE_STYTCH_PUBLIC_TOKEN ?? '',
+    trustedTokenProfileId: process.env.VITE_STYTCH_TOKEN_PROFILE ?? '',
   },
 ) {
   const envFile = `PORT=3000
@@ -253,7 +225,7 @@ STYTCH_IDP_DOMAIN=${stytchResult.projectDomain}
 VITE_STYTCH_PUBLIC_TOKEN=${stytchResult.projectPublicToken}
 VITE_STYTCH_TOKEN_PROFILE=${stytchResult.trustedTokenProfileId}`;
 
-  writeFileSync(".env.local", envFile);
+  writeFileSync('.env.local', envFile);
   console.log(`Environment variables written to .env.local`);
 }
 

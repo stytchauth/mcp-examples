@@ -1,12 +1,12 @@
-import Joi from "joi";
-import { Request, Response, NextFunction } from "express";
+import Joi from 'joi';
+import { Request, Response, NextFunction } from 'express';
 
 // Validation schemas
 export const schemas = {
   signUp: Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
-    name: Joi.string().min(2).max(50).optional().allow(""),
+    name: Joi.string().min(2).max(50).optional().allow(''),
   }),
 
   signIn: Joi.object({
@@ -16,7 +16,7 @@ export const schemas = {
 
   createOrganization: Joi.object({
     name: Joi.string().min(2).max(100).required(),
-    description: Joi.string().max(500).optional().allow(""),
+    description: Joi.string().max(500).optional().allow(''),
   }),
 
   createAccessRequest: Joi.object({
@@ -25,7 +25,7 @@ export const schemas = {
   }),
 
   approveDenyRequest: Joi.object({
-    action: Joi.string().valid("approve", "deny").required(),
+    action: Joi.string().valid('approve', 'deny').required(),
     reason: Joi.string().min(5).max(500).required(),
   }),
 };
@@ -37,7 +37,7 @@ export const validate = (schema: Joi.ObjectSchema) => {
 
     if (error) {
       res.status(400).json({
-        error: "Validation error",
+        error: 'Validation error',
         details: error.details.map((detail) => detail.message),
       });
       return;

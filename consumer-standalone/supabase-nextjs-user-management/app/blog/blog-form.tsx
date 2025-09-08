@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { createPost } from "@/app/blog/actions";
+import { useState } from 'react';
+import { createPost } from '@/app/blog/actions';
 
 interface BlogFormProps {
   user: any;
@@ -15,17 +15,17 @@ export default function BlogForm({ user }: BlogFormProps) {
     try {
       await createPost(formData);
       // Reset form
-      const form = document.getElementById("blog-form") as HTMLFormElement;
+      const form = document.getElementById('blog-form') as HTMLFormElement;
       form?.reset();
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error('Error creating post:', error);
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <div className="card" style={{ marginBottom: "2rem" }}>
+    <div className="card" style={{ marginBottom: '2rem' }}>
       <h2>Create New Post</h2>
       <form id="blog-form" action={handleSubmit} className="form-widget">
         <input type="hidden" name="user_id" value={user.id} />
@@ -51,12 +51,8 @@ export default function BlogForm({ user }: BlogFormProps) {
             disabled={isSubmitting}
           />
         </div>
-        <button
-          type="submit"
-          className="button primary block"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Publishing..." : "Publish Post"}
+        <button type="submit" className="button primary block" disabled={isSubmitting}>
+          {isSubmitting ? 'Publishing...' : 'Publish Post'}
         </button>
       </form>
     </div>

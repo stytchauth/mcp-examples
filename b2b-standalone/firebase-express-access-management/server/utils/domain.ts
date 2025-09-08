@@ -4,9 +4,9 @@
  * @returns Domain name (e.g., "mycompany" from "hi@mycompany.com")
  */
 export function extractDomainFromEmail(email: string): string {
-  const domain = email.split("@")[1];
+  const domain = email.split('@')[1];
   if (!domain) {
-    throw new Error("Invalid email address");
+    throw new Error('Invalid email address');
   }
 
   // Remove common TLDs to get the base domain

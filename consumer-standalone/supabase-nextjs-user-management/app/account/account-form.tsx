@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { type User } from "@supabase/supabase-js";
-import Avatar from "@/app/account/avatar";
-import { createClient } from "@/utils/supabase/client";
-import { Profile, getProfile, updateProfile } from "@/utils/supabase/profile";
+import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
+import { type User } from '@supabase/supabase-js';
+import Avatar from '@/app/account/avatar';
+import { createClient } from '@/utils/supabase/client';
+import { Profile, getProfile, updateProfile } from '@/utils/supabase/profile';
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient();
   const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState<
-    Omit<Profile, "id" | "email"> | undefined
-  >(undefined);
+  const [profileData, setProfileData] = useState<Omit<Profile, 'id' | 'email'> | undefined>(undefined);
 
   const loadProfile = useCallback(async () => {
     try {
@@ -28,7 +26,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         });
       }
     } catch (error) {
-      alert("Error loading user data!");
+      alert('Error loading user data!');
     } finally {
       setLoading(false);
     }
@@ -38,7 +36,7 @@ export default function AccountForm({ user }: { user: User | null }) {
     loadProfile();
   }, [user, loadProfile]);
 
-  async function saveProfile(profile: Omit<Profile, "id" | "email">) {
+  async function saveProfile(profile: Omit<Profile, 'id' | 'email'>) {
     try {
       setLoading(true);
 
@@ -48,9 +46,9 @@ export default function AccountForm({ user }: { user: User | null }) {
         website: profile.website,
         avatar_url: profile.avatar_url,
       });
-      alert("Profile updated!");
+      alert('Profile updated!');
     } catch (error) {
-      alert("Error updating the data!");
+      alert('Error updating the data!');
     } finally {
       setLoading(false);
     }
@@ -87,10 +85,8 @@ export default function AccountForm({ user }: { user: User | null }) {
                 <input
                   id="username"
                   type="text"
-                  value={profileData?.username || ""}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, username: e.target.value })
-                  }
+                  value={profileData?.username || ''}
+                  onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
                 />
               </div>
 
@@ -99,7 +95,7 @@ export default function AccountForm({ user }: { user: User | null }) {
                 <input
                   id="fullName"
                   type="text"
-                  value={profileData?.full_name || ""}
+                  value={profileData?.full_name || ''}
                   onChange={(e) =>
                     setProfileData({
                       ...profileData,
@@ -114,10 +110,8 @@ export default function AccountForm({ user }: { user: User | null }) {
                 <input
                   id="website"
                   type="url"
-                  value={profileData?.website || ""}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, website: e.target.value })
-                  }
+                  value={profileData?.website || ''}
+                  onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
                 />
               </div>
 
@@ -126,17 +120,17 @@ export default function AccountForm({ user }: { user: User | null }) {
                 onClick={() => saveProfile({ ...profileData })}
                 disabled={loading}
               >
-                {loading ? "Updating..." : "Update Profile"}
+                {loading ? 'Updating...' : 'Update Profile'}
               </button>
 
               <Link
                 href="/blog"
                 className="button block"
                 style={{
-                  textAlign: "center",
-                  display: "inline-block",
-                  width: "100%",
-                  textDecoration: "none",
+                  textAlign: 'center',
+                  display: 'inline-block',
+                  width: '100%',
+                  textDecoration: 'none',
                 }}
               >
                 View Blog
