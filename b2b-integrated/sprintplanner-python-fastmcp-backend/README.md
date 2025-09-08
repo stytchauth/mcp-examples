@@ -35,7 +35,7 @@ python init_db.py
 4. **Set environment variables:**
 
 ```bash
-cp env.template .env.local
+cp .env.template .env.local
 ```
 
 You will then need to set the environment variables for your Stytch project based on the values in the Stytch dashboard.
@@ -85,7 +85,7 @@ yarn dlx @modelcontextprotocol/inspector@latest
 Navigate to the URL where the Inspector is running, and input the following values:
 
 - Transport Type: `Streamable HTTP`
-- URL: `http://localhost:3000/mcp`
+- URL: `http://localhost:3001/mcp`
 
 ## Get help and join the community
 

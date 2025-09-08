@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "consumer-integrated/*",
+    "b2b-integrated/sprintplanner-frontend",
     "b2b-standalone/*",
     "consumer-standalone/*"
   ],

@@ -23,7 +23,7 @@ load_dotenv(".env.local")
 
 auth = BearerAuthProvider(
     jwks_uri=f"{os.getenv('STYTCH_DOMAIN')}/.well-known/jwks.json",
-    issuer=f"stytch.com/{os.getenv("STYTCH_PROJECT_ID")}",
+    issuer=os.getenv("STYTCH_DOMAIN"),
     algorithm="RS256",
     audience=os.getenv("STYTCH_PROJECT_ID")
 )
@@ -38,28 +38,8 @@ def get_organization_id_from_context() -> str:
     token = get_access_token()
     if not token:
         raise ValueError("No access token found in context")
-    
-    # Decode the JWT to get the organization ID
-    try:
-        payload = jwt.decode(
-            token,
-            options={"verify_signature": False}  # Signature already verified by auth
-        )
-        return payload.get("https://stytch.com/organization", {}).get("organization_id")
-    except Exception as e:
-        raise ValueError(f"Could not extract organization ID from token: {e}")
 
-@mcp.custom_route("/.well-known/oauth-protected-resource", methods=["GET", "OPTIONS"])
-async def oauth_metadata(request) -> JSONResponse:
-    base_url = str(request.base_url).rstrip("/")
-
-    return JSONResponse(
-        {
-            "resource": base_url,
-            "authorization_servers": [os.getenv("STYTCH_DOMAIN")],
-            "scopes_supported": ["openid", "email", "profile"]
-        }
-    )
+    return token.claims.get("https://stytch.com/organization", {}).get("organization_id")
 
 @mcp.tool()
 async def list_tickets() -> List[Dict[str, Any]]:

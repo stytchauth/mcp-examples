@@ -4249,7 +4249,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^4.1.0, @vitejs/plugin-react@npm:^4.3.4":
+"@vitejs/plugin-react@npm:^4.1.0, @vitejs/plugin-react@npm:^4.3.4, @vitejs/plugin-react@npm:^4.7.0":
   version: 4.7.0
   resolution: "@vitejs/plugin-react@npm:4.7.0"
   dependencies:
@@ -6908,6 +6908,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"frontend@workspace:b2b-integrated/sprintplanner-frontend":
+  version: 0.0.0-use.local
+  resolution: "frontend@workspace:b2b-integrated/sprintplanner-frontend"
+  dependencies:
+    "@stytch/react": "npm:^19.10.0"
+    "@stytch/vanilla-js": "npm:^5.34.0"
+    "@vitejs/plugin-react": "npm:^4.7.0"
+    hono: "npm:^4.9.5"
+    react: "npm:^19.1.1"
+    react-dom: "npm:^19.1.1"
+    react-router-dom: "npm:^7.8.2"
+    typescript: "npm:^5.9.2"
+    vite: "npm:^6.3.5"
+  languageName: unknown
+  linkType: soft
+
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
   resolution: "fs-constants@npm:1.0.0"
@@ -7370,7 +7386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.9.6":
+"hono@npm:^4.9.5, hono@npm:^4.9.6":
   version: 4.9.6
   resolution: "hono@npm:4.9.6"
   checksum: 2c757781b72d4f3ffa4b07641059f32845d2f38a158248e82be461b75746d09a2c9a946b7795c730c2b869d03de2665d13c9f42be4d208b32f3fd55b68f82817
@@ -9910,7 +9926,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.1.1":
+"react-dom@npm:19.1.1, react-dom@npm:^19.1.1":
   version: 19.1.1
   resolution: "react-dom@npm:19.1.1"
   dependencies:
@@ -9960,7 +9976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^7.4.0":
+"react-router-dom@npm:^7.4.0, react-router-dom@npm:^7.8.2":
   version: 7.8.2
   resolution: "react-router-dom@npm:7.8.2"
   dependencies:
@@ -9999,7 +10015,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.1.1":
+"react@npm:19.1.1, react@npm:^19.1.1":
   version: 19.1.1
   resolution: "react@npm:19.1.1"
   checksum: 9801530fdc939e1a7a499422e930515b2400809cb39c2872984e99f832d233f61659a693871183dac3155c2f9b2c9dcf4440a56bd18983277ae92860e38c3a61
@@ -11907,6 +11923,61 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 7bc3a1c5ef79413ad70daeeaf69b76cd1218d16aa18ed8ee08d74648ef17284f4a17c11f5cf42b573b6dc5e3d5f115110b67b1d23c2c699cfe404757764a634a
+  languageName: node
+  linkType: hard
+
+"vite@npm:^6.3.5":
+  version: 6.3.6
+  resolution: "vite@npm:6.3.6"
+  dependencies:
+    esbuild: "npm:^0.25.0"
+    fdir: "npm:^6.4.4"
+    fsevents: "npm:~2.3.3"
+    picomatch: "npm:^4.0.2"
+    postcss: "npm:^8.5.3"
+    rollup: "npm:^4.34.9"
+    tinyglobby: "npm:^0.2.13"
+  peerDependencies:
+    "@types/node": ^18.0.0 || ^20.0.0 || >=22.0.0
+    jiti: ">=1.21.0"
+    less: "*"
+    lightningcss: ^1.21.0
+    sass: "*"
+    sass-embedded: "*"
+    stylus: "*"
+    sugarss: "*"
+    terser: ^5.16.0
+    tsx: ^4.8.1
+    yaml: ^2.4.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    "@types/node":
+      optional: true
+    jiti:
+      optional: true
+    less:
+      optional: true
+    lightningcss:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    terser:
+      optional: true
+    tsx:
+      optional: true
+    yaml:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 8b8b6fe12318ca457396bf2053df7056cf4810f1d4a43b36b6afe59860e32b749c0685a290fe8a973b0d3da179ceec4c30cebbd3c91d0c47fbcf6436b17bdeef
   languageName: node
   linkType: hard
 

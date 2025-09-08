@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+import os
 import crud
 import models
 import schemas
@@ -17,7 +19,7 @@ app = FastAPI(title="Ticket Board API", version="1.0.0", lifespan=mcp_app.lifesp
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Your Vite dev server
+    allow_origins=["http://localhost:3000", "http://localhost:6274"],  # Vite dev server and MCP Inspector
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -149,6 +151,18 @@ async def delete_ticket(
     tickets = crud.get_tickets(org_id)
     return schemas.TicketListResponse(tickets=tickets)
 
+@app.get("/.well-known/oauth-protected-resource")
+async def oauth_metadata(request: Request) -> JSONResponse:
+    base_url = str(request.base_url).rstrip("/")
+
+    return JSONResponse(
+        {
+            "resource": base_url,
+            "authorization_servers": [os.getenv("STYTCH_DOMAIN")],
+            "scopes_supported": ["openid", "email", "profile"]
+        }
+    )
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=3000)
+    uvicorn.run(app, host="127.0.0.1", port=3001)
