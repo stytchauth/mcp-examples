@@ -9,6 +9,7 @@ export default defineConfig({
   build: {
     outDir: '../dist/frontend',
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1100,
   },
   resolve: {
     alias: {

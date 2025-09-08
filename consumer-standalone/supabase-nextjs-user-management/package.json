@@ -1,5 +1,5 @@
 {
-  "name": "supabase-nextjs",
+  "name": "@mcp-examples/supabase-nextjs-user-management",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "prettier:check": "prettier --check app components scripts utils",
     "prettier:fix": "prettier --write app components scripts utils"
   },
@@ -29,13 +29,14 @@
     "stytch": "^12.32.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^24.2.0",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "axios": "^1.11.0",
     "dotenv": "^17.2.1",
-    "eslint": "^9.32.0",
+    "eslint": "^8.52.0",
     "eslint-config-next": "15.4.5",
     "inquirer": "^12.9.3",
     "prettier": "^3.6.2",

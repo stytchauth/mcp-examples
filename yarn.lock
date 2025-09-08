@@ -916,7 +916,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^3.3.1":
+"@eslint/eslintrc@npm:^3, @eslint/eslintrc@npm:^3.3.1":
   version: 3.3.1
   resolution: "@eslint/eslintrc@npm:3.3.1"
   dependencies:
@@ -2528,6 +2528,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mcp-examples/supabase-nextjs-user-management@workspace:consumer-standalone/supabase-nextjs-user-management":
+  version: 0.0.0-use.local
+  resolution: "@mcp-examples/supabase-nextjs-user-management@workspace:consumer-standalone/supabase-nextjs-user-management"
+  dependencies:
+    "@eslint/eslintrc": "npm:^3"
+    "@modelcontextprotocol/sdk": "npm:^1.17.3"
+    "@stytch/nextjs": "npm:^21.10.0"
+    "@stytch/vanilla-js": "npm:^5.34.0"
+    "@supabase/ssr": "npm:^0.6.1"
+    "@supabase/supabase-js": "npm:^2.53.0"
+    "@tailwindcss/postcss": "npm:^4.1.11"
+    "@types/node": "npm:^24.2.0"
+    "@types/react": "npm:^19.1.9"
+    "@types/react-dom": "npm:^19.1.7"
+    "@vercel/mcp-adapter": "npm:^1.0.0"
+    axios: "npm:^1.11.0"
+    dotenv: "npm:^17.2.1"
+    eslint: "npm:^8.52.0"
+    eslint-config-next: "npm:15.4.5"
+    inquirer: "npm:^12.9.3"
+    next: "npm:15.4.5"
+    prettier: "npm:^3.6.2"
+    react: "npm:19.1.1"
+    react-dom: "npm:19.1.1"
+    stytch: "npm:^12.32.1"
+    tailwindcss: "npm:^4.1.11"
+    tsx: "npm:^4.20.4"
+    typescript: "npm:^5"
+  languageName: unknown
+  linkType: soft
+
 "@mcp-examples/tasklist-cfworkers-mcpsdk-backend@workspace:consumer-integrated/tasklist-cfworkers-mcpsdk-backend":
   version: 0.0.0-use.local
   resolution: "@mcp-examples/tasklist-cfworkers-mcpsdk-backend@workspace:consumer-integrated/tasklist-cfworkers-mcpsdk-backend"
@@ -2597,6 +2628,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mcp-examples/tasklist-nextjs-vercelsdk-fullstack@workspace:consumer-integrated/tasklist-nextjs-vercelsdk-fullstack"
   dependencies:
+    "@eslint/eslintrc": "npm:^3"
     "@modelcontextprotocol/sdk": "npm:^1.17.5"
     "@stytch/nextjs": "npm:^21.5.0"
     "@stytch/vanilla-js": "npm:^5.23.4"
@@ -6282,7 +6314,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^9.17.0, eslint@npm:^9.32.0, eslint@npm:^9.34.0":
+"eslint@npm:^9.17.0, eslint@npm:^9.34.0":
   version: 9.35.0
   resolution: "eslint@npm:9.35.0"
   dependencies:
@@ -11078,36 +11110,6 @@ __metadata:
   checksum: bc601558a62826f1c32287d4fdfa4f2c09fe0fec4c4d39d0e257fd9116d7d6227a18309721d4185ec84c9dc1af0d5ec0e05a42a337fbb74fc293e068549aacbe
   languageName: node
   linkType: hard
-
-"supabase-nextjs@workspace:consumer-standalone/supabase-nextjs-user-management":
-  version: 0.0.0-use.local
-  resolution: "supabase-nextjs@workspace:consumer-standalone/supabase-nextjs-user-management"
-  dependencies:
-    "@modelcontextprotocol/sdk": "npm:^1.17.3"
-    "@stytch/nextjs": "npm:^21.10.0"
-    "@stytch/vanilla-js": "npm:^5.34.0"
-    "@supabase/ssr": "npm:^0.6.1"
-    "@supabase/supabase-js": "npm:^2.53.0"
-    "@tailwindcss/postcss": "npm:^4.1.11"
-    "@types/node": "npm:^24.2.0"
-    "@types/react": "npm:^19.1.9"
-    "@types/react-dom": "npm:^19.1.7"
-    "@vercel/mcp-adapter": "npm:^1.0.0"
-    axios: "npm:^1.11.0"
-    dotenv: "npm:^17.2.1"
-    eslint: "npm:^9.32.0"
-    eslint-config-next: "npm:15.4.5"
-    inquirer: "npm:^12.9.3"
-    next: "npm:15.4.5"
-    prettier: "npm:^3.6.2"
-    react: "npm:19.1.1"
-    react-dom: "npm:19.1.1"
-    stytch: "npm:^12.32.1"
-    tailwindcss: "npm:^4.1.11"
-    tsx: "npm:^4.20.4"
-    typescript: "npm:^5"
-  languageName: unknown
-  linkType: soft
 
 "supports-color@npm:^10.0.0":
   version: 10.2.0
