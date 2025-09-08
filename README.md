@@ -10,21 +10,18 @@ This repository contains examples for both **Consumer** and **B2B** authenticati
 
 ```
 connected-apps-examples
-├── consumer-integrated         # Consumer auth with MCP integration
-│   ├── tasklist-frontend       # React frontend (works with all backends)
-│   ├── tasklist-python-fastmcp-backend
-│   ├── tasklist-express-mcpsdk-backend
+├── consumer-integrated         # MCP/OAuth integration with Stytch Consumer Auth
+│   ├── tasklist-frontend       # React frontend (works with all backends except Next.js)
 │   ├── tasklist-cfworkers-mcpsdk-backend
+│   ├── tasklist-express-mcpsdk-backend
+│   ├── tasklist-python-fastmcp-backend
 │   └── tasklist-nextjs-vercelsdk-fullstack
-├── consumer-standalone         # Consumer auth without MCP
-│   └── supabase-nextjs-user-management
-├── b2b-integrated              # B2B auth with MCP integration
-│   ├── okrmanager-frontend     # React frontend (works with all backends)
-│   ├── okrmanager-python-fastmcp-backend
-│   ├── okrmanager-express-mcpsdk-backend
-│   ├── okrmanager-cfworkers-mcpsdk-backend
-│   └── okrmanager-nextjs-vercelsdk-fullstack
-└── b2b-standalone              # B2B auth without MCP
+├── consumer-standalone         # MCP/OAuth integration with external Consumer Auth
+|   └── supabase-nextjs-user-management
+├── b2b-integrated              # MCP/OAuth integration with Stytch B2B Auth
+│   ├── sprintplanner-frontend  # React frontend (works with all backends)
+│   └── sprintplanner-python-fastmcp-backend
+└── b2b-standalone              # MCP/OAuth integration with external B2B Auth
     └── firebase-express-access-management
 ```
 
@@ -33,19 +30,19 @@ connected-apps-examples
 ### Consumer Authentication Examples
 
 - **Task List Application** - A todo list application demonstrating Consumer auth
-- **Frameworks**: React frontend with Python (FastMCP), Express.js, Cloudflare Workers, and Next.js backends
+- **Frameworks**: React frontend with Python (FastMCP), Express.js, and Cloudflare Workers backends; plus, a Next.js implementation
 - **Features**: User registration, OAuth flows, task management, MCP integration
 
 ### B2B Authentication Examples
 
-- **OKR Manager Application** - An objectives and key results management application
-- **Frameworks**: React frontend with Python (FastMCP), Express.js, Cloudflare Workers, and Next.js backends
+- **Sprint Planner Application** - A sprint tasks management application for organizations
+- **Frameworks**: React frontend with a Python (FastMCP) backend; Express.js and Cloudflare Workers backend coming soon!
 - **Features**: Organization management, team collaboration, goal tracking, MCP integration
 
 ### Standalone Examples
 
 - Simple user management applications without MCP integration
-- Demonstrates pure Stytch authentication flows
+- Demonstrates pure Stytch authentication flows that work with an existing third-party authentication provider
 
 ## Key Technologies
 
@@ -83,13 +80,13 @@ connected-apps-examples
    For the Consumer Task List with Cloudflare Workers:
 
    ```bash
-   cd consumer-integrated/tasklist-cfworkers-mcpsdk-backend
+   cd consumer-integrated/tasklist-nextjs-vercelsdk-fullstack
    ```
 
-   For B2B OKR Manager with Next.js:
+   For B2B Sprint Planner with Python (FastMCP):
 
    ```bash
-   cd b2b-integrated/okrmanager-nextjs-vercelsdk-fullstack
+   cd b2b-integrated/sprintplanner-python-fastmcp-backend
    ```
 
 4. **Follow the setup instructions** in each example's README
