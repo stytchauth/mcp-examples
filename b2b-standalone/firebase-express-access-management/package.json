@@ -1,8 +1,9 @@
 {
-  "name": "access-request-manager",
-  "version": "1.0.0",
+  "name": "@mcp-examples/firebase-express-access-management",
   "description": "Express.js API for managing access requests with Firebase authentication",
+  "version": "0.0.0",
   "type": "module",
+  "private": true,
   "main": "dist/server.js",
   "scripts": {
     "build:server": "tsc --project tsconfig.server.json",

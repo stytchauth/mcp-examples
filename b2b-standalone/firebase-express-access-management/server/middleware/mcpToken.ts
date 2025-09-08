@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import * as stytch from 'stytch';
-import { IntrospectTokenClaims } from 'stytch/types/lib/b2b/idp';
+import { B2BIntrospectTokenClaims } from 'stytch/types/lib/b2b/idp';
 
 // Extend Express Request interface to include user
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
-      client?: IntrospectTokenClaims;
+      client?: B2BIntrospectTokenClaims;
     }
   }
 }
