@@ -140,11 +140,8 @@ export function Discovery() {
                 config={config}
                 callbacks={{
                     onEvent: (evt) => {
-                        console.log('Discovery StytchB2B onEvent', evt);
-                        // Handle completion events - check for member session creation
                         if (evt.type === StytchEventType.AuthenticateFlowComplete) {
-                            // Member session created, redirect to app
-                            window.location.href = '/tickets';
+                            onLoginComplete();
                         }
                     },
                     onError: (err) => console.error('Discovery StytchB2B onError', err),
