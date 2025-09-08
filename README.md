@@ -10,13 +10,13 @@ This repository contains examples for both **Consumer** and **B2B** authenticati
 
 ```
 connected-apps-examples
-├── consumer-integrated          # Consumer auth with MCP integration
+├── consumer-integrated         # Consumer auth with MCP integration
 │   ├── tasklist-frontend       # React frontend (works with all backends)
 │   ├── tasklist-python-fastmcp-backend
 │   ├── tasklist-express-mcpsdk-backend
 │   ├── tasklist-cfworkers-mcpsdk-backend
 │   └── tasklist-nextjs-vercelsdk-fullstack
-├── consumer-standalone          # Consumer auth without MCP
+├── consumer-standalone         # Consumer auth without MCP
 │   └── supabase-nextjs-user-management
 ├── b2b-integrated              # B2B auth with MCP integration
 │   ├── okrmanager-frontend     # React frontend (works with all backends)
@@ -68,8 +68,8 @@ connected-apps-examples
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/stytchauth/connected-apps-examples.git
-   cd connected-apps-examples
+   git clone https://github.com/stytchauth/mcp-examples.git
+   cd mcp-examples
    ```
 
 2. **Install dependencies**
@@ -104,7 +104,7 @@ yarn build
 yarn lint
 
 # Run a specific example
-yarn workspace @examples/[example-name] dev
+yarn workspace @mcp-examples/[example-name] dev
 ```
 
 ## MCP Integration

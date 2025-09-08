@@ -31,19 +31,19 @@ This app is a simple social blog. Users can sign up and set up their profile, an
 Most of the steps below can be performed with the assistance of a setup script included in this repository. To get started, run:
 
 ```
-npm install
-npm run setup:localhost
+yarn
+yarn setup:localhost
 ```
 
-This will guide you through the Supabase and Stytch setup, preparing you to run your server on http://localhost:3000. To deploy directly to Vercel, use `npm run setup:all`.
+This will guide you through the Supabase and Stytch setup, preparing you to run your server on http://localhost:3000. To deploy directly to Vercel, use `yarn setup:all`.
 
 If you already have some parts of the setup flow done, you can choose to run specific setup steps.
 You will be prompted to provide relevant parameters from other parts if they are not available:
 
 ```
-npm run setup:supabase # no dependencies
-npm run setup:stytch   # will ask for supabase parameters if not in .env.local
-npm run setup:vercel   # will ask for supabase and stytch parameters if not in .env.local
+yarn setup:supabase # no dependencies
+yarn setup:stytch   # will ask for supabase parameters if not in .env.local
+yarn setup:vercel   # will ask for supabase and stytch parameters if not in .env.local
 ```
 
 ## Supabase setup (4 steps)
@@ -99,7 +99,7 @@ Vercel makes it easy to deploy projects from GitHub repositories, so push your c
 
 ### 2. Create new project
 
-Use the Next.js framework preset and set the build and install commands appropriately (`npm run build` and `npm install`).
+Use the Next.js framework preset and set the build and install commands appropriately (`yarn build` and `yarn`).
 
 ![image](./img/vercel_setup.jpg)
 
@@ -161,15 +161,15 @@ If you're familiar with Supabase, think of the `public_token` as your Supabase `
 
 Once you've setup a `.env.local` file, you can run the project locally to test it out. Just note that you will have to change your Authorization URL (Stytch setup step 3) to `http://localhost:3000/oauth/authorize` before you begin.
 
-1. Install dependencies: `npm install`
-2. Start the server: `npm run dev`
+1. Install dependencies: `yarn`
+2. Start the server: `yarn dev`
 3. Navigate to `http://localhost:3000` and sign up/log in
 
 ## Connecting to the MCP server
 
 Whether your app is running locally or on Vercel, you can connect to your MCP server using a variety of clients. We'll use the MCP Inspector for this example:
 
-1. Start the inspector: `npx @modelcontextprotocol/inspector@latest`
+1. Start the inspector: `yarn dlx @modelcontextprotocol/inspector@latest`
 2. In the window, set your Transport Type to `Streamable HTTP`
 3. Set your URL to `http://localhost:3000/mcp` or `https://<your-vercel-url>/mcp`
 4. Click `Connect`

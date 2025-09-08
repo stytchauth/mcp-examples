@@ -5,7 +5,8 @@
   "private": true,
   "workspaces": [
     "consumer-integrated/*",
-    "b2b-standalone/*"
+    "b2b-standalone/*",
+    "consumer-standalone/*"
   ],
   "packageManager": "yarn@4.0.2",
   "scripts": {
