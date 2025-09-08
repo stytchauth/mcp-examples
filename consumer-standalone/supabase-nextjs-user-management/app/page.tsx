@@ -1,8 +1,8 @@
-import { use } from "react";
-import { login, signup } from "@/app/actions";
+import { use } from 'react';
+import { login, signup } from '@/app/actions';
 
 export default function Home({ searchParams }: any) {
-  const returnTo = (use(searchParams) as any).returnTo ?? "";
+  const returnTo = (use(searchParams) as any).returnTo ?? '';
 
   return (
     <div className="container">
@@ -10,9 +10,8 @@ export default function Home({ searchParams }: any) {
         <div className="col-12">
           <h1 className="header">Profile Manager</h1>
           <p className="description">
-            A demo showcasing how to add an MCP server authenticated using
-            Stytch Connected Apps. All profile information is stored in
-            Supabase, which is the user authentication provider.
+            A demo showcasing how to add an MCP server authenticated using Stytch Connected Apps. All profile
+            information is stored in Supabase, which is the user authentication provider.
           </p>
         </div>
         <div className="col-6 form-widget">
@@ -21,23 +20,11 @@ export default function Home({ searchParams }: any) {
               <input type="hidden" name="returnTo" value={returnTo} />
               <div>
                 <label htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="kona@stytch.com"
-                  required
-                />
+                <input id="email" name="email" type="email" placeholder="kona@stytch.com" required />
               </div>
               <div>
                 <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="********"
-                  required
-                />
+                <input id="password" name="password" type="password" placeholder="********" required />
               </div>
               <button formAction={login} className="button primary block">
                 Sign In

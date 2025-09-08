@@ -1,4 +1,4 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from '@supabase/supabase-js';
 
 export type Post = {
   id: string;
@@ -17,15 +17,12 @@ export type PostInput = {
   content: string;
 };
 
-const getRecentPosts = async (
-  supabase: SupabaseClient,
-  limit: number = 5,
-): Promise<Post[]> => {
+const getRecentPosts = async (supabase: SupabaseClient, limit: number = 5): Promise<Post[]> => {
   // Fetch posts
   const { data: postsData, error: postsError } = await supabase
-    .from("posts")
-    .select("id, title, content, created_at, user_id")
-    .order("created_at", { ascending: false })
+    .from('posts')
+    .select('id, title, content, created_at, user_id')
+    .order('created_at', { ascending: false })
     .limit(limit);
 
   if (postsError) {
@@ -41,10 +38,7 @@ const getRecentPosts = async (
 
   // Fetch user data for authors
   const { data: usersData } = await supabase.auth.admin.listUsers();
-  const { data: profilesData } = await supabase
-    .from("profiles")
-    .select("id, full_name")
-    .in("id", userIds);
+  const { data: profilesData } = await supabase.from('profiles').select('id, full_name').in('id', userIds);
 
   // Combine posts with author information
   const posts: Post[] = postsData.map((post) => {
@@ -55,7 +49,7 @@ const getRecentPosts = async (
       ...post,
       author: user
         ? {
-            email: user.email || "",
+            email: user.email || '',
             full_name: profile?.full_name,
           }
         : undefined,
@@ -65,13 +59,9 @@ const getRecentPosts = async (
   return posts;
 };
 
-const createPost = async (
-  supabase: SupabaseClient,
-  userId: string,
-  postInput: PostInput,
-): Promise<Post> => {
+const createPost = async (supabase: SupabaseClient, userId: string, postInput: PostInput): Promise<Post> => {
   const { data, error } = await supabase
-    .from("posts")
+    .from('posts')
     .insert([
       {
         user_id: userId,
@@ -79,7 +69,7 @@ const createPost = async (
         content: postInput.content,
       },
     ])
-    .select("id, title, content, created_at, user_id")
+    .select('id, title, content, created_at, user_id')
     .single();
 
   if (error) {
@@ -88,55 +78,42 @@ const createPost = async (
 
   // Get author information
   const { data: userData } = await supabase.auth.admin.getUserById(userId);
-  const { data: profileData } = await supabase
-    .from("profiles")
-    .select("full_name")
-    .eq("id", userId)
-    .single();
+  const { data: profileData } = await supabase.from('profiles').select('full_name').eq('id', userId).single();
 
   return {
     ...data,
     author: userData?.user
       ? {
-          email: userData.user.email || "",
+          email: userData.user.email || '',
           full_name: profileData?.full_name,
         }
       : undefined,
   };
 };
 
-const getPostById = async (
-  supabase: SupabaseClient,
-  postId: string,
-): Promise<Post | null> => {
+const getPostById = async (supabase: SupabaseClient, postId: string): Promise<Post | null> => {
   const { data, error } = await supabase
-    .from("posts")
-    .select("id, title, content, created_at, user_id")
-    .eq("id", postId)
+    .from('posts')
+    .select('id, title, content, created_at, user_id')
+    .eq('id', postId)
     .single();
 
   if (error) {
-    if (error.code === "PGRST116") {
+    if (error.code === 'PGRST116') {
       return null; // Post not found
     }
     throw error;
   }
 
   // Get author information
-  const { data: userData } = await supabase.auth.admin.getUserById(
-    data.user_id,
-  );
-  const { data: profileData } = await supabase
-    .from("profiles")
-    .select("full_name")
-    .eq("id", data.user_id)
-    .single();
+  const { data: userData } = await supabase.auth.admin.getUserById(data.user_id);
+  const { data: profileData } = await supabase.from('profiles').select('full_name').eq('id', data.user_id).single();
 
   return {
     ...data,
     author: userData?.user
       ? {
-          email: userData.user.email || "",
+          email: userData.user.email || '',
           full_name: profileData?.full_name,
         }
       : undefined,

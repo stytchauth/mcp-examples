@@ -25,7 +25,7 @@ connected-apps-examples
 │   ├── okrmanager-cfworkers-mcpsdk-backend
 │   └── okrmanager-nextjs-vercelsdk-fullstack
 └── b2b-standalone              # B2B auth without MCP
-    └── firebase-express-user-management
+    └── firebase-express-access-management
 ```
 
 ## What's Included

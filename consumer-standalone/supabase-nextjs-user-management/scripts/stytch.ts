@@ -1,9 +1,9 @@
-import axios from "axios";
-import inquirer from "inquirer";
-import { SupabaseSetupResult } from "@/scripts/supabase";
+import axios from 'axios';
+import inquirer from 'inquirer';
+import { SupabaseSetupResult } from '@/scripts/supabase';
 
 const stytchman = axios.create({
-  baseURL: "https://management.stytch.com/v1",
+  baseURL: 'https://management.stytch.com/v1',
 });
 
 type StytchSetupResult = {
@@ -18,27 +18,24 @@ type StytchProject = {
   live_project_id: string;
   test_project_id: string;
   name: string;
-  vertical: "CONSUMER" | "B2B";
+  vertical: 'CONSUMER' | 'B2B';
   test_unique_project_name: string;
 };
 
 async function listStytchProjects(): Promise<StytchProject[]> {
-  const response = await stytchman.get("/projects");
+  const response = await stytchman.get('/projects');
   return response.data.projects;
 }
 
 async function createStytchProject(name: string): Promise<StytchProject> {
-  const response = await stytchman.post("/projects", {
+  const response = await stytchman.post('/projects', {
     project_name: name,
-    vertical: "CONSUMER",
+    vertical: 'CONSUMER',
   });
   return response.data.project;
 }
 
-async function updateStytchProject(
-  project: StytchProject,
-  idpAuthorizationUrl: string,
-) {
+async function updateStytchProject(project: StytchProject, idpAuthorizationUrl: string) {
   await stytchman.put(`/projects/${project.live_project_id}`, {
     name: project.name,
     test_idp_authorization_url: idpAuthorizationUrl,
@@ -47,26 +44,20 @@ async function updateStytchProject(
   });
 }
 
-async function createStytchTrustedTokenProfile(
-  projectId: string,
-  supabaseUrl: string,
-): Promise<string> {
-  const response = await stytchman.post(
-    `/projects/${projectId}/trusted-token-profiles`,
-    {
-      name: "Supabase",
-      audience: "authenticated",
-      issuer: `${supabaseUrl}/auth/v1`,
-      can_jit_provision: true,
-      public_key_type: "jwk",
-      jwks_url: `${supabaseUrl}/auth/v1/.well-known/jwks.json`,
-      attribute_mapping: {
-        email: "email",
-        token_id: "sub",
-        external_user_id: "sub",
-      },
+async function createStytchTrustedTokenProfile(projectId: string, supabaseUrl: string): Promise<string> {
+  const response = await stytchman.post(`/projects/${projectId}/trusted-token-profiles`, {
+    name: 'Supabase',
+    audience: 'authenticated',
+    issuer: `${supabaseUrl}/auth/v1`,
+    can_jit_provision: true,
+    public_key_type: 'jwk',
+    jwks_url: `${supabaseUrl}/auth/v1/.well-known/jwks.json`,
+    attribute_mapping: {
+      email: 'email',
+      token_id: 'sub',
+      external_user_id: 'sub',
     },
-  );
+  });
   return response.data.profile.profile_id;
 }
 
@@ -85,7 +76,7 @@ async function enableStytchFrontendSDKs(projectId: string) {
     config: {
       basic: {
         enabled: true,
-        domains: ["http://localhost:3000"],
+        domains: ['http://localhost:3000'],
       },
     },
   });
@@ -93,11 +84,11 @@ async function enableStytchFrontendSDKs(projectId: string) {
 
 function getExistingConfig(): StytchSetupResult | null {
   const existingConfig: StytchSetupResult = {
-    trustedTokenProfileId: process.env.NEXT_PUBLIC_STYTCH_TOKEN_PROFILE ?? "",
-    projectId: process.env.STYTCH_PROJECT_ID ?? "",
-    projectDomain: process.env.STYTCH_IDP_DOMAIN ?? "",
-    projectSecretKey: process.env.STYTCH_SECRET ?? "",
-    projectPublicToken: process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN ?? "",
+    trustedTokenProfileId: process.env.NEXT_PUBLIC_STYTCH_TOKEN_PROFILE ?? '',
+    projectId: process.env.STYTCH_PROJECT_ID ?? '',
+    projectDomain: process.env.STYTCH_IDP_DOMAIN ?? '',
+    projectSecretKey: process.env.STYTCH_SECRET ?? '',
+    projectPublicToken: process.env.NEXT_PUBLIC_STYTCH_PUBLIC_TOKEN ?? '',
   };
 
   if (
@@ -113,9 +104,7 @@ function getExistingConfig(): StytchSetupResult | null {
   return null;
 }
 
-async function performStytchSetup(
-  supabaseResult: SupabaseSetupResult,
-): Promise<StytchSetupResult> {
+async function performStytchSetup(supabaseResult: SupabaseSetupResult): Promise<StytchSetupResult> {
   const existingConfig = getExistingConfig();
   if (existingConfig) {
     console.log(
@@ -125,23 +114,18 @@ async function performStytchSetup(
   }
 
   console.log(`Starting Stytch setup...`);
-  console.log(
-    `This script will guide you through the steps to set up a Stytch project for this app.`,
-  );
+  console.log(`This script will guide you through the steps to set up a Stytch project for this app.`);
 
   console.log(
-    "\nFirst, create a Stytch account. Then, generate a Workspace API Key (https://stytch.com/dashboard/settings/management-api).",
+    '\nFirst, create a Stytch account. Then, generate a Workspace API Key (https://stytch.com/dashboard/settings/management-api).',
   );
   const workspaceApiKeyId = await inquirer
     .prompt<{ id: string }>([
       {
-        type: "input",
-        name: "id",
-        message: "Enter the Workspace API Key ID (workspace-key-prod-...)",
-        validate: (id) =>
-          id.match(/^workspace-key-prod-/)
-            ? true
-            : "Invalid ID. Must start with workspace-key-prod-",
+        type: 'input',
+        name: 'id',
+        message: 'Enter the Workspace API Key ID (workspace-key-prod-...)',
+        validate: (id) => (id.match(/^workspace-key-prod-/) ? true : 'Invalid ID. Must start with workspace-key-prod-'),
       },
     ])
     .then((answer) => answer.id);
@@ -149,10 +133,10 @@ async function performStytchSetup(
   const workspaceApiKeySecret = await inquirer
     .prompt<{ secret: string }>([
       {
-        type: "password",
-        name: "secret",
-        mask: "*",
-        message: "Enter the Workspace API Key Secret",
+        type: 'password',
+        name: 'secret',
+        mask: '*',
+        message: 'Enter the Workspace API Key Secret',
       },
     ])
     .then((answer) => answer.secret);
@@ -162,21 +146,18 @@ async function performStytchSetup(
     password: workspaceApiKeySecret,
   };
 
-  console.log("\nNext, select or create a new Stytch project.");
+  console.log('\nNext, select or create a new Stytch project.');
 
   const projects = await listStytchProjects();
-  let selectedProjectName: string = "Create new project";
+  let selectedProjectName: string = 'Create new project';
   if (projects.length > 0) {
     selectedProjectName = await inquirer
       .prompt<{ name: string }>([
         {
-          type: "list",
-          name: "name",
-          message: "Select a project",
-          choices: [
-            ...projects.map((project) => project.name),
-            "Create new project",
-          ],
+          type: 'list',
+          name: 'name',
+          message: 'Select a project',
+          choices: [...projects.map((project) => project.name), 'Create new project'],
           default: projects[0].name,
         },
       ])
@@ -184,23 +165,21 @@ async function performStytchSetup(
   }
 
   let selectedProject: StytchProject | null = null;
-  if (selectedProjectName === "Create new project") {
+  if (selectedProjectName === 'Create new project') {
     const newProjectName = await inquirer
       .prompt<{ name: string }>([
         {
-          type: "input",
-          name: "name",
-          message: "Enter a name for the new project",
-          default: "stytch-mcp-demo",
+          type: 'input',
+          name: 'name',
+          message: 'Enter a name for the new project',
+          default: 'stytch-mcp-demo',
         },
       ])
       .then((answer) => answer.name);
 
     selectedProject = await createStytchProject(newProjectName);
   } else {
-    selectedProject = projects.find(
-      (project) => project.name === selectedProjectName,
-    )!;
+    selectedProject = projects.find((project) => project.name === selectedProjectName)!;
   }
 
   console.log(
@@ -210,22 +189,17 @@ async function performStytchSetup(
     selectedProject.test_project_id,
     supabaseResult.supabaseUrl,
   );
-  console.log(
-    `Using trusted auth token profile with ID: ${trustedTokenProfileId}`,
-  );
+  console.log(`Using trusted auth token profile with ID: ${trustedTokenProfileId}`);
 
   console.log(
     `\nNext, let's set up your Connected Apps Authorization URL and enable Dynamic Client Registration. We'll also add a custom access token template so that Stytch attaches the Supabase user ID to Stytch sessions.`,
   );
-  await updateStytchProject(
-    selectedProject,
-    "http://localhost:3000/oauth/authorize",
-  );
+  await updateStytchProject(selectedProject, 'http://localhost:3000/oauth/authorize');
   console.log(`Project updated.`);
 
   console.log(`\nNext, let's enable the Frontend SDKs.`);
   await enableStytchFrontendSDKs(selectedProject.test_project_id);
-  console.log("Frontend SDKs enabled.");
+  console.log('Frontend SDKs enabled.');
 
   const projectId = selectedProject.test_project_id;
   const projectSecretKey = await createStytchProjectSecret(projectId);

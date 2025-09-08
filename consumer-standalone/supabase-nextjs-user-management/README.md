@@ -53,11 +53,13 @@ npm run setup:vercel   # will ask for supabase and stytch parameters if not in .
 Sign up for a Supabase account - [https://supabase.com/dashboard](https://supabase.com/dashboard) and create a new project. Wait for your database to start.
 
 Note that Supabase recently introduced asymmetric JWT signing, which we'll need in order for this demo to work. Follow the instructions in [this Supabase blog](https://supabase.com/blog/jwt-signing-keys#start-using-asymmetric-jwts-today) to migrate your new project to using these. TL;DR:
+
 - You will create new asymmetric signing keys
 - You will rotate to the new keys, thereby disabling the legacy symmetric secret (which Stytch does not support)
 - You should generate new publishable + secret API keys and stop using the legacy anon + service role JWT-based API keys (which are signed using the legacy secret you revoked above)
 
 To keep our user sign up flow simple, we will also disable email confirmations:
+
 - Navigate to Authentication –> Sign in/Providers
 - Disable "Confirm email"
 - Save

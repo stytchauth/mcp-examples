@@ -1,12 +1,8 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import {
-  IdentityProvider as BaseIdentityProvider,
-  useStytch,
-  useStytchUser,
-} from "@stytch/nextjs";
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { IdentityProvider as BaseIdentityProvider, useStytch, useStytchUser } from '@stytch/nextjs';
 
 /**
  * A higher-order component that enforces a login requirement for the wrapped component.
@@ -21,8 +17,8 @@ export const withLoginRequired = (Component: React.FC) => {
     useEffect(() => {
       if (!isInitialized) return;
       if (!user && !fromCache) {
-        localStorage.setItem("returnTo", window.location.href);
-        router.push("/");
+        localStorage.setItem('returnTo', window.location.href);
+        router.push('/');
       }
     }, [user, fromCache, isInitialized, router]);
 
@@ -32,7 +28,7 @@ export const withLoginRequired = (Component: React.FC) => {
     return <Component />;
   };
 
-  WrappedComponent.displayName = `withLoginRequired(${Component.displayName || Component.name || "Component"})`;
+  WrappedComponent.displayName = `withLoginRequired(${Component.displayName || Component.name || 'Component'})`;
   return WrappedComponent;
 };
 
@@ -47,19 +43,17 @@ export const Authenticate = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const token = params.get('token');
     if (!token) return;
 
-    client.oauth
-      .authenticate(token, { session_duration_minutes: 60 })
-      .then(() => {
-        const returnTo = localStorage.getItem("returnTo");
-        if (returnTo) {
-          router.push(returnTo);
-        } else {
-          router.push("/account");
-        }
-      });
+    client.oauth.authenticate(token, { session_duration_minutes: 60 }).then(() => {
+      const returnTo = localStorage.getItem('returnTo');
+      if (returnTo) {
+        router.push(returnTo);
+      } else {
+        router.push('/account');
+      }
+    });
   }, [client, router]);
 
   return <>Loading...</>;
@@ -72,13 +66,9 @@ export const Logout = () => {
   if (!user) return null;
 
   return (
-    <button
-      type="submit"
-      className="primary"
-      onClick={() => stytch.session.revoke()}
-    >
-      {" "}
-      Log Out{" "}
+    <button type="submit" className="primary" onClick={() => stytch.session.revoke()}>
+      {' '}
+      Log Out{' '}
     </button>
   );
 };

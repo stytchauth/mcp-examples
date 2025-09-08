@@ -21,7 +21,7 @@ module.exports = {
         purple: {
           400: '#c084fc',
           500: '#a855f7',
-        }
+        },
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
@@ -30,4 +30,4 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
