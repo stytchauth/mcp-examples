@@ -8,7 +8,9 @@
       "mcp__todos__markTodoComplete",
       "mcp__todos__createTodo",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)"
     ],
     "deny": []
   }

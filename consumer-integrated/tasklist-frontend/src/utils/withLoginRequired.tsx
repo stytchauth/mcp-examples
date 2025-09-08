@@ -7,17 +7,17 @@ import { useStytchUser } from '@stytch/react';
  * current URL is stored in localStorage to enable return after authentication.
  */
 export const withLoginRequired = (Component: React.FC) => () => {
-    const {user, fromCache} = useStytchUser()
+  const { user, fromCache } = useStytchUser();
 
-    useEffect(() => {
-        if (!user && !fromCache) {
-            localStorage.setItem('returnTo', window.location.href);
-            window.location.href = '/login';
-        }
-    }, [user, fromCache])
-
-    if (!user) {
-        return null
+  useEffect(() => {
+    if (!user && !fromCache) {
+      localStorage.setItem('returnTo', window.location.href);
+      window.location.href = '/login';
     }
-    return <Component/>
-}
+  }, [user, fromCache]);
+
+  if (!user) {
+    return null;
+  }
+  return <Component />;
+};

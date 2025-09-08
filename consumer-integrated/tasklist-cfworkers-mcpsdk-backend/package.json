@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-examples/tasklist-cfworders-mcpsdk-backend",
+  "name": "@mcp-examples/tasklist-cfworkers-mcpsdk-backend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,15 +11,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@hono/mcp": "^0.1.2",
+    "@hono/stytch-auth": "^0.1.1",
+    "@modelcontextprotocol/sdk": "^1.17.5",
     "@stytch/vanilla-js": "^5.18.6",
-    "agents": "^0.0.88",
-    "hono": "^4.7.4",
+    "hono": "^4.9.6",
     "jose": "^6.0.10",
+    "stytch": "^12.32.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^0.1.13",
     "@cloudflare/workers-types": "^4.20241230.0",
     "typescript": "~5.6.2",
     "wrangler": "^4.2.0"
