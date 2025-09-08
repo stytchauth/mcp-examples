@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   B2BIdentityProvider,
   StytchB2B,
   useStytchB2BClient,
   useStytchMember,
   useStytchMemberSession,
-} from "@stytch/react/b2b";
-import { useEffect, useMemo } from "react";
-import { AuthFlowType, StytchEventType } from "@stytch/vanilla-js/dist/b2b";
+} from '@stytch/react/b2b';
+import { useEffect, useMemo } from 'react';
+import { AuthFlowType, StytchEventType } from '@stytch/vanilla-js/dist/b2b';
 
 /**
  * A higher-order component that enforces a login requirement for the wrapped component.
@@ -20,8 +20,8 @@ export const withLoginRequired = (Component: React.FC) => () => {
   useEffect(() => {
     if (!isInitialized) return;
     if (!session) {
-      localStorage.setItem("returnTo", window.location.href);
-      window.location.href = "/login";
+      localStorage.setItem('returnTo', window.location.href);
+      window.location.href = '/login';
     }
   }, [session, isInitialized]);
 
@@ -39,12 +39,12 @@ export const withLoginRequired = (Component: React.FC) => () => {
  * - If `returnTo` does not exist, redirects the user to the default '/todoapp' location.
  */
 const onLoginComplete = () => {
-  const returnTo = localStorage.getItem("returnTo");
+  const returnTo = localStorage.getItem('returnTo');
   if (returnTo) {
-    localStorage.setItem("returnTo", "");
+    localStorage.setItem('returnTo', '');
     window.location.href = returnTo;
   } else {
-    window.location.href = "/tickets";
+    window.location.href = '/tickets';
   }
 };
 
@@ -54,13 +54,13 @@ const onLoginComplete = () => {
 export function Login() {
   const config = useMemo(
     () => ({
-      authFlowType: "Discovery",
-      products: ["emailMagicLinks", "passwords"],
+      authFlowType: 'Discovery',
+      products: ['emailMagicLinks', 'passwords'],
       emailMagicLinksOptions: {
-        discoveryRedirectURL: window.location.origin + "/authenticate",
+        discoveryRedirectURL: window.location.origin + '/authenticate',
       },
       ssoOptions: {
-        discoveryRedirectURL: window.location.origin + "/authenticate",
+        discoveryRedirectURL: window.location.origin + '/authenticate',
       },
       sessionOptions: {
         sessionDurationMinutes: 60,
@@ -73,8 +73,8 @@ export function Login() {
     <StytchB2B
       config={config}
       callbacks={{
-        onEvent: (evt) => console.log("StytchB2B onEvent", evt),
-        onError: (err) => console.error("StytchB2B onError", err),
+        onEvent: (evt) => console.log('StytchB2B onEvent', evt),
+        onError: (err) => console.error('StytchB2B onError', err),
       }}
     />
   );
@@ -88,8 +88,8 @@ export const Authorize = withLoginRequired(function () {
   return (
     <B2BIdentityProvider
       callbacks={{
-        onEvent: (evt) => console.log("B2BIdentityProvider onEvent", evt),
-        onError: (err) => console.error("B2BIdentityProvider onError", err),
+        onEvent: (evt) => console.log('B2BIdentityProvider onEvent', evt),
+        onError: (err) => console.error('B2BIdentityProvider onError', err),
       }}
     />
   );
@@ -101,7 +101,7 @@ export const Authorize = withLoginRequired(function () {
 export function Authenticate() {
   const config = useMemo(
     () => ({
-      products: ["emailMagicLinks", "passwords"],
+      products: ['emailMagicLinks', 'passwords'],
       sessionOptions: {
         sessionDurationMinutes: 60,
       },
@@ -114,12 +114,12 @@ export function Authenticate() {
       config={config}
       callbacks={{
         onEvent: (evt) => {
-          console.log("Authenticate StytchB2B onEvent", evt);
+          console.log('Authenticate StytchB2B onEvent', evt);
           if (evt.type === StytchEventType.AuthenticateFlowComplete) {
             onLoginComplete();
           }
         },
-        onError: (err) => console.error("Authenticate StytchB2B onError", err),
+        onError: (err) => console.error('Authenticate StytchB2B onError', err),
       }}
     />
   );
@@ -132,14 +132,14 @@ export function Discovery() {
   const config = useMemo(
     () => ({
       authFlowType: AuthFlowType.Discovery,
-      products: ["emailMagicLinks", "passwords"],
+      products: ['emailMagicLinks', 'passwords'],
       emailMagicLinksOptions: {
-        loginRedirectURL: window.location.origin + "/authenticate",
-        signupRedirectURL: window.location.origin + "/authenticate",
+        loginRedirectURL: window.location.origin + '/authenticate',
+        signupRedirectURL: window.location.origin + '/authenticate',
       },
       ssoOptions: {
-        loginRedirectURL: window.location.origin + "/authenticate",
-        signupRedirectURL: window.location.origin + "/authenticate",
+        loginRedirectURL: window.location.origin + '/authenticate',
+        signupRedirectURL: window.location.origin + '/authenticate',
       },
       sessionOptions: {
         sessionDurationMinutes: 60,
@@ -159,7 +159,7 @@ export function Discovery() {
               onLoginComplete();
             }
           },
-          onError: (err) => console.error("Discovery StytchB2B onError", err),
+          onError: (err) => console.error('Discovery StytchB2B onError', err),
         }}
       />
     </div>
@@ -174,8 +174,8 @@ export const Logout = function () {
 
   return (
     <button className="primary" onClick={() => stytch.session.revoke()}>
-      {" "}
-      Log Out{" "}
+      {' '}
+      Log Out{' '}
     </button>
   );
 };

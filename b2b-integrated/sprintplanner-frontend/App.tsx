@@ -1,19 +1,12 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import { StytchB2BUIClient } from "@stytch/vanilla-js/b2b";
-import { StytchB2BProvider } from "@stytch/react/b2b";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { StytchB2BUIClient } from '@stytch/vanilla-js/b2b';
+import { StytchB2BProvider } from '@stytch/react/b2b';
 
-import SprintPlanner from "./SprintPlanner.js";
-import { Authenticate, Authorize, Login, Logout, Discovery } from "./Auth.js";
+import SprintPlanner from './SprintPlanner.js';
+import { Authenticate, Authorize, Login, Logout, Discovery } from './Auth.js';
 
-const stytch = new StytchB2BUIClient(
-  (import.meta as any).env?.VITE_STYTCH_PUBLIC_TOKEN ?? "",
-);
+const stytch = new StytchB2BUIClient((import.meta as any).env?.VITE_STYTCH_PUBLIC_TOKEN ?? '');
 
 function App() {
   return (
