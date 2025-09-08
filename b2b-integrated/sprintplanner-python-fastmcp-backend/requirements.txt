@@ -7,3 +7,4 @@ python-jose[cryptography]>=3.3.0
 sqlalchemy>=2.0.23
 alembic>=1.12.1
 fastmcp>=0.3.0
+stytch>=12.32.0
