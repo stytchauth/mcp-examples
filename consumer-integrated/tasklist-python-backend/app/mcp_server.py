@@ -4,43 +4,38 @@ from pydantic import BaseModel
 from typing import List
 
 from .services.todos import TodoService, Task
-from mcp.server.auth.middleware.auth_context import get_access_token
-from fastmcp.server.auth.providers.jwt import JWTVerifier
+from fastmcp.server.auth import BearerAuthProvider
+from fastmcp.server.dependencies import get_access_token
 from dotenv import load_dotenv
 
 load_dotenv('.env.local')
 
-
-def _get_user_id_from_token() -> str:
-    token = get_access_token()
-    if not token:
-        raise ValueError("Unauthorized: missing access token")
-
-    for claim_name in ("sub"):
-        value = getattr(token, claim_name, None)
-        if isinstance(value, str) and value:
-            return value
-
-    # Fallback: use client_id if no subject-like claim is available
-    if getattr(token, "client_id", None):
-        return token.client_id  # type: ignore[attr-defined]
-
-    raise ValueError("Unauthorized: unable to determine user id from token")
 
 # Configure FastMCP with JWT auth so get_access_token() is available
 STYTCH_DOMAIN = os.getenv('STYTCH_DOMAIN')
 STYTCH_PROJECT_ID = os.getenv('STYTCH_PROJECT_ID')
 PUBLIC_BASE_URL = os.getenv('PUBLIC_BASE_URL', 'http://localhost:3001')
 
+auth = BearerAuthProvider(
+    jwks_uri=f"{STYTCH_DOMAIN}/.well-known/jwks.json",
+    issuer=STYTCH_DOMAIN,
+    algorithm="RS256",
+    audience=STYTCH_PROJECT_ID
+)
+
 mcp = FastMCP(
     "TaskList Service",
-    auth=JWTVerifier(
-        jwks_uri=f"{STYTCH_DOMAIN}/.well-known/jwks.json" if STYTCH_DOMAIN else None,
-        algorithm="RS256",
-    ),
+    auth=auth,
     # Ensure we don't double-prefix paths when mounting under /mcp in FastAPI
     streamable_http_path="/",
 )
+
+def _get_user_id_from_token() -> str:
+    token = get_access_token()
+    if not token:
+        raise ValueError("Unauthorized: missing access token")
+
+    return token.claims.get("sub")
 
 class TasksResponse(BaseModel):
     tasks: List[Task]
