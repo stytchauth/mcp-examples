@@ -4,6 +4,7 @@ import { TicketService } from './TicketService';
 
 // Extend Express Request interface for B2B auth
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       memberSession?: MemberSession;

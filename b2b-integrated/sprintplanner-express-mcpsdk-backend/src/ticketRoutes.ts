@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { TicketService } from './TicketService.js';
 import { authorizeSessionMiddleware, getTicketServiceForRequest } from './auth.js';
-import { TicketCreate, TicketStatusUpdate, TicketListResponse } from './types.js';
+import { TicketListResponse } from './types.js';
 
 const router = Router();
 

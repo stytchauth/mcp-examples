@@ -1,9 +1,9 @@
-# B2B Integrated: Sprint Planner Python (FastAPI/FastMCP) Backend
+# Consumer Integrated: Task List Python (FastAPI/FastMCP) Backend
 
-This is a Python backend for the Sprint Planner example.
+This is a Python backend for the Task List example.
 This backend uses FastAPI for the API and FastMCP for the MCP server.
 
-To access this example via the frontend, use `sprintplanner-frontend`.
+To access this example via the frontend, use `tasklist-frontend`.
 
 ## Setup
 
@@ -27,46 +27,36 @@ To access this example via the frontend, use `sprintplanner-frontend`.
     pip install -r requirements.txt
     ```
 
-3. Initialize the database
-
-    ```bash
-    python init_db.py
-    ```
-
-4. Create an environment file
+3. Create an environment file
 
     ```bash
     cp .env.template .env.local
     ```
 
-5. Set environment variables based on your Stytch project (see the [Stytch Dashboard](https://stytch.com/dashboard))
+4. Set environment variables based on your Stytch project (see the [Stytch Dashboard](https://stytch.com/dashboard))
 
 ## Running locally
 
 To start the API and MCP server, run the following command. The server will run on localhost:3001.
 
 ```bash
-python main.py
+uvicorn app.main:app --reload --port ${PORT:-3001}
 ```
 
 ## API Endpoints and MCP Tools
 
 ### REST API
 
-- `GET /api/tickets` - Get all tickets for the organization
-- `POST /api/tickets` - Create a new ticket
-- `POST /api/tickets/{id}/status` - Update ticket status
-- `DELETE /api/tickets/{id}` - Delete a ticket
+- `GET /todos` - Get all tasks for a user
+- `POST /todos` - Create a new task
+- `POST /todos/{todo_id}/complete` - Mark a todo item as completed
+- `DELETE /todos/{todo_id}` - Delete a todo item
 
 ### MCP Tools
 
-- `list_tickets` - List all tickets for an organization
-- `get_ticket` - Get a specific ticket by ID
-- `create_ticket` - Create a new ticket
-- `update_ticket_status` - Update ticket status
-- `delete_ticket` - Delete a ticket
-- `search_tickets` - Search tickets with filters
-- `get_ticket_statistics` - Get ticket statistics and analytics
+- `create_task` - Create a task for the currently authorized user
+- `mark_task_completed` - Mark a specified task completed
+- `delete_task` - Delete a task
 
 ## Testing with the MCP Inspector
 

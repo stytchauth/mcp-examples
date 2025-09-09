@@ -100,6 +100,7 @@ app.post('/mcp', authorizeTokenMiddleware(), async (req, res) => {
 });
 
 // Global error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled error:', error);
 

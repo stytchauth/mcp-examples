@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authorizeSessionMiddleware, authorizeTokenMiddleware } from './auth.js';
+import { authorizeSessionMiddleware } from './auth.js';
 import { TaskListService } from './TaskService.js';
 
 const router = Router();

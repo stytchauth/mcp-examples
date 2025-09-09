@@ -2532,6 +2532,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mcp-examples/sprintplanner-express-mcpsdk-backend@workspace:b2b-integrated/sprintplanner-express-mcpsdk-backend"
   dependencies:
+    "@eslint/js": "npm:^9.17.0"
     "@modelcontextprotocol/sdk": "npm:^1.12.0"
     "@types/better-sqlite3": "npm:^7.6.11"
     "@types/cookie-parser": "npm:^1.4.9"
@@ -2543,11 +2544,13 @@ __metadata:
     cookie-parser: "npm:^1.4.7"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.5.0"
+    eslint: "npm:^9.17.0"
     express: "npm:^5.1.0"
     morgan: "npm:^1.10.1"
     stytch: "npm:^12.32.1"
     tsx: "npm:^4.19.2"
     typescript: "npm:~5.6.2"
+    typescript-eslint: "npm:^8.18.2"
     zod: "npm:^3.24.2"
   languageName: unknown
   linkType: soft
@@ -2556,14 +2559,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mcp-examples/sprintplanner-frontend@workspace:b2b-integrated/sprintplanner-frontend"
   dependencies:
+    "@eslint/js": "npm:^9.17.0"
     "@stytch/react": "npm:^19.10.0"
     "@stytch/vanilla-js": "npm:^5.34.0"
     "@vitejs/plugin-react": "npm:^4.7.0"
+    eslint: "npm:^9.17.0"
+    eslint-plugin-react-hooks: "npm:^5.0.0"
+    eslint-plugin-react-refresh: "npm:^0.4.16"
     hono: "npm:^4.9.5"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     react-router-dom: "npm:^7.8.2"
     typescript: "npm:^5.9.2"
+    typescript-eslint: "npm:^8.18.2"
     vite: "npm:^6.3.5"
   languageName: unknown
   linkType: soft
@@ -2604,14 +2612,17 @@ __metadata:
   resolution: "@mcp-examples/tasklist-cfworkers-mcpsdk-backend@workspace:consumer-integrated/tasklist-cfworkers-mcpsdk-backend"
   dependencies:
     "@cloudflare/workers-types": "npm:^4.20241230.0"
+    "@eslint/js": "npm:^9.17.0"
     "@hono/mcp": "npm:^0.1.2"
     "@hono/stytch-auth": "npm:^0.1.1"
     "@modelcontextprotocol/sdk": "npm:^1.17.5"
     "@stytch/vanilla-js": "npm:^5.18.6"
+    eslint: "npm:^9.17.0"
     hono: "npm:^4.9.6"
     jose: "npm:^6.0.10"
     stytch: "npm:^12.32.0"
     typescript: "npm:~5.6.2"
+    typescript-eslint: "npm:^8.18.2"
     wrangler: "npm:^4.2.0"
     zod: "npm:^3.24.2"
   languageName: unknown
@@ -2621,6 +2632,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mcp-examples/tasklist-express-mcpsdk-backend@workspace:consumer-integrated/tasklist-express-mcpsdk-backend"
   dependencies:
+    "@eslint/js": "npm:^9.17.0"
     "@modelcontextprotocol/sdk": "npm:^1.12.0"
     "@types/better-sqlite3": "npm:^7.6.11"
     "@types/cookie-parser": "npm:^1.4.9"
@@ -2632,11 +2644,13 @@ __metadata:
     cookie-parser: "npm:^1.4.7"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.5.0"
+    eslint: "npm:^9.17.0"
     express: "npm:^5.1.0"
     morgan: "npm:^1.10.1"
     stytch: "npm:^12.32.1"
     tsx: "npm:^4.19.2"
     typescript: "npm:~5.6.2"
+    typescript-eslint: "npm:^8.18.2"
     zod: "npm:^3.24.2"
   languageName: unknown
   linkType: soft

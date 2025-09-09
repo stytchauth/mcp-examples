@@ -37,3 +37,9 @@ Thumbs.db
 # Temporary files
 .tmp/
 temp/
+
+# Sprint Planner Python backend
+b2b-integrated/sprintplanner-python-fastmcp-backend
+
+# Task List Python backend
+consumer-integrated/tasklist-python-fastmcp-backend

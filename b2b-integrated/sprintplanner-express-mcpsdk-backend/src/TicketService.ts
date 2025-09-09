@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { getDatabase, generateId } from './database.js';
-import { Organization, Ticket, TicketCreate, TicketUpdate, TicketSearchParams, TicketStatistics } from './types.js';
+import { Organization, Ticket, TicketCreate, TicketSearchParams, TicketStatistics } from './types.js';
 
 export class TicketService {
   private db = getDatabase();

@@ -6,7 +6,7 @@ import { StytchB2BProvider } from '@stytch/react/b2b';
 import SprintPlanner from './SprintPlanner.js';
 import { Authorize, Login, Logout } from './Auth.js';
 
-const stytch = new StytchB2BUIClient((import.meta as any).env?.VITE_STYTCH_PUBLIC_TOKEN ?? '');
+const stytch = new StytchB2BUIClient(import.meta.env.VITE_STYTCH_PUBLIC_TOKEN ?? '');
 
 function App() {
   return (

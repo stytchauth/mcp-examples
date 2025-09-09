@@ -1,5 +1,4 @@
 import Database from 'better-sqlite3';
-import { Organization, Ticket } from './types.js';
 
 let db: Database.Database | null = null;
 
