@@ -4,17 +4,10 @@ Standalone MCP Server for the Ticket Board application
 
 from dotenv import load_dotenv
 from fastmcp import FastMCP
-from starlette.middleware.cors import CORSMiddleware
-from starlette.middleware import Middleware
-from starlette.requests import Request as StarletteRequest
-from starlette.responses import JSONResponse
 from fastmcp.server.auth import BearerAuthProvider
-from fastmcp.server.dependencies import get_access_token, AccessToken
-from jose import jwt
-from fastapi.responses import JSONResponse
+from fastmcp.server.dependencies import get_access_token
 from typing import List, Dict, Any, Optional
 import crud
-import models
 import schemas
 import os
 
@@ -23,7 +16,7 @@ load_dotenv(".env.local")
 
 auth = BearerAuthProvider(
     jwks_uri=f"{os.getenv('STYTCH_DOMAIN')}/.well-known/jwks.json",
-    issuer=f"stytch.com/{os.getenv("STYTCH_PROJECT_ID")}",
+    issuer=os.getenv("STYTCH_DOMAIN"),
     algorithm="RS256",
     audience=os.getenv("STYTCH_PROJECT_ID")
 )
@@ -38,28 +31,8 @@ def get_organization_id_from_context() -> str:
     token = get_access_token()
     if not token:
         raise ValueError("No access token found in context")
-    
-    # Decode the JWT to get the organization ID
-    try:
-        payload = jwt.decode(
-            token,
-            options={"verify_signature": False}  # Signature already verified by auth
-        )
-        return payload.get("https://stytch.com/organization", {}).get("organization_id")
-    except Exception as e:
-        raise ValueError(f"Could not extract organization ID from token: {e}")
 
-@mcp.custom_route("/.well-known/oauth-protected-resource", methods=["GET", "OPTIONS"])
-async def oauth_metadata(request) -> JSONResponse:
-    base_url = str(request.base_url).rstrip("/")
-
-    return JSONResponse(
-        {
-            "resource": base_url,
-            "authorization_servers": [os.getenv("STYTCH_DOMAIN")],
-            "scopes_supported": ["openid", "email", "profile"]
-        }
-    )
+    return token.claims.get("https://stytch.com/organization", {}).get("organization_id")
 
 @mcp.tool()
 async def list_tickets() -> List[Dict[str, Any]]:
@@ -232,19 +205,3 @@ async def tickets_resource() -> List[Dict[str, Any]]:
         }
         for t in tickets
     ]
-
-if __name__ == "__main__":
-    mcp.run(
-        transport="http",
-        host="127.0.0.1",
-        port=8001,
-        middleware=[
-            Middleware(
-                CORSMiddleware,
-                allow_origins=["*"],
-                allow_credentials=True,
-                allow_methods=["*"],
-                allow_headers=["*"],
-            )
-        ]
-    )

@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+import os
 import crud
 import models
 import schemas
 from database import engine
-from mcp_server_standalone import mcp  
+from mcp_server import mcp  
 from stytch_client import stytch_client
 
 # SETUP steps
@@ -17,7 +19,7 @@ app = FastAPI(title="Ticket Board API", version="1.0.0", lifespan=mcp_app.lifesp
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Your Vite dev server
+    allow_origins=["http://localhost:3000", "http://localhost:6274"],  # Vite dev server and MCP Inspector
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -149,6 +151,45 @@ async def delete_ticket(
     tickets = crud.get_tickets(org_id)
     return schemas.TicketListResponse(tickets=tickets)
 
+@app.get("/.well-known/oauth-protected-resource")
+async def oauth_metadata(request: Request) -> JSONResponse:
+    base_url = str(request.base_url).rstrip("/")
+
+    return JSONResponse(
+        {
+            "resource": base_url,
+            "authorization_servers": [os.getenv("STYTCH_DOMAIN")],
+            "scopes_supported": ["openid", "email", "profile"]
+        }
+    )
+
+@app.get('/.well-known/oauth-protected-resource/{transport:path}')
+def oauth_protected_resource_transport(request: Request, transport: str):
+    base_url = str(request.base_url).rstrip('/')
+    return {
+        "resource": base_url,
+        "authorization_servers": [os.getenv("STYTCH_DOMAIN")],
+        "scopes_supported": ["openid", "email", "profile"],
+    }
+
+# Back-compat: OAuth Authorization Server metadata
+@app.get('/.well-known/oauth-authorization-server')
+def oauth_authorization_server(request: Request):
+    base_url = str(request.base_url).rstrip('/')
+    auth_domain = os.getenv("STYTCH_DOMAIN")
+    return {
+        "issuer": auth_domain,
+        "authorization_endpoint": f"{base_url}/oauth/authorize",
+        "token_endpoint": f"{auth_domain}/v1/oauth2/token",
+        "registration_endpoint": f"{auth_domain}/v1/oauth2/register",
+        "scopes_supported": ["openid", "email", "profile"],
+        "response_types_supported": ["code"],
+        "response_modes_supported": ["query"],
+        "grant_types_supported": ["authorization_code", "refresh_token"],
+        "token_endpoint_auth_methods_supported": ["none"],
+        "code_challenge_methods_supported": ["S256"],
+    }
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=3000)
+    uvicorn.run(app, host="127.0.0.1", port=3001)

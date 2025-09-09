@@ -44,10 +44,11 @@ VITE_STYTCH_PUBLIC_TOKEN=public-token-test-abc123-abcde-1234-0987-0000-abcd1234
 After completing all the setup steps above the application can be run with the command:
 
 ```bash
-npm run dev
+yarn
+yarn dev
 ```
 
-The application will be available at [`http://localhost:5173/`](http://localhost:5173/). The MCP server and API Backends will be available according to the described backend README.
+The application will be available at [`http://localhost:3000/`](http://localhost:3000/). The MCP server and API Backends will be available according to the described backend README.
 
 Test your MCP server using the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)
 
@@ -58,7 +59,7 @@ yarn dlx @modelcontextprotocol/inspector@latest
 Navigate to the URL where the Inspector is running, and input the following values:
 
 - Transport Type: `Streamable HTTP`
-- URL: `http://localhost:3000/mcp`
+- URL: `http://localhost:3000/mcp` (the server is running on port 3001, but we set up Vite proxy rules to pass requests made on 3000 for convenience)
 
 ## Get help and join the community
 
