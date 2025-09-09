@@ -1,24 +1,24 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { withLoginRequired } from './Auth.js';
-import type { Ticket } from './types.js';
-import { useStytchOrganization } from '@stytch/react/b2b';
+import { withLoginRequired } from './Auth';
+import type { Ticket } from './types';
+import { useStytchMember, useStytchOrganization } from '@stytch/react/b2b';
 
 const SprintPlanner = withLoginRequired(() => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [newTicketTitle, setNewTicketTitle] = useState('');
-  const [newTicketAssignee, setNewTicketAssignee] = useState('');
   const { organization } = useStytchOrganization();
+  const { member } = useStytchMember();
 
   // Fetch tickets on component mount
   useEffect(() => {
     getTickets().then((tickets) => setTickets(tickets));
   }, []);
 
-  const createTicket = (title: string, assignee: string) => {
+  const createTicket = (title: string) => {
     return fetch('/api/tickets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, assignee }),
+      body: JSON.stringify({ title, assignee: member?.email_address }),
     })
       .then((res) => res.json())
       .then((res) => res.tickets);
@@ -50,11 +50,10 @@ const SprintPlanner = withLoginRequired(() => {
 
   const onAddTicket = (evt: FormEvent) => {
     evt.preventDefault();
-    if (!newTicketTitle.trim() || !newTicketAssignee.trim()) return;
+    if (!newTicketTitle.trim()) return;
 
-    createTicket(newTicketTitle, newTicketAssignee).then((tickets) => setTickets(tickets));
+    createTicket(newTicketTitle).then((tickets) => setTickets(tickets));
     setNewTicketTitle('');
-    setNewTicketAssignee('');
   };
 
   const onUpdateStatus = (id: string, newStatus: Ticket['status']) => {
@@ -89,13 +88,6 @@ const SprintPlanner = withLoginRequired(() => {
           placeholder="Ticket title"
           value={newTicketTitle}
           onChange={(e) => setNewTicketTitle(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Assignee (member ID)"
-          value={newTicketAssignee}
-          onChange={(e) => setNewTicketAssignee(e.target.value)}
           required
         />
         <button type="submit" className="primary">

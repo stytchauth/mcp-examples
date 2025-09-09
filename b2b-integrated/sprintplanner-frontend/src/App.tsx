@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { StytchB2BUIClient } from '@stytch/vanilla-js/b2b';
 import { StytchB2BProvider } from '@stytch/react/b2b';
 
-import SprintPlanner from './SprintPlanner.js';
-import { Authorize, Login, Logout } from './Auth.js';
+import SprintPlanner from './SprintPlanner';
+import { Authorize, Login, Logout } from './Auth';
 
 const stytch = new StytchB2BUIClient(import.meta.env.VITE_STYTCH_PUBLIC_TOKEN ?? '');
 
