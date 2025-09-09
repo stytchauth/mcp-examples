@@ -37,9 +37,8 @@ export default function Setup({ children }: { children: ReactNode }) {
       <>
         <h1>Error: Frontend Not Configured</h1>
         <p>
-          Full setup instructions are available in the{' '}
-          <a href="https://github.com/stytchauth/mcp-examples">README</a>. Make sure you have
-          configured the following:
+          Full setup instructions are available in the <a href="https://github.com/stytchauth/mcp-examples">README</a>.
+          Make sure you have configured the following:
           <ul>
             <li>
               <code>VITE_STYTCH_PUBLIC_TOKEN</code> in your <code>.env.local</code>
@@ -81,8 +80,7 @@ export default function Setup({ children }: { children: ReactNode }) {
             </>
           )}
           <br />
-          Full setup instructions are available in the{' '}
-          <a href="https://github.com/stytchauth/mcp-examples">README</a>.
+          Full setup instructions are available in the <a href="https://github.com/stytchauth/mcp-examples">README</a>.
           <br />
           You can find these values in your{' '}
           <a href="https://stytch.com/dashboard/project-settings?env=test" target="_blank" rel="noopener noreferrer">
