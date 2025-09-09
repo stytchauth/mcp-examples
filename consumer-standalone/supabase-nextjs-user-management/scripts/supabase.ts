@@ -144,11 +144,11 @@ async function disableSupabaseLegacyKeys(projectId: string) {
   await supaman.put(`/v1/projects/${projectId}/api-keys/legacy?enabled=false`);
 }
 
-// run the migration in supabase/migrations/20221017024722_init.sql, but don't fail if it fails
+// run the migration in supabase-init.sql, but don't fail if it fails
 async function runSupabaseMigration(projectId: string) {
   try {
     await supaman.post(`/v1/projects/${projectId}/database/migrations`, {
-      query: readFileSync(join(__dirname, '..', 'supabase', 'migrations', '20221017024722_init.sql'), 'utf8'),
+      query: readFileSync(join(__dirname, 'supabase-init.sql'), 'utf8'),
     });
   } catch (error) {
     console.log(

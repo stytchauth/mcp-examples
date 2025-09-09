@@ -1,12 +1,19 @@
-# Stytch Connected Apps Examples
+# Stytch Connected Apps: MCP Examples
 
-A comprehensive collection of example applications demonstrating how to integrate [Stytch](https://stytch.com/) authentication with various frameworks and build AI-accessible applications using the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/).
+A comprehensive collection of example apps demonstrating how to integrate [Stytch](https://stytch.com/) authentication with various frameworks to build AI-accessible services using the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/).
 
 ## Overview
 
-This repository contains examples for both **Consumer** and **B2B** authentication flows, with implementations across multiple frameworks and deployment platforms. Each example demonstrates how to build applications that can be extended for AI agent use through MCP integration.
+This repository contains examples for both **Consumer** and **B2B** authentication flows, with implementations across multiple frameworks and deployment platforms.
+Each example demonstrates how to build applications that can be extended for AI agent use through MCP integration.
+
+All of the examples in this repository use Stytch to turn apps into OIDC-compliant identity providers.
+Most of the examples also use Stytch as the authentication provider, but we have included a couple that use other authentication providers in conjunction with Stytch.
 
 ## Repository Structure
+
+The examples in this repository are split by vertical (consumer, B2B), whether they use Stytch for auth (integrated) or not (standalone), and framework.
+For the integrated examples, you'll find a single Vite-powered frontend that can be used with the Cloudflare Workers, Express.js, and Python backends.
 
 ```
 connected-apps-examples
@@ -25,8 +32,6 @@ connected-apps-examples
     └── firebase-express-access-management
 ```
 
-## What's Included
-
 ### Consumer Authentication Examples
 
 - **Task List Application** - A todo list application demonstrating Consumer auth
@@ -37,30 +42,36 @@ connected-apps-examples
 
 - **Sprint Planner Application** - A sprint tasks management application for organizations
 - **Frameworks**: React frontend with a Python (FastMCP) backend; Express.js and Cloudflare Workers backend coming soon!
-- **Features**: Organization management, team collaboration, goal tracking, MCP integration
+- **Features**: Organization management, team collaboration, task tracking, MCP integration
 
 ### Standalone Examples
 
-- Simple user management applications without MCP integration
-- Demonstrates pure Stytch authentication flows that work with an existing third-party authentication provider
+- The consumer app is a simple social blogging platform that uses Supabase as the auth and database provider
+- The B2B app is a simple access request manager that uses Firebase as the auth and database provider
+- Both of these demonstrate how to use Stytch to make an app OIDC-compliant while retaining a third-party authentication provider
 
 ## Key Technologies
 
 - **Authentication**: [Stytch Consumer](https://stytch.com/b2c) and [Stytch B2B](https://stytch.com/b2b)
 - **AI Integration**: [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-- **Frameworks**: React, Next.js, Express.js, Python FastAPI, Cloudflare Workers
+- **Frameworks**: React (Vite), Next.js, Express.js, Python FastAPI/FastMCP, Cloudflare Workers
 - **Platforms**: Vercel, Cloudflare, Supabase, Firebase
 
 ## Getting Started
+
+Each example suite/app may have additional instructions -- make sure to read the embedded READMEs as well.
+However, you'll need to perform the steps below for all the examples.
 
 ### Prerequisites
 
 1. Create a [Stytch account](https://stytch.com/)
 2. Choose **Consumer Authentication** or **B2B Authentication** based on your needs
 3. Enable [Connected Apps](https://stytch.com/dashboard/connected-apps) for MCP integration
-4. Node.js 18+ and Yarn 3
+   - Under Settings, add an Authorization URL (http://localhost:3000/oauth/authorize) and turn on Dynamic Client Registration
+   - For the standalone examples, you'll need to modify Access Token Template Content, but not for the integrated examples
+4. Node.js 18+ (see `.nvmrc`) and Yarn 3
 
-### Quick Start
+### Quickstart
 
 1. **Clone the repository**
 
@@ -72,12 +83,12 @@ connected-apps-examples
 2. **Install dependencies**
 
    ```bash
-   yarn install
+   yarn
    ```
 
 3. **Choose an example to run**
 
-   For the Consumer Task List with Cloudflare Workers:
+   For the Consumer Task List with Next.js:
 
    ```bash
    cd consumer-integrated/tasklist-nextjs-vercelsdk-fullstack
@@ -106,21 +117,22 @@ yarn workspace @mcp-examples/[example-name] dev
 
 ## MCP Integration
 
-The integrated examples demonstrate how to:
+Each example demonstrates how to:
 
 - Expose application functionality through MCP tools
-- Implement OAuth Protected Resource discovery
-- Support multiple MCP transports (SSE, HTTP Streaming)
+- Implement OAuth Protected Resource discovery (and an Authorization Server for backwards-compatibility)
+- Support multiple MCP transports (Streamble HTTP, SSE)
 - Provide AI agents with authenticated access to user data
 
 ### Testing MCP Servers
 
 ```bash
-# Install MCP Inspector
+# Install and run the MCP Inspector
 yarn dlx @modelcontextprotocol/inspector@latest
 
 # Test any MCP-enabled backend
-# Navigate to inspector URL and use: http://localhost:3001/mcp
+# Navigate to inspector URL and use http://localhost:3001/mcp
+# If you're running the Vite frontends, you can also use http://localhost:3000/mcp
 ```
 
 ## Authentication Flows
@@ -135,7 +147,7 @@ yarn dlx @modelcontextprotocol/inspector@latest
 
 - **Use case**: Business applications, team collaboration tools
 - **Features**: Organization management, SSO, member invitations, RBAC
-- **Example**: Team OKR management application
+- **Example**: Team sprint management application
 
 ## Architecture Patterns
 
@@ -151,7 +163,7 @@ Each integrated example follows a consistent pattern:
 - **Stytch Docs**: [https://stytch.com/docs](https://stytch.com/docs)
 - **MCP Docs**: [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
 - **Community**: [Stytch Slack](https://stytch.com/docs/resources/support/overview)
-- **Issues**: [GitHub Issues](https://github.com/stytchauth/connected-apps-examples/issues)
+- **Issues**: [GitHub Issues](https://github.com/stytchauth/mcp-examples/issues)
 
 ## Contributing
 

@@ -1,80 +1,74 @@
-# Sprint Planner FastAPI Backend + MCP Server
+# B2B Integrated: Sprint Planner Python (FastAPI/FastMCP) Backend
 
-A FastAPI backend for the Sprint Planner application with Stytch B2B authentication, plus a separate MCP (Model Context Protocol) server for AI agent integration.
+This is a Python backend for the Sprint Planner example.
+This backend uses FastAPI for the API and FastMCP for the MCP server.
 
-This represents a backend API and MCP server implemented in [TECH STACK HERE]. To run a working application locally, you will also need to have a compatible [Frontend](LINK HERE) application running.
+To access this example via the frontend, use `sprintplanner-frontend`.
 
 ## Setup
 
-1. **Create and activate a virtual environment:**
+1. Create and activate a virtual environment
 
-```bash
-# Create virtual environment
-python -m venv venv
+    ```bash
+    # Create virtual environment
+    python -m venv env
 
-# Activate virtual environment
-# On macOS/Linux:
-source venv/bin/activate
+    # Activate virtual environment
+    # On macOS/Linux:
+    source env/bin/activate
 
-# On Windows:
-# venv\Scripts\activate
-```
+    # On Windows:
+    # env\Scripts\activate
+    ```
 
-2. **Install dependencies:**
+2. Install dependencies using pip
 
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-3. **Initialize the database:**
+3. Initialize the database
 
-```bash
-python init_db.py
-```
+    ```bash
+    python init_db.py
+    ```
 
-4. **Set environment variables:**
+4. Create an environment file
 
-```bash
-cp .env.template .env.local
-```
+    ```bash
+    cp .env.template .env.local
+    ```
 
-You will then need to set the environment variables for your Stytch project based on the values in the Stytch dashboard.
+5. Set environment variables based on your Stytch project (see the [Stytch Dashboard](https://stytch.com/dashboard))
 
-## Running the Servers
+## Running locally
+
+To start the API and MCP server, run the following command. The server will run on localhost:3001.
 
 ```bash
 python main.py
 ```
 
-## API Endpoints
+## API Endpoints and MCP Tools
 
-### REST API (Port 3001)
+### REST API
 
 - `GET /api/tickets` - Get all tickets for the organization
 - `POST /api/tickets` - Create a new ticket
 - `POST /api/tickets/{id}/status` - Update ticket status
 - `DELETE /api/tickets/{id}` - Delete a ticket
 
-### MCP Server (Port 3001)
+### MCP Tools
 
-- **Protocol**: Model Context Protocol (MCP)
-- **Tools Available**: 9 ticket management tools
-- **Frontend**: Connects to API server (port 8000)
-- **AI Agents**: Connect to MCP server (port 8000)
+- `list_tickets` - List all tickets for an organization
+- `get_ticket` - Get a specific ticket by ID
+- `create_ticket` - Create a new ticket
+- `update_ticket_status` - Update ticket status
+- `delete_ticket` - Delete a ticket
+- `search_tickets` - Search tickets with filters
+- `get_ticket_statistics` - Get ticket statistics and analytics
 
-#### MCP Tools Available
-
-The MCP server provides the following tools for AI agents:
-
-- **`list_tickets`** - List all tickets for an organization
-- **`get_ticket`** - Get a specific ticket by ID
-- **`create_ticket`** - Create a new ticket
-- **`update_ticket_status`** - Update ticket status
-- **`delete_ticket`** - Delete a ticket
-- **`search_tickets`** - Search tickets with filters
-- **`get_ticket_statistics`** - Get ticket statistics and analytics
-
-## Testing with MCP Inspector
+## Testing with the MCP Inspector
 
 Test your MCP server using the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)
 
@@ -89,8 +83,9 @@ Navigate to the URL where the Inspector is running, and input the following valu
 
 If you use the Vite frontend, you can also use port 3000 for the MCP server -- Vite will proxy relevant requests appropriately.
 
-## Get help and join the community
+## Support and Documentation
 
-#### :speech_balloon: Stytch community Slack
-
-Join the discussion, ask questions, and suggest new features in our [Slack community](https://stytch.com/docs/resources/support/overview)!
+- **Stytch Docs**: [https://stytch.com/docs](https://stytch.com/docs)
+- **MCP Docs**: [https://modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **Community**: [Stytch Slack](https://stytch.com/docs/resources/support/overview)
+- **Issues**: [GitHub Issues](https://github.com/stytchauth/mcp-examples/issues)
