@@ -4,9 +4,9 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "consumer-integrated/*",
     "b2b-integrated/*",
     "b2b-standalone/*",
+    "consumer-integrated/*",
     "consumer-standalone/*"
   ],
   "packageManager": "yarn@4.0.2",

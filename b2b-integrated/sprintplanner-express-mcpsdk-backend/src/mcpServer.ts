@@ -25,6 +25,7 @@ function formatSingleTicketResponse(description: string, ticket: Ticket | null) 
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function formatStatisticsResponse(description: string, statistics: any) {
   return {
     content: [

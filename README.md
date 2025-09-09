@@ -27,6 +27,7 @@ connected-apps-examples
 |   └── supabase-nextjs-user-management
 ├── b2b-integrated              # MCP/OAuth integration with Stytch B2B Auth
 │   ├── sprintplanner-frontend  # React frontend (works with all backends)
+│   ├── sprintplanner-express-mcpsdk-backend
 │   └── sprintplanner-python-fastmcp-backend
 └── b2b-standalone              # MCP/OAuth integration with external B2B Auth
     └── firebase-express-access-management
@@ -41,7 +42,7 @@ connected-apps-examples
 ### B2B Authentication Examples
 
 - **Sprint Planner Application** - A sprint tasks management application for organizations
-- **Frameworks**: React frontend with a Python (FastMCP) backend; Express.js and Cloudflare Workers backend coming soon!
+- **Frameworks**: React frontend with Python (FastMCP) and Express.js backends
 - **Features**: Organization management, team collaboration, task tracking, MCP integration
 
 ### Standalone Examples

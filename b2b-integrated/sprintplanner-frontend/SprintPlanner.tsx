@@ -1,7 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { withLoginRequired } from './Auth.js';
 import type { Ticket } from './types.js';
-import { useStytchMember, useStytchOrganization, useStytchMemberSession } from '@stytch/react/b2b';
+import { useStytchOrganization } from '@stytch/react/b2b';
 
 const SprintPlanner = withLoginRequired(() => {
   const [tickets, setTickets] = useState<Ticket[]>([]);

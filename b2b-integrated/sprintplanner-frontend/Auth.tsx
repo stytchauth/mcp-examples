@@ -6,7 +6,7 @@ import {
   useStytchMember,
   useStytchMemberSession,
 } from '@stytch/react/b2b';
-import { AuthFlowType, B2BProducts, Products, StytchEventType } from '@stytch/vanilla-js/b2b';
+import { B2BProducts, StytchEventType } from '@stytch/vanilla-js/b2b';
 import { OAuthProviders, StytchB2BUIConfig } from '@stytch/vanilla-js';
 
 /**
