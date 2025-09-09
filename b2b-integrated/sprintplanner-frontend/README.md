@@ -59,7 +59,7 @@ yarn dlx @modelcontextprotocol/inspector@latest
 Navigate to the URL where the Inspector is running, and input the following values:
 
 - Transport Type: `Streamable HTTP`
-- URL: `http://localhost:3001/mcp`
+- URL: `http://localhost:3000/mcp` (the server is running on port 3001, but we set up Vite proxy rules to pass requests made on 3000 for convenience)
 
 ## Get help and join the community
 

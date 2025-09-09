@@ -48,14 +48,14 @@ python main.py
 
 ## API Endpoints
 
-### REST API (Port 8000)
+### REST API (Port 3001)
 
 - `GET /api/tickets` - Get all tickets for the organization
 - `POST /api/tickets` - Create a new ticket
 - `POST /api/tickets/{id}/status` - Update ticket status
 - `DELETE /api/tickets/{id}` - Delete a ticket
 
-### MCP Server (Port 8000)
+### MCP Server (Port 3001)
 
 - **Protocol**: Model Context Protocol (MCP)
 - **Tools Available**: 9 ticket management tools
@@ -86,6 +86,8 @@ Navigate to the URL where the Inspector is running, and input the following valu
 
 - Transport Type: `Streamable HTTP`
 - URL: `http://localhost:3001/mcp`
+
+If you use the Vite frontend, you can also use port 3000 for the MCP server -- Vite will proxy relevant requests appropriately.
 
 ## Get help and join the community
 

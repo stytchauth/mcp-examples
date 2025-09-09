@@ -4,17 +4,10 @@ Standalone MCP Server for the Ticket Board application
 
 from dotenv import load_dotenv
 from fastmcp import FastMCP
-from starlette.middleware.cors import CORSMiddleware
-from starlette.middleware import Middleware
-from starlette.requests import Request as StarletteRequest
-from starlette.responses import JSONResponse
 from fastmcp.server.auth import BearerAuthProvider
-from fastmcp.server.dependencies import get_access_token, AccessToken
-from jose import jwt
-from fastapi.responses import JSONResponse
+from fastmcp.server.dependencies import get_access_token
 from typing import List, Dict, Any, Optional
 import crud
-import models
 import schemas
 import os
 
@@ -212,19 +205,3 @@ async def tickets_resource() -> List[Dict[str, Any]]:
         }
         for t in tickets
     ]
-
-if __name__ == "__main__":
-    mcp.run(
-        transport="http",
-        host="127.0.0.1",
-        port=8001,
-        middleware=[
-            Middleware(
-                CORSMiddleware,
-                allow_origins=["*"],
-                allow_credentials=True,
-                allow_methods=["*"],
-                allow_headers=["*"],
-            )
-        ]
-    )
