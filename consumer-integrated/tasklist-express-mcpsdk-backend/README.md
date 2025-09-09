@@ -9,15 +9,15 @@ To access this example via the frontend, use `tasklist-frontend`.
 
 1. Install dependencies
 
-    ```bash
-    yarn
-    ```
+   ```bash
+   yarn
+   ```
 
 2. Create an environment file
 
-    ```bash
-    cp .env.template .env.local
-    ```
+   ```bash
+   cp .env.template .env.local
+   ```
 
 3. Set environment variables based on your Stytch project (see the [Stytch Dashboard](https://stytch.com/dashboard))
 
