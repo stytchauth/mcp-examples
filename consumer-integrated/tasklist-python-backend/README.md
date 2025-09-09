@@ -28,7 +28,7 @@ Then update the .env.local with your Stytch project values, taken from the dashb
 uvicorn app.main:app --reload --port ${PORT:-3001}
 ```
 
-Both the API and MCP server will be available at: `localhost:3000`
+Both the API and MCP server will be available at `localhost:3001`
 
 ## Testing with MCP Inspector
 
@@ -41,18 +41,20 @@ yarn dlx @modelcontextprotocol/inspector@latest
 Navigate to the URL where the Inspector is running, and input the following values:
 
 - Transport Type: `Streamable HTTP`
-- URL: `http://localhost:3000/mcp`
+- URL: `http://localhost:3001/mcp`
+
+If you use the Vite frontend, you can also use port 3000 for the MCP server -- Vite will proxy relevant requests appropriately.
 
 ## API Endpoints
 
-### REST API (Port 8000)
+### REST API (Port 3001)
 
 - `GET /todos` - Get all tasks for a user
 - `POST /todos` - Create a new task
 - `POST /todos/{todo_id}/complete` - Mark a todo item as completed
 - `DELETE /todos/{todo_id}` - Delete a todo item
 
-### MCP Server (Port 8000)
+### MCP Server (Port 3001)
 
 - **Protocol**: Model Context Protocol (MCP)
 - **Tools Available**: 3 Task list management tools
