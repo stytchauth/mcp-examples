@@ -19,7 +19,7 @@ app = FastAPI(title="Ticket Board API", version="1.0.0", lifespan=mcp_app.lifesp
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:6274"],  # Vite dev server and MCP Inspector
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

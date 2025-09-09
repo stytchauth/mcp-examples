@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   B2BIdentityProvider,
   StytchB2B,
@@ -6,8 +6,8 @@ import {
   useStytchMember,
   useStytchMemberSession,
 } from '@stytch/react/b2b';
-import { useEffect, useMemo } from 'react';
-import { AuthFlowType, StytchEventType } from '@stytch/vanilla-js/dist/b2b';
+import { AuthFlowType, B2BProducts, Products, StytchEventType } from '@stytch/vanilla-js/b2b';
+import { OAuthProviders, StytchB2BUIConfig } from '@stytch/vanilla-js';
 
 /**
  * A higher-order component that enforces a login requirement for the wrapped component.
@@ -49,23 +49,25 @@ const onLoginComplete = () => {
 };
 
 /**
- * The Login page implementation for B2B. Redirects to the SSO/Discovery authorize route.
+ * The Login page implementation for B2B.
+ * Kicks off a login flow using Email OTPs or OAuth
+ * If rendered on the OAuth callback route, validates the token and starts a session
  */
 export function Login() {
   const config = useMemo(
-    () => ({
-      authFlowType: 'Discovery',
-      products: ['emailMagicLinks', 'passwords'],
-      emailMagicLinksOptions: {
-        discoveryRedirectURL: window.location.origin + '/authenticate',
-      },
-      ssoOptions: {
-        discoveryRedirectURL: window.location.origin + '/authenticate',
-      },
-      sessionOptions: {
-        sessionDurationMinutes: 60,
-      },
-    }),
+    () =>
+      ({
+        authFlowType: 'Discovery',
+        products: [B2BProducts.oauth, B2BProducts.emailOtp],
+        oauthOptions: {
+          providers: [{ type: OAuthProviders.Google }],
+          loginRedirectURL: window.location.origin + '/authenticate',
+          signupRedirectURL: window.location.origin + '/authenticate',
+        },
+        sessionOptions: {
+          sessionDurationMinutes: 60,
+        },
+      }) satisfies StytchB2BUIConfig,
     [],
   );
 
@@ -73,7 +75,12 @@ export function Login() {
     <StytchB2B
       config={config}
       callbacks={{
-        onEvent: (evt) => console.log('StytchB2B onEvent', evt),
+        onEvent: (evt) => {
+          console.log('StytchB2B onEvent', evt);
+          if (evt.type === StytchEventType.AuthenticateFlowComplete) {
+            onLoginComplete();
+          }
+        },
         onError: (err) => console.error('StytchB2B onError', err),
       }}
     />
@@ -94,77 +101,6 @@ export const Authorize = withLoginRequired(function () {
     />
   );
 });
-
-/**
- * The Authentication callback page implementation. Handles completing the login flow after OAuth
- */
-export function Authenticate() {
-  const config = useMemo(
-    () => ({
-      products: ['emailMagicLinks', 'passwords'],
-      sessionOptions: {
-        sessionDurationMinutes: 60,
-      },
-    }),
-    [],
-  );
-
-  return (
-    <StytchB2B
-      config={config}
-      callbacks={{
-        onEvent: (evt) => {
-          console.log('Authenticate StytchB2B onEvent', evt);
-          if (evt.type === StytchEventType.AuthenticateFlowComplete) {
-            onLoginComplete();
-          }
-        },
-        onError: (err) => console.error('Authenticate StytchB2B onError', err),
-      }}
-    />
-  );
-}
-
-/**
- * The Discovery page implementation for B2B. Shows organization picker after EML authentication.
- */
-export function Discovery() {
-  const config = useMemo(
-    () => ({
-      authFlowType: AuthFlowType.Discovery,
-      products: ['emailMagicLinks', 'passwords'],
-      emailMagicLinksOptions: {
-        loginRedirectURL: window.location.origin + '/authenticate',
-        signupRedirectURL: window.location.origin + '/authenticate',
-      },
-      ssoOptions: {
-        loginRedirectURL: window.location.origin + '/authenticate',
-        signupRedirectURL: window.location.origin + '/authenticate',
-      },
-      sessionOptions: {
-        sessionDurationMinutes: 60,
-      },
-    }),
-    [],
-  );
-
-  return (
-    <div>
-      <div>Discovery Page - Select or Create Organization</div>
-      <StytchB2B
-        config={config}
-        callbacks={{
-          onEvent: (evt) => {
-            if (evt.type === StytchEventType.AuthenticateFlowComplete) {
-              onLoginComplete();
-            }
-          },
-          onError: (err) => console.error('Discovery StytchB2B onError', err),
-        }}
-      />
-    </div>
-  );
-}
 
 export const Logout = function () {
   const stytch = useStytchB2BClient();

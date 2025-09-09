@@ -4,7 +4,7 @@ import { StytchB2BUIClient } from '@stytch/vanilla-js/b2b';
 import { StytchB2BProvider } from '@stytch/react/b2b';
 
 import SprintPlanner from './SprintPlanner.js';
-import { Authenticate, Authorize, Login, Logout, Discovery } from './Auth.js';
+import { Authorize, Login, Logout } from './Auth.js';
 
 const stytch = new StytchB2BUIClient((import.meta as any).env?.VITE_STYTCH_PUBLIC_TOKEN ?? '');
 
@@ -17,8 +17,7 @@ function App() {
           <Routes>
             <Route path="/oauth/authorize" element={<Authorize />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/authenticate" element={<Authenticate />} />
-            <Route path="/discovery" element={<Discovery />} />
+            <Route path="/authenticate" element={<Login />} />
             <Route path="/tickets" element={<SprintPlanner />} />
             <Route path="*" element={<Navigate to="/tickets" />} />
           </Routes>

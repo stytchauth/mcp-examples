@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "@mcp-examples/sprintplanner-frontend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

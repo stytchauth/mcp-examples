@@ -7,22 +7,17 @@ const SprintPlanner = withLoginRequired(() => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [newTicketTitle, setNewTicketTitle] = useState('');
   const [newTicketAssignee, setNewTicketAssignee] = useState('');
-  const { member } = useStytchMember();
   const { organization } = useStytchOrganization();
-  const { session } = useStytchMemberSession();
 
   // Fetch tickets on component mount
   useEffect(() => {
-    if (session) {
-      getTickets().then((tickets) => setTickets(tickets));
-    }
-  }, [session]);
+    getTickets().then((tickets) => setTickets(tickets));
+  }, []);
 
   const createTicket = (title: string, assignee: string) => {
-    if (!session) return Promise.reject('No session');
-
     return fetch('/api/tickets', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, assignee }),
     })
       .then((res) => res.json())
@@ -30,18 +25,15 @@ const SprintPlanner = withLoginRequired(() => {
   };
 
   const getTickets = () => {
-    if (!session) return Promise.reject('No session');
-
     return fetch('/api/tickets', {})
       .then((res) => res.json())
       .then((res) => res.tickets);
   };
 
   const updateTicketStatus = (id: string, status: Ticket['status']) => {
-    if (!session) return Promise.reject('No session');
-
     return fetch(`/api/tickets/${id}/status`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     })
       .then((res) => res.json())
@@ -49,8 +41,6 @@ const SprintPlanner = withLoginRequired(() => {
   };
 
   const deleteTicket = (id: string) => {
-    if (!session) return Promise.reject('No session');
-
     return fetch(`/api/tickets/${id}`, {
       method: 'DELETE',
     })
@@ -90,10 +80,7 @@ const SprintPlanner = withLoginRequired(() => {
 
   return (
     <div className="sprintPlanner">
-      <div className="boardHeader">
-        <h2>Sprint Planner</h2>
-        {organization && <p>Organization: {organization.organization_name}</p>}
-      </div>
+      <div className="boardHeader">{organization && <p>Organization: {organization.organization_name}</p>}</div>
 
       {/* Create Ticket Form */}
       <form onSubmit={onAddTicket} className="createTicketForm">

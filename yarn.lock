@@ -2528,6 +2528,46 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@mcp-examples/sprintplanner-express-mcpsdk-backend@workspace:b2b-integrated/sprintplanner-express-mcpsdk-backend":
+  version: 0.0.0-use.local
+  resolution: "@mcp-examples/sprintplanner-express-mcpsdk-backend@workspace:b2b-integrated/sprintplanner-express-mcpsdk-backend"
+  dependencies:
+    "@modelcontextprotocol/sdk": "npm:^1.12.0"
+    "@types/better-sqlite3": "npm:^7.6.11"
+    "@types/cookie-parser": "npm:^1.4.9"
+    "@types/cors": "npm:^2.8.17"
+    "@types/express": "npm:^5.0.0"
+    "@types/morgan": "npm:^1.9.10"
+    "@types/node": "npm:^22.10.2"
+    better-sqlite3: "npm:^12.2.0"
+    cookie-parser: "npm:^1.4.7"
+    cors: "npm:^2.8.5"
+    dotenv: "npm:^16.5.0"
+    express: "npm:^5.1.0"
+    morgan: "npm:^1.10.1"
+    stytch: "npm:^12.32.1"
+    tsx: "npm:^4.19.2"
+    typescript: "npm:~5.6.2"
+    zod: "npm:^3.24.2"
+  languageName: unknown
+  linkType: soft
+
+"@mcp-examples/sprintplanner-frontend@workspace:b2b-integrated/sprintplanner-frontend":
+  version: 0.0.0-use.local
+  resolution: "@mcp-examples/sprintplanner-frontend@workspace:b2b-integrated/sprintplanner-frontend"
+  dependencies:
+    "@stytch/react": "npm:^19.10.0"
+    "@stytch/vanilla-js": "npm:^5.34.0"
+    "@vitejs/plugin-react": "npm:^4.7.0"
+    hono: "npm:^4.9.5"
+    react: "npm:^19.1.1"
+    react-dom: "npm:^19.1.1"
+    react-router-dom: "npm:^7.8.2"
+    typescript: "npm:^5.9.2"
+    vite: "npm:^6.3.5"
+  languageName: unknown
+  linkType: soft
+
 "@mcp-examples/supabase-nextjs-user-management@workspace:consumer-standalone/supabase-nextjs-user-management":
   version: 0.0.0-use.local
   resolution: "@mcp-examples/supabase-nextjs-user-management@workspace:consumer-standalone/supabase-nextjs-user-management"
@@ -6907,22 +6947,6 @@ __metadata:
   checksum: 44e1468488363074641991c1340d2a10c5a6f6d7c353d89fd161c49d120c58ebf9890720f7584f509058385836e3ce50ddb60e9f017315a4ba8c6c3461813bfc
   languageName: node
   linkType: hard
-
-"frontend@workspace:b2b-integrated/sprintplanner-frontend":
-  version: 0.0.0-use.local
-  resolution: "frontend@workspace:b2b-integrated/sprintplanner-frontend"
-  dependencies:
-    "@stytch/react": "npm:^19.10.0"
-    "@stytch/vanilla-js": "npm:^5.34.0"
-    "@vitejs/plugin-react": "npm:^4.7.0"
-    hono: "npm:^4.9.5"
-    react: "npm:^19.1.1"
-    react-dom: "npm:^19.1.1"
-    react-router-dom: "npm:^7.8.2"
-    typescript: "npm:^5.9.2"
-    vite: "npm:^6.3.5"
-  languageName: unknown
-  linkType: soft
 
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
