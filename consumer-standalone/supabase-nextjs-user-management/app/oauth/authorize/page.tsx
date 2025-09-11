@@ -41,7 +41,12 @@ export default function AuthenticatePage() {
         <div className="row">
           <div className="col-12">
             <h1 className="header">Stytch OAuth Authorization</h1>
-            <IdentityProvider authTokenParams={{trustedAuthToken: token!, tokenProfileID: process.env.NEXT_PUBLIC_STYTCH_TOKEN_PROFILE!}} />
+            <IdentityProvider
+              authTokenParams={{
+                trustedAuthToken: token!,
+                tokenProfileID: process.env.NEXT_PUBLIC_STYTCH_TOKEN_PROFILE!,
+              }}
+            />
           </div>
         </div>
       </div>
