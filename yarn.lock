@@ -2582,8 +2582,8 @@ __metadata:
   dependencies:
     "@eslint/eslintrc": "npm:^3"
     "@modelcontextprotocol/sdk": "npm:^1.17.3"
-    "@stytch/nextjs": "npm:^21.10.0"
-    "@stytch/vanilla-js": "npm:^5.34.0"
+    "@stytch/nextjs": "npm:^21.11.1"
+    "@stytch/vanilla-js": "npm:^5.35.1"
     "@supabase/ssr": "npm:^0.6.1"
     "@supabase/supabase-js": "npm:^2.53.0"
     "@tailwindcss/postcss": "npm:^4.1.11"
@@ -3316,7 +3316,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stytch/nextjs@npm:^21.10.0, @stytch/nextjs@npm:^21.5.0":
+"@stytch/nextjs@npm:^21.11.1":
+  version: 21.11.1
+  resolution: "@stytch/nextjs@npm:21.11.1"
+  peerDependencies:
+    "@stytch/vanilla-js": ^5.0.0
+    react: ">= 17.0.2"
+    react-dom: ">= 17.0.2"
+  checksum: a62c12a97e4fe55f2d329912d379ca32fe6a420a210a043b61b19c273fe14ccb1cd25b2d267979794267e1edb42d21e9025f74a31e2899e041514242bcfd4842
+  languageName: node
+  linkType: hard
+
+"@stytch/nextjs@npm:^21.5.0":
   version: 21.10.0
   resolution: "@stytch/nextjs@npm:21.10.0"
   peerDependencies:
@@ -3346,6 +3357,17 @@ __metadata:
     "@types/google-one-tap": "npm:^1.2.0"
     type-fest: "npm:4.15.0"
   checksum: ef3e51fb588995ec300cc548b263e75f01487affe8f1dbdc4c35b0046a9019e12ad10d31b359857246e45af71129bba387f8774fdb3f43bfc4a3beb9b36f8f80
+  languageName: node
+  linkType: hard
+
+"@stytch/vanilla-js@npm:^5.35.1":
+  version: 5.35.1
+  resolution: "@stytch/vanilla-js@npm:5.35.1"
+  dependencies:
+    "@stytch/core": "npm:2.61.0"
+    "@types/google-one-tap": "npm:^1.2.0"
+    type-fest: "npm:4.15.0"
+  checksum: 36bff9b863409d1d7f03f50d9bd70dc02b63592909db01d7064b0be9b0a3f7e4a0ddf3b26abd8417486775da1d8c760af857489df2b589d028ff48d250fb1785
   languageName: node
   linkType: hard
 
