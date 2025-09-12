@@ -2498,7 +2498,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.42.0"
     "@vitejs/plugin-react": "npm:^4.1.0"
     autoprefixer: "npm:^10.4.16"
-    axios: "npm:^1.6.0"
+    axios: "npm:^1.12.0"
     concurrently: "npm:^8.2.2"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.3.1"
@@ -2591,7 +2591,7 @@ __metadata:
     "@types/react": "npm:^19.1.9"
     "@types/react-dom": "npm:^19.1.7"
     "@vercel/mcp-adapter": "npm:^1.0.0"
-    axios: "npm:^1.11.0"
+    axios: "npm:^1.12.0"
     dotenv: "npm:^17.2.1"
     eslint: "npm:^8.52.0"
     eslint-config-next: "npm:15.4.5"
@@ -4708,14 +4708,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.11.0, axios@npm:^1.6.0":
-  version: 1.11.0
-  resolution: "axios@npm:1.11.0"
+"axios@npm:^1.12.0":
+  version: 1.12.1
+  resolution: "axios@npm:1.12.1"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 232df4af7a4e4e07baa84621b9cc4b0c518a757b4eacc7f635c0eb3642cb98dff347326739f24b891b3b4481b7b838c79a3a0c4819c9fbc1fc40232431b9c5dc
+  checksum: 928e88cba180a48451a7872cfd7e7072f39e3e797c69960a048eae90f456d1de44ef0d7929325939140cd4d03b06fe2ee0d29f3f4d5873b4a7584cbe6d0d3080
   languageName: node
   linkType: hard
 
