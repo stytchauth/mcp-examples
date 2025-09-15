@@ -20,7 +20,7 @@ function formatResponse(
 }
 
 // Creates a stateless MCP Server instance to process the request
-// The MCP Server will be bound to the provided userID and will only access that user's information
+// The MCP Server will be bound to the provided organizationID and will only access that user's information
 export function createMcpServer(env: Env, organizationId: string): McpServer {
   const svc = sprintPlannerService(env, organizationId);
 
