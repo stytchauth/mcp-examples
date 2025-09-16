@@ -11,6 +11,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 
+	"github.com/stytchauth/mcp-examples/consumer-integrated/tasklist-golang-backend/internal/auth"
 	"github.com/stytchauth/mcp-examples/consumer-integrated/tasklist-golang-backend/internal/config"
 	"github.com/stytchauth/mcp-examples/consumer-integrated/tasklist-golang-backend/internal/handlers"
 	"github.com/stytchauth/mcp-examples/consumer-integrated/tasklist-golang-backend/internal/mcpserver"
@@ -48,8 +49,8 @@ func main() {
 	tasks := handlers.RegisterTaskRoutes(api, cfg)
 	_ = tasks
 
-	// MCP HTTP endpoint (mounted under /mcp)
-	r.PathPrefix("/mcp").Handler(http.StripPrefix("/mcp", mcpserver.HTTPHandler(cfg)))
+	// MCP HTTP endpoint (mounted under /mcp) - with auth middleware
+	r.PathPrefix("/mcp").Handler(auth.Middleware(cfg)(http.StripPrefix("/mcp", mcpserver.HTTPHandler(cfg))))
 
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", cfg.Port),

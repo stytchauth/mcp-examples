@@ -2,10 +2,12 @@ package auth
 
 import (
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	"github.com/stytchauth/stytch-go/v16/stytch/consumer/sessions"
+	"github.com/stytchauth/stytch-go/v16/stytch/consumer/stytchapi"
 
 	"github.com/stytchauth/mcp-examples/consumer-integrated/tasklist-golang-backend/internal/config"
 )
@@ -24,11 +26,22 @@ func UserIDFrom(ctx context.Context) (string, bool) {
 	return s, ok
 }
 
-// For this example, we accept a cookie 'stytch_session_jwt' or Authorization: Bearer <jwt>.
-// We do not perform remote verification here; in production, verify JWT using JWKS.
+// Middleware authenticates requests using Stytch session JWT
 func Middleware(cfg *config.Config) func(http.Handler) http.Handler {
+	// Initialize Stytch client
+	client, err := stytchapi.NewClient(cfg.StytchProjectID, cfg.StytchProjectSecret)
+	if err != nil {
+		// If client creation fails, return middleware that always rejects
+		return func(next http.Handler) http.Handler {
+			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				unauthorized(w)
+			})
+		}
+	}
+
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Extract JWT from cookie or Authorization header
 			jwt := ""
 			if c, err := r.Cookie("stytch_session_jwt"); err == nil && c.Value != "" {
 				jwt = c.Value
@@ -44,14 +57,23 @@ func Middleware(cfg *config.Config) func(http.Handler) http.Handler {
 				return
 			}
 
-			// Minimal decode to extract `sub` claim without verification for demo purposes
-			// In production, use JWKS at cfg.StytchDomain + "/.well-known/jwks.json" and verify.
-			sub := extractSubClaim(jwt)
-			if sub == "" {
+			// Authenticate JWT with Stytch
+			resp, err := client.Sessions.Authenticate(context.Background(), &sessions.AuthenticateParams{
+				SessionJWT: jwt,
+			})
+			if err != nil {
 				unauthorized(w)
 				return
 			}
-			ctx := WithUserID(r.Context(), sub)
+
+			// Extract user ID from session
+			userID := resp.Session.UserID
+			if userID == "" {
+				unauthorized(w)
+				return
+			}
+
+			ctx := WithUserID(r.Context(), userID)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -61,36 +83,4 @@ func unauthorized(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusUnauthorized)
 	_ = json.NewEncoder(w).Encode(map[string]string{"error": "Unauthorized"})
-}
-
-// extractSubClaim attempts to decode the middle JWT section as JSON and read 'sub'
-func extractSubClaim(jwt string) string {
-	parts := strings.Split(jwt, ".")
-	if len(parts) != 3 {
-		return ""
-	}
-	// base64url decode without padding
-	decoded, err := base64urlDecode(parts[1])
-	if err != nil {
-		return ""
-	}
-	var m map[string]any
-	if err := json.Unmarshal(decoded, &m); err != nil {
-		return ""
-	}
-	if v, ok := m["sub"].(string); ok {
-		return v
-	}
-	return ""
-}
-
-func base64urlDecode(s string) ([]byte, error) {
-	// add padding if needed
-	if m := len(s) % 4; m != 0 {
-		s += strings.Repeat("=", 4-m)
-	}
-	// replace URL chars
-	r := strings.NewReplacer("-", "+", "_", "/")
-	b64 := r.Replace(s)
-	return base64.StdEncoding.DecodeString(b64)
 }

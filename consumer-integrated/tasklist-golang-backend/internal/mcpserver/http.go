@@ -16,7 +16,11 @@ import (
 func HTTPHandler(cfg *config.Config) http.Handler {
 	// Build per-request server with tools/resources
 	h := mcp.NewStreamableHTTPHandler(func(r *http.Request) *mcp.Server {
-		userID, _ := auth.UserIDFrom(r.Context())
+		userID, ok := auth.UserIDFrom(r.Context())
+		if !ok || userID == "" {
+			// Authentication failed - this should not happen since auth middleware should catch this
+			panic("MCP server requires authentication - no user ID found in context")
+		}
 		srv := mcp.NewServer(&mcp.Implementation{Name: "TaskList Service", Version: "1.0.0"}, nil)
 
 		// createTask tool

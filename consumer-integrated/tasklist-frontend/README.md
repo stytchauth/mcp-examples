@@ -4,6 +4,7 @@ This is a Vite React frontend for the Task List backends:
 
 - `tasklist-cfworkers-mcpsdk-backend`
 - `tasklist-express-mcpsdk-backend`
+- `tasklist-golang-backend`
 - `tasklist-python-backend`
 
 ## Setup
