@@ -63,7 +63,7 @@ export default new Hono<{ Bindings: Env }>()
   .use('/sse/*', authenticateTokenAuthMiddleware)
   .use('/sse', async (c) => {
     const { claims } = B2B.getOAuthData(c);
-    const orgClaim = (claims as any)["https://stytch.com/organization"];
+    const orgClaim = (claims as any)['https://stytch.com/organization'];
     const orgId = orgClaim?.organization_id || (claims as any).organization_id || claims.subject;
     const mcpServer = createMcpServer(c.env, orgId);
     const transport = new StreamableHTTPTransport();
@@ -75,7 +75,7 @@ export default new Hono<{ Bindings: Env }>()
   .use('/mcp', authenticateTokenAuthMiddleware)
   .use('/mcp', async (c) => {
     const { claims } = B2B.getOAuthData(c);
-    const orgClaim = (claims as any)["https://stytch.com/organization"];
+    const orgClaim = (claims as any)['https://stytch.com/organization'];
     const orgId = orgClaim?.organization_id || (claims as any).organization_id || claims.subject;
     const mcpServer = createMcpServer(c.env, orgId);
     const transport = new StreamableHTTPTransport();

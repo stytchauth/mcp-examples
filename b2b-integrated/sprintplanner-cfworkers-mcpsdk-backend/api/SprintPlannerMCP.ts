@@ -52,18 +52,28 @@ export function createMcpServer(env: Env, organizationId: string): McpServer {
     },
   );
 
-  server.tool('create_ticket', 'Create a new ticket', { title: z.string(), assignee: z.string(), description: z.string().optional() }, async ({ title, assignee, description }) => {
-    const tickets = await svc.createTicket({ title, assignee, description });
-    return formatResponse('Ticket created successfully', tickets);
-  });
+  server.tool(
+    'create_ticket',
+    'Create a new ticket',
+    { title: z.string(), assignee: z.string(), description: z.string().optional() },
+    async ({ title, assignee, description }) => {
+      const tickets = await svc.createTicket({ title, assignee, description });
+      return formatResponse('Ticket created successfully', tickets);
+    },
+  );
 
-  server.tool('update_ticket_status', 'Update ticket status', { id: z.string(), status: z.enum(['backlog', 'in-progress', 'review', 'done']) }, async ({ id, status }) => {
-    const tickets = await svc.updateTicketStatus(id, status);
-    if (!tickets) {
-      return { content: [{ type: 'text', text: 'Ticket not found' }] };
-    }
-    return formatResponse('Ticket status updated successfully', tickets);
-  });
+  server.tool(
+    'update_ticket_status',
+    'Update ticket status',
+    { id: z.string(), status: z.enum(['backlog', 'in-progress', 'review', 'done']) },
+    async ({ id, status }) => {
+      const tickets = await svc.updateTicketStatus(id, status);
+      if (!tickets) {
+        return { content: [{ type: 'text', text: 'Ticket not found' }] };
+      }
+      return formatResponse('Ticket status updated successfully', tickets);
+    },
+  );
 
   server.tool('delete_ticket', 'Delete a ticket', { id: z.string() }, async ({ id }) => {
     const tickets = await svc.deleteTicket(id);
@@ -78,10 +88,15 @@ export function createMcpServer(env: Env, organizationId: string): McpServer {
     return { content: [{ type: 'text', text: JSON.stringify(tickets, null, 2) }] };
   });
 
-  server.tool('search_tickets', 'Search tickets', { status: z.string().optional(), assignee: z.string().optional(), title_contains: z.string().optional() }, async (params) => {
-    const tickets = await svc.searchTickets(params);
-    return { content: [{ type: 'text', text: JSON.stringify(tickets, null, 2) }] };
-  });
+  server.tool(
+    'search_tickets',
+    'Search tickets',
+    { status: z.string().optional(), assignee: z.string().optional(), title_contains: z.string().optional() },
+    async (params) => {
+      const tickets = await svc.searchTickets(params);
+      return { content: [{ type: 'text', text: JSON.stringify(tickets, null, 2) }] };
+    },
+  );
 
   server.tool('get_ticket_statistics', 'Get ticket statistics', {}, async () => {
     const stats = await svc.getTicketStatistics();
