@@ -8,9 +8,9 @@ To access this example via the frontend, use `tasklist-frontend`.
 1. Install Go 1.22+
 2. Create env file
 
-    ```
-    cp .env.template .env.local
-    ```
+   ```
+   cp .env.template .env.local
+   ```
 
 3. Fill in the Required variables:
 
@@ -25,7 +25,6 @@ go run ./cmd/server
 ```
 
 Server runs on `http://localhost:${PORT:-3001}`
-
 
 ## API Endpoints and MCP Tools
 
