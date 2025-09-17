@@ -2,10 +2,10 @@ package storage
 
 import (
 	"errors"
-	"fmt"
 	"path/filepath"
 	"time"
 
+	"github.com/google/uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
@@ -61,7 +61,7 @@ func (s *Store) GetByID(userID, id string) (*Task, error) {
 
 func (s *Store) Add(userID, text string) ([]Task, error) {
 	task := Task{
-		ID:        fmt.Sprintf("%d", time.Now().UnixMilli()),
+		ID:        uuid.New().String(),
 		UserID:    userID,
 		Text:      text,
 		Completed: false,
