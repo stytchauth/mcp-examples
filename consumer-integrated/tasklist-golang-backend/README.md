@@ -30,10 +30,10 @@ Server runs on `http://localhost:${PORT:-3001}`
 
 ### REST API
 
-- `GET /todos` - Get all tasks for a user
-- `POST /todos` - Create a new task
-- `POST /todos/{todo_id}/complete` - Mark a todo item as completed
-- `DELETE /todos/{todo_id}` - Delete a todo item
+- `GET /tasks` - Get all tasks for a user
+- `POST /tasks` - Create a new task
+- `POST /tasks/{task_id}/complete` - Mark a task as completed
+- `DELETE /tasks/{task_id}` - Delete a task
 
 ### MCP Tools
 
