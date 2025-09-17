@@ -63,7 +63,7 @@ export default new Hono<{ Bindings: Env }>()
   .use('/sse/*', authenticateTokenAuthMiddleware)
   .use('/sse', async (c) => {
     const { claims } = B2B.getOAuthData(c);
-    const orgId = claims.organization?.organization_id || claims.subject;
+    const orgId = claims.organization.organization_id || claims.subject;
     const mcpServer = createMcpServer(c.env, orgId);
     const transport = new StreamableHTTPTransport();
     await mcpServer.connect(transport);
