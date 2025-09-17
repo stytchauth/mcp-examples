@@ -20,9 +20,9 @@ type createTaskBody struct {
 }
 
 func RegisterTaskRoutes(r *mux.Router, cfg *config.Config) *mux.Router {
-	// Wrap with auth middleware
+	// Wrap with session auth middleware (for cookie-based auth)
 	sr := r.NewRoute().Subrouter()
-	sr.Use(auth.Middleware(cfg))
+	sr.Use(auth.SessionMiddleware(cfg))
 
 	sr.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
 		userID, _ := auth.UserIDFrom(r.Context())

@@ -45,12 +45,11 @@ func main() {
 	r.HandleFunc("/.well-known/oauth-protected-resource", handlers.OAuthProtectedResourceHandler(cfg)).Methods(http.MethodGet)
 	r.PathPrefix("/.well-known/oauth-protected-resource/").Handler(handlers.OAuthProtectedResourceHandler(cfg)).Methods(http.MethodGet)
 
-	// Tasks REST (protected)
-	tasks := handlers.RegisterTaskRoutes(api, cfg)
-	_ = tasks
+	// Tasks REST (protected) - uses session middleware for cookie-based auth
+	handlers.RegisterTaskRoutes(api, cfg)
 
-	// MCP HTTP endpoint (mounted under /mcp) - with auth middleware
-	r.PathPrefix("/mcp").Handler(auth.Middleware(cfg)(http.StripPrefix("/mcp", mcpserver.HTTPHandler(cfg))))
+	// MCP HTTP endpoint (mounted under /mcp) - uses token middleware for header-based auth
+	r.PathPrefix("/mcp").Handler(auth.TokenMiddleware(cfg)(http.StripPrefix("/mcp", mcpserver.HTTPHandler(cfg))))
 
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", cfg.Port),

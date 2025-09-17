@@ -26,10 +26,10 @@ func UserIDFrom(ctx context.Context) (string, bool) {
 	return s, ok
 }
 
-// Middleware authenticates requests using Stytch session JWT
-func Middleware(cfg *config.Config) func(http.Handler) http.Handler {
+// SessionMiddleware authenticates requests using Stytch session JWT from cookies
+func SessionMiddleware(cfg *config.Config) func(http.Handler) http.Handler {
 	// Initialize Stytch client
-	client, err := stytchapi.NewClient(cfg.StytchProjectID, cfg.StytchProjectSecret)
+	client, err := stytchapi.NewClient(cfg.StytchProjectID, cfg.StytchProjectSecret, stytchapi.WithBaseURI(cfg.StytchDomain))
 	if err != nil {
 		// If client creation fails, return middleware that always rejects
 		return func(next http.Handler) http.Handler {
@@ -41,17 +41,60 @@ func Middleware(cfg *config.Config) func(http.Handler) http.Handler {
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// Extract JWT from cookie or Authorization header
+			// Extract JWT from cookie
 			jwt := ""
 			if c, err := r.Cookie("stytch_session_jwt"); err == nil && c.Value != "" {
 				jwt = c.Value
 			}
 			if jwt == "" {
-				authz := r.Header.Get("Authorization")
-				if strings.HasPrefix(strings.ToLower(authz), "bearer ") {
-					jwt = strings.TrimSpace(authz[7:])
-				}
+				unauthorized(w)
+				return
 			}
+
+			// Authenticate JWT with Stytch
+			resp, err := client.Sessions.Authenticate(context.Background(), &sessions.AuthenticateParams{
+				SessionJWT: jwt,
+			})
+			if err != nil {
+				unauthorized(w)
+				return
+			}
+
+			// Extract user ID from session
+			userID := resp.Session.UserID
+			if userID == "" {
+				unauthorized(w)
+				return
+			}
+
+			ctx := WithUserID(r.Context(), userID)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
+}
+
+// TokenMiddleware authenticates requests using Stytch JWT from Authorization header
+func TokenMiddleware(cfg *config.Config) func(http.Handler) http.Handler {
+	// Initialize Stytch client
+	client, err := stytchapi.NewClient(cfg.StytchProjectID, cfg.StytchProjectSecret, stytchapi.WithBaseURI(cfg.StytchDomain))
+	if err != nil {
+		// If client creation fails, return middleware that always rejects
+		return func(next http.Handler) http.Handler {
+			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				unauthorized(w)
+			})
+		}
+	}
+
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Extract JWT from Authorization header
+			authz := r.Header.Get("Authorization")
+			if !strings.HasPrefix(strings.ToLower(authz), "bearer ") {
+				unauthorized(w)
+				return
+			}
+			jwt := strings.TrimSpace(authz[7:])
 			if jwt == "" {
 				unauthorized(w)
 				return
