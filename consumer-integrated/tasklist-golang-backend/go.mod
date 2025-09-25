@@ -7,7 +7,7 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/joho/godotenv v1.5.1
 	github.com/modelcontextprotocol/go-sdk v0.3.0
-	github.com/rs/cors v1.10.1
+	github.com/rs/cors v1.11.0
 	github.com/stytchauth/stytch-go/v16 v16.0.0
 	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.31.0
