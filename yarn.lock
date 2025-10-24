@@ -2539,7 +2539,7 @@ __metadata:
     "@modelcontextprotocol/sdk": "npm:^1.17.5"
     "@stytch/vanilla-js": "npm:^5.18.6"
     eslint: "npm:^9.17.0"
-    hono: "npm:^4.9.7"
+    hono: "npm:^4.10.3"
     jose: "npm:^6.0.10"
     stytch: "npm:^12.32.0"
     typescript: "npm:~5.6.2"
@@ -2587,7 +2587,7 @@ __metadata:
     eslint: "npm:^9.17.0"
     eslint-plugin-react-hooks: "npm:^5.0.0"
     eslint-plugin-react-refresh: "npm:^0.4.16"
-    hono: "npm:^4.9.7"
+    hono: "npm:^4.10.3"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     react-router-dom: "npm:^7.8.2"
@@ -2639,7 +2639,7 @@ __metadata:
     "@modelcontextprotocol/sdk": "npm:^1.17.5"
     "@stytch/vanilla-js": "npm:^5.18.6"
     eslint: "npm:^9.17.0"
-    hono: "npm:^4.9.7"
+    hono: "npm:^4.10.3"
     jose: "npm:^6.0.10"
     stytch: "npm:^12.32.0"
     typescript: "npm:~5.6.2"
@@ -7467,10 +7467,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.9.7":
-  version: 4.9.7
-  resolution: "hono@npm:4.9.7"
-  checksum: e1fb57658396a530520583cd4feed160263c828461c532cfa907e7aedd2af0cc48fbfc349f01d6058bf4e3ebf6c601925e2c39400ae25cd4feed948c7ba873b3
+"hono@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "hono@npm:4.10.3"
+  checksum: 0b5aa2296ac52ec9519108df1603388637e3df66e2fa9391281c8320a052bcae2d3a9b73123c8c69d90a35931840cdfbb9a5ef45a6d110436f76b925541a4c87
   languageName: node
   linkType: hard
 
